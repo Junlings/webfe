@@ -1,0 +1,20 @@
+{
+
+"settings":{"ndm":2,"ndf":3},
+"model": {
+     
+     "node":[[0,0,0],
+             [1,1,1]],
+     "element":[[1,2],
+                [2,3],
+                [3,4]],
+     "material":{"steel":{"type":"uniaxial_elastic","prop":{"E":29000.0,"mu":0.3,"mass":0.0}},
+                 "uhpc":{"type":"uniaxial_elastic","prop":{"E":8000.0,"mu":0.3,"mass":0.0}}},
+     "section":{"sec2":{"type":"elastic_section","prop":{"A":0.0,"Iz":0.0,"Iy":0.0,"J":0.0,"Sy":0.0,"Sz":0.0}},
+                "sec3":{"type":"layer_section","prop":{"nl":3,"d":4,"fiber":{
+                    "1":{"locy":1.0,"locz":1.0,"area":1.0,"width":1.0,"thickness":1.0},
+                    "2":{"locy":1.0,"locz":1.0,"area":1.0,"width":2.0,"thickness":1.0},
+                    "3":{"locy":1.0,"locz":1.0,"area":1.0,"width":3.0,"thickness":1.0}}}}},
+     "orient": {"orient1":{"type":"orient_linear","prop":{"vx":0,"vy":0,"vz":0}}}
+    }
+}

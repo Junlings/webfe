@@ -1,0 +1,743 @@
+figure  {
+    edgecolor      :w                   
+    figsize        :[3.4039020340390205, 2.1037271514110163]
+    dpi            :600                 
+    facecolor      :0.75                
+}
+
+axeslib default {
+    default        :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'hold': True, 'grid': False, 'frameon': False, 'polar': False}
+    axes_major     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': True}
+    axes_minor     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': False}
+}
+
+axeslib axes_major {
+    default        :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'hold': True, 'grid': False, 'frameon': False, 'polar': False}
+    axes_major     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': True}
+    axes_minor     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': False}
+}
+
+axeslib axes_minor {
+    default        :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'hold': True, 'grid': False, 'frameon': False, 'polar': False}
+    axes_major     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': True}
+    axes_minor     :{'loc': [0.14999999999999999, 0.14999999999999999, 0.69999999999999996, 0.69999999999999996], 'grid': True, 'polar': False, 'hold': True, 'frameon': False}
+}
+
+axislib default {
+    default        :{'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'limits': ['auto', 'auto'], 'position': 'bottom', 'axes': None, 'labelfont': 'default', 'ticklabelfont': 'default', 'unit': None}
+    y1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'y1', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'left', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'x1', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'bottom', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    y2             :{'limits': ['link', 'y1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'y2', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'right', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x2             :{'limits': ['link', 'x1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'x2', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'top', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+}
+
+axislib y1 {
+    default        :{'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'limits': ['auto', 'auto'], 'position': 'bottom', 'axes': None, 'labelfont': 'default', 'ticklabelfont': 'default', 'unit': None}
+    y1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'y1', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'left', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'x1', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'bottom', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    y2             :{'limits': ['link', 'y1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'y2', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'right', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x2             :{'limits': ['link', 'x1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'x2', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'top', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+}
+
+axislib x1 {
+    default        :{'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'limits': ['auto', 'auto'], 'position': 'bottom', 'axes': None, 'labelfont': 'default', 'ticklabelfont': 'default', 'unit': None}
+    y1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'y1', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'left', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'x1', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'bottom', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    y2             :{'limits': ['link', 'y1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'y2', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'right', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x2             :{'limits': ['link', 'x1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'x2', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'top', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+}
+
+axislib y2 {
+    default        :{'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'limits': ['auto', 'auto'], 'position': 'bottom', 'axes': None, 'labelfont': 'default', 'ticklabelfont': 'default', 'unit': None}
+    y1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'y1', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'left', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'x1', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'bottom', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    y2             :{'limits': ['link', 'y1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'y2', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'right', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x2             :{'limits': ['link', 'x1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'x2', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'top', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+}
+
+axislib x2 {
+    default        :{'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'limits': ['auto', 'auto'], 'position': 'bottom', 'axes': None, 'labelfont': 'default', 'ticklabelfont': 'default', 'unit': None}
+    y1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'y1', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'left', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x1             :{'limits': ['auto', 'auto'], 'axes': 'axes_major', 'labelfont': 'label', 'label': 'x1', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'bottom', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    y2             :{'limits': ['link', 'y1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'y2', 'locator': 'auto', 'grid': 'grid', 'mode': 'y', 'position': 'right', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+    x2             :{'limits': ['link', 'x1'], 'axes': 'axes_minor', 'labelfont': 'label', 'label': 'x2', 'locator': 'auto', 'grid': 'grid', 'mode': 'x', 'position': 'top', 'ticklabelfont': 'ticklabel', 'unit': 'Undefined'}
+}
+
+ticklib default {
+    default        :{'labelleft': 'off', 'direction': 'in', 'right': 'off', 'labelright': 'off', 'bottom': 'off', 'color': 'k', 'labelsize': 'medium', 'top': 'off', 'labeltop': 'off', 'labelcolor': 'k', 'width': 1, 'length': 4, 'pad': 1, 'which': 'both', 'zorder': 1, 'left': 'off', 'labelbottom': 'off', 'axis': 'both'}
+    x2             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'off', 'top': 'on', 'labeltop': 'on', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    x1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'on', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'on', 'left': 'off'}
+    y2             :{'direction': 'in', 'right': 'on', 'labelright': 'on', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'off', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    y1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'on', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'on'}
+}
+
+ticklib x2 {
+    default        :{'labelleft': 'off', 'direction': 'in', 'right': 'off', 'labelright': 'off', 'bottom': 'off', 'color': 'k', 'labelsize': 'medium', 'top': 'off', 'labeltop': 'off', 'labelcolor': 'k', 'width': 1, 'length': 4, 'pad': 1, 'which': 'both', 'zorder': 1, 'left': 'off', 'labelbottom': 'off', 'axis': 'both'}
+    x2             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'off', 'top': 'on', 'labeltop': 'on', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    x1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'on', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'on', 'left': 'off'}
+    y2             :{'direction': 'in', 'right': 'on', 'labelright': 'on', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'off', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    y1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'on', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'on'}
+}
+
+ticklib x1 {
+    default        :{'labelleft': 'off', 'direction': 'in', 'right': 'off', 'labelright': 'off', 'bottom': 'off', 'color': 'k', 'labelsize': 'medium', 'top': 'off', 'labeltop': 'off', 'labelcolor': 'k', 'width': 1, 'length': 4, 'pad': 1, 'which': 'both', 'zorder': 1, 'left': 'off', 'labelbottom': 'off', 'axis': 'both'}
+    x2             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'off', 'top': 'on', 'labeltop': 'on', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    x1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'on', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'on', 'left': 'off'}
+    y2             :{'direction': 'in', 'right': 'on', 'labelright': 'on', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'off', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    y1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'on', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'on'}
+}
+
+ticklib y2 {
+    default        :{'labelleft': 'off', 'direction': 'in', 'right': 'off', 'labelright': 'off', 'bottom': 'off', 'color': 'k', 'labelsize': 'medium', 'top': 'off', 'labeltop': 'off', 'labelcolor': 'k', 'width': 1, 'length': 4, 'pad': 1, 'which': 'both', 'zorder': 1, 'left': 'off', 'labelbottom': 'off', 'axis': 'both'}
+    x2             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'off', 'top': 'on', 'labeltop': 'on', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    x1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'on', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'on', 'left': 'off'}
+    y2             :{'direction': 'in', 'right': 'on', 'labelright': 'on', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'off', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    y1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'on', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'on'}
+}
+
+ticklib y1 {
+    default        :{'labelleft': 'off', 'direction': 'in', 'right': 'off', 'labelright': 'off', 'bottom': 'off', 'color': 'k', 'labelsize': 'medium', 'top': 'off', 'labeltop': 'off', 'labelcolor': 'k', 'width': 1, 'length': 4, 'pad': 1, 'which': 'both', 'zorder': 1, 'left': 'off', 'labelbottom': 'off', 'axis': 'both'}
+    x2             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'off', 'top': 'on', 'labeltop': 'on', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    x1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'x', 'labelleft': 'off', 'bottom': 'on', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 2, 'which': 'major', 'zorder': 1, 'labelbottom': 'on', 'left': 'off'}
+    y2             :{'direction': 'in', 'right': 'on', 'labelright': 'on', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'off', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'off'}
+    y1             :{'direction': 'in', 'right': 'off', 'labelright': 'off', 'color': 'k', 'labelcolor': 'k', 'labelsize': 8, 'axis': 'y', 'labelleft': 'on', 'bottom': 'off', 'top': 'off', 'labeltop': 'off', 'width': 1, 'length': 4, 'pad': 1, 'which': 'major', 'zorder': 1, 'labelbottom': 'off', 'left': 'on'}
+}
+
+locatorlib index {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib none {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib multiple {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib linear {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib default {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib auto {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib maxN {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+locatorlib fixed {
+    index          :{'labels': None, 'prop': [2, 0], 'mode': 'index', 'minor': 0}
+    none           :{'labels': None, 'prop': [], 'mode': 'none', 'minor': 0}
+    multiple       :{'labels': None, 'prop': [0.75, 0], 'mode': 'multiple', 'minor': 0}
+    linear         :{'labels': None, 'prop': [5, 0], 'mode': 'linear', 'minor': 0}
+    default        :{'labels': None, 'mode': 'auto', 'minor': 0, 'prop': None}
+    auto           :{'labels': None, 'prop': [0, 0], 'mode': 'auto', 'minor': 0}
+    maxN           :{'labels': None, 'prop': {'symmetric': False, 'nbins': 6, 'steps': [1, 2, 6], 'integral': True}, 'mode': 'maxN', 'minor': 0}
+    fixed          :{'labels': None, 'prop': [[1, 2, 3, 4, 5, 6, 7], 20], 'mode': 'fixed', 'minor': 0}
+}
+
+linelib 1 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 2 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 3 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 4 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 5 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 6 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 7 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 8 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 9 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 10 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 11 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 12 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 13 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 14 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 15 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 16 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 17 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 18 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 19 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 20 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib 21 {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+
+linelib default {
+    1              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '*', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+    2              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'o', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '--'}
+    3              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '+', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-.'}
+    4              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '.', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    5              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': ',', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    6              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'd', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    7              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '|', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    8              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '-', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    9              :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'v', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    10             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '^', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    11             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '<', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    12             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '>', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    13             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '1', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    14             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '2', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    15             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '3', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    16             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': '4', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    17             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 's', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    18             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'p', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    19             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'h', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    20             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'H', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    21             :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 4, 'color': 'k', 'antialiased': True, 'marker': 'x', 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': ':'}
+    default        :{'solid_joinstyle': 'round', 'dash_joinstyle': 'round', 'dash_capstyle': 'butt', 'markeredgewidth': 0.5, 'markersize': 6, 'color': 'b', 'antialiased': True, 'marker': None, 'solid_capstyle': 'projecting', 'linewidth': 1, 'linestyle': '-'}
+}
+

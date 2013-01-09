@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="DIALOG1">
+    <title>Figure Create</title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxFlexGridSizer">
+              <cols>2</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Figure Key</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="FIGURE_KEY">
+                  <size>150,20</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Plot Data</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="FIGURE_PLOTDATAKEY">
+                  <content/>
+                  <size>130,20</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Style</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="FIGURE_PLOTDATASTYLE">
+                  <content/>
+                  <size>130,20</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Type</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="FIGURE_PLOTDATATYPE">
+                  <content>
+                    <item>line-one axis</item>
+                    <item>line-two axes</item>
+                  </content>
+                  <size>130,20</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="FIGURE_RESET">
+                  <label>Reset</label>
+                </object>
+                <flag>wxALIGN_RIGHT</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="FIGURE_OK">
+                  <label>Apply</label>
+                </object>
+                <flag>wxALIGN_RIGHT</flag>
+              </object>
+              <vgap>5</vgap>
+              <hgap>5</hgap>
+            </object>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+    </object>
+  </object>
+</resource>

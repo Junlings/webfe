@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="LDFRAME">
+    <title>Quck Plot: Load Versus Displacement</title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>2</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxRadioBox" name="LD_LOAD_SOURCE">
+                  <label>Load Source</label>
+                  <content>
+                    <item>Load from time</item>
+                    <item>Load From Reactions</item>
+                  </content>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+              </object>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Reaction </label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>2</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="POST_L_ItemSourceLabel">
+                      <label>Reaction Type</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_L_ItemSource">
+                      <content>
+                        <item>Reaction Force X</item>
+                        <item>Reaction Force Y</item>
+                        <item>Reaction Force Z</item>
+                        <item>Reaction Moment X</item>
+                        <item>Reaction Moment Y</item>
+                        <item>Reaction Moment Z</item>
+                      </content>
+                      <selection>0</selection>
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_L_ItemSelSingle">
+                      <label>Single Item</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_L_ItemSingle">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_L_ItemSelList">
+                      <label>Item List</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_L_ItemList">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_L_ItemSelSet">
+                      <label>Item Set</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_L_ItemSet">
+                      <content/>
+                    </object>
+                  </object>
+                </object>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Displacement</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>2</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="POST_D_ItemSourceLabel">
+                      <label>Displacement Type</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_D_ItemSource">
+                      <content>
+                        <item>Displacement X</item>
+                        <item>Displacement Y</item>
+                        <item>Displacement Z</item>
+                        <item>Rotation X</item>
+                        <item>Rotation Y</item>
+                        <item>Rotation Z</item>
+                      </content>
+                      <selection>0</selection>
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_D_ItemSelSingle">
+                      <label>Single Item</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_D_ItemSingle">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_D_ItemSelList">
+                      <label>Item List</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_D_ItemList">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_D_ItemSelSet">
+                      <label>Item Set</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_D_ItemSet">
+                      <content/>
+                    </object>
+                  </object>
+                </object>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>2</cols>
+              <rows>2</rows>
+              <object class="spacer">
+                <size>0,0</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="POST_LD_QUICKPLOT">
+                  <label>Quick Plot</label>
+                </object>
+                <flag>wxALIGN_RIGHT</flag>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>0</border>
+        <border>5</border>
+      </object>
+    </object>
+  </object>
+</resource>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="DIALOG1">
+    <title>New Project</title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="spacer">
+            <size>0,0</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>2</cols>
+              <rows>3</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Project Name</label>
+                </object>
+                <flag>wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Dimensions</label>
+                </object>
+                <flag>wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice">
+                  <content>
+                    <item>2</item>
+                    <item>3</item>
+                  </content>
+                  <size>100,10</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Degree of Freedom</label>
+                </object>
+                <flag>wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice">
+                  <content>
+                    <item>2</item>
+                    <item>3</item>
+                    <item>6</item>
+                  </content>
+                  <size>100,10</size>
+                </object>
+              </object>
+              <vgap>3</vgap>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+          </object>
+        </object>
+        <flag>wxALL</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <label>Working Directory</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxGenericDirCtrl">
+              <style>wxDIRCTRL_DIR_ONLY|wxDIRCTRL_SHOW_FILTERS</style>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxGridSizer">
+          <cols>3</cols>
+          <rows>1</rows>
+          <object class="spacer">
+            <size>0,0</size>
+          </object>
+          <object class="spacer">
+            <size>0,0</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="MODENEWAPPLY">
+              <label>Apply</label>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+    </object>
+    <size>400,300</size>
+    <style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_MODAL</style>
+  </object>
+</resource>

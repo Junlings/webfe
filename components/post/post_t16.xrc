@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="FRAME1">
+    <title>Post *t16 File </title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>File Location</label>
+              <orient>wxVERTICAL</orient>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>2</rows>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_t16_File">
+                      <size>350,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="POST_t16_Open">
+                      <label>Browse..</label>
+                    </object>
+                  </object>
+                  <vgap>1</vgap>
+                  <hgap>20</hgap>
+                </object>
+                <flag></flag>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Quick Plot</label>
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="POST_t16_QP_LD">
+                  <bitmap>..\resource\self\L_D.png</bitmap>
+                </object>
+              </object>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="POST_t16_QP_LSTRESS">
+                  <bitmap>..\resource\self\L_stress.png</bitmap>
+                </object>
+              </object>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="POST_t16_QP_DN">
+                  <bitmap>..\resource\self\D_[N].png</bitmap>
+                </object>
+              </object>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="POST_t16_QP_STRESSE">
+                  <bitmap>..\resource\self\stress_[E].png</bitmap>
+                </object>
+              </object>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="POST_t16_QP_STRAINE">
+                  <bitmap>..\resource\self\strain_[E].png</bitmap>
+                </object>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Result Request</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>3</cols>
+                  <rows>3</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Object Type</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Available Results</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Increment Range</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_t16_ItemType">
+                      <content>
+                        <item>Time</item>
+                        <item>Node Scalar</item>
+                        <item>Element Scalar</item>
+                      </content>
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_t16_Request">
+                      <content/>
+                      <size>180,20</size>
+                    </object>
+                  </object>
+                  <vgap>5</vgap>
+                  <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_t16_Incr">
+                      <content>
+                        <item>ALL</item>
+                        <item>Every</item>
+                        <item>First</item>
+                        <item>Last</item>
+                        <item>Particular</item>
+                      </content>
+                      <selection>0</selection>
+                      <size>100,20</size>
+                    </object>
+                    <flag>wxALIGN_RIGHT</flag>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="POST_OPTION1_LABEL">
+                      <label>Load Factor</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="POST_OPTION2_LABEL">
+                      <label>Node Insdier ID</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText" name="POST_OPTION3_LABEL">
+                      <label>Increment Option</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_OPTION1">
+                      <style></style>
+                      <enabled>0</enabled>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_OPTION2">
+                      <enabled>0</enabled>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_OPTION3">
+                      <enabled>0</enabled>
+                      <content/>
+                    </object>
+                  </object>
+                </object>
+                <flag>wxALL|wxEXPAND</flag>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Item Selection</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>2</rows>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_t16_ItemSelSingle">
+                      <label>Single Item</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_t16_ItemSingle">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_t16_ItemSelList">
+                      <label>Item List</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_t16_ItemList">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="POST_t16_ItemSelSet">
+                      <label>Item Set</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxChoice" name="POST_t16_ItemSet">
+                      <content/>
+                    </object>
+                  </object>
+                </object>
+                <border>5</border>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Result Save Target</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>3</cols>
+                  <rows>2</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Result Database Table Name</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="POST_t16_TableName">
+                      <size>120,20</size>
+                    </object>
+                  </object>
+                  <vgap>10</vgap>
+                  <hgap>10</hgap>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="POST_t16_Apply">
+                      <label>Add</label>
+                    </object>
+                    <flag>wxALIGN_CENTRE</flag>
+                  </object>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Request List</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxCheckListBox" name="POST_RequestList">
+                  <content/>
+                </object>
+                <option>1</option>
+                <flag>wxALL|wxEXPAND</flag>
+              </object>
+              <object class="spacer">
+                <size>20,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBoxSizer">
+                  <orient>wxHORIZONTAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="POST_t16_Delete">
+                      <label>Delete</label>
+                    </object>
+                  </object>
+                  <object class="spacer">
+                    <size>10,10</size>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="POST_t16_Submit">
+                      <label>Submit</label>
+                    </object>
+                    <flag>wxALIGN_RIGHT</flag>
+                  </object>
+                </object>
+                <flag>wxALIGN_RIGHT</flag>
+              </object>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>0</border>
+        <border>5</border>
+      </object>
+    </object>
+    <size>500,600</size>
+  </object>
+</resource>

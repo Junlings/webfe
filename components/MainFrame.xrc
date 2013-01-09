@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxFrame" name="MainFrame">
+    <title>Webfe</title>
+    <object class="wxToolBar" name="MAIN_TOOLBAR_FILE">
+      <object class="tool" name="MAIN_TOOL_NEW">
+        <bitmap stock_id="wxART_NEW"></bitmap>
+        <tooltip>New Model</tooltip>
+      </object>
+      <object class="tool" name="MAIN_TOOL_OPEN">
+        <bitmap stock_id="wxART_FILE_OPEN"></bitmap>
+        <tooltip>Open Model File</tooltip>
+      </object>
+      <object class="tool" name="MAIN_TOOL_SAVE">
+        <bitmap stock_id="wxART_FILE_SAVE"></bitmap>
+        <tooltip>Save Model</tooltip>
+      </object>
+      <object class="tool" name="MAIN_TOOL_SAVEAS">
+        <bitmap stock_id="wxART_FILE_SAVE_AS"></bitmap>
+        <tooltip>Save Model as</tooltip>
+      </object>
+      <object class="separator"/>
+    </object>
+    <object class="wxMenuBar" name="Menubar">
+      <object class="wxMenu" name="Menu_File">
+        <label>File</label>
+        <object class="wxMenuItem" name="MenuItem_New">
+          <label>New</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Open">
+          <label>Open</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Close">
+          <label>Close</label>
+        </object>
+        <object class="separator"/>
+        <object class="wxMenuItem" name="MenuItem_Save">
+          <label>Save</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_FEM">
+        <label>FEM</label>
+        <object class="wxMenu">
+          <label>Grid</label>
+          <object class="wxMenuItem" name="MenuItem_GridAdd">
+            <label>Add</label>
+          </object>
+          <object class="wxMenuItem" name="MenuItem_Grid">
+            <label>Show</label>
+          </object>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Conn">
+          <label>Connectivity</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Prop">
+          <label>Property</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Sec">
+          <label>Section</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Set">
+          <label>Item Set</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Utility">
+        <label>Utility</label>
+        <object class="wxMenu">
+          <label>Nodes/Elements</label>
+          <object class="wxMenuItem" name="MenuItem_Patch">
+            <label>Create Patch</label>
+          </object>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Material">
+          <label>Material</label>
+        </object>
+        <object class="wxMenu">
+          <label>Section</label>
+          <object class="wxMenuItem" name="MenuItem_Section">
+            <label>Create Section</label>
+          </object>
+          <object class="wxMenuItem" name="MenuItem_Rebar">
+            <label>Create Rebar Group</label>
+          </object>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Import">
+        <label>Import</label>
+        <object class="wxMenuItem" name="MenuItem_ImpMarcDat">
+          <label>Marc Input</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_ImpPlain">
+          <label>Plain</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Export">
+        <label>Export</label>
+        <object class="wxMenuItem" name="MenuItem_ExpMarcProc">
+          <label>Marc Proc</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_ExpMarcDat">
+          <label>Marc Input</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_ExpOpenSees">
+          <label>OpenSees</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Post">
+        <label>PostProcess</label>
+        <object class="wxMenuItem" name="MenuItem_PostResults">
+          <label>Results</label>
+        </object>
+        <object class="separator"/>
+        <object class="wxMenuItem" name="MenuItem_PostMarcT16">
+          <label>Marc *.t16</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Proc">
+        <label>Procedure</label>
+        <object class="wxMenuItem" name="MenuItem_Pole">
+          <label>Pole Adjustment</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Macro">
+        <label>Macro</label>
+        <object class="wxMenuItem" name="MenuItem_MacroRecord">
+          <label>Record</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_MacroStop">
+          <label>Stop</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_MacroSave">
+          <label>Save</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_MacroLoad">
+          <label>Load</label>
+        </object>
+      </object>
+    </object>
+    <size>1024,768</size>
+    <style>wxDEFAULT_FRAME_STYLE|wxSIMPLE_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
+    <object class="wxSplitterWindow">
+      <orientation>horizontal</orientation>
+      <object class="wxSplitterWindow">
+        <object class="wxPanel">
+          <style></style>
+          <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+              <object class="wxBoxSizer">
+                <orient>wxHORIZONTAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBitmapButton" name="MAIN_TOOL_MODELREFRESH">
+                    <bitmap>resource\16\home.png</bitmap>
+                    <tooltip>Refresh</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBitmapButton" name="MAIN_TOOL_EXPAND">
+                    <bitmap>resource\16\round_plus.png</bitmap>
+                    <tooltip>Expand ALL</tooltip>
+                  </object>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxBitmapButton" name="MAIN_TOOL_COLLAPSE">
+                    <bitmap>resource\16\round_minus.png</bitmap>
+                    <tooltip>Collapse All</tooltip>
+                  </object>
+                </object>
+              </object>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+            <object class="sizeritem">
+              <object class="wxTreeCtrl" name="ModelTree"/>
+              <option>1</option>
+              <flag>wxALL|wxEXPAND</flag>
+              <border>5</border>
+            </object>
+          </object>
+        </object>
+        <orientation>vertical</orientation>
+        <object class="wxPanel" name="ModelNoteBookPanel">
+          <style></style>
+        </object>
+        <sashpos>1</sashpos>
+        <minsize>200</minsize>
+      </object>
+      <object class="wxPanel">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+        </object>
+        <object class="wxStaticBoxSizer">
+          <label>Message</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="MAIN_MACRO_RECORD">
+                  <tooltip>Start recording</tooltip>
+                  <bitmap>resource\16\playback_rec.png</bitmap>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="MAIN_MACRO_STOP">
+                  <bitmap>resource\16\playback_stop.png</bitmap>
+                  <tooltip>Stop recording</tooltip>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="MAIN_MACRO_SAVE">
+                  <bitmap>resource\16\doc_export.png</bitmap>
+                  <tooltip>Save Macro to file</tooltip>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="MAIN_MACRO_LOAD">
+                  <bitmap>resource\16\doc_import.png</bitmap>
+                  <tooltip>Load and Run Macro File</tooltip>
+                </object>
+              </object>
+            </object>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="TextMessage">
+              <style>wxTE_MULTILINE|wxTE_READONLY</style>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+        </object>
+        <style></style>
+      </object>
+      <sashpos>-1</sashpos>
+      <minsize>150</minsize>
+    </object>
+    <object class="wxStatusBar" name="MAIN_STATUSBAR">
+      <fields>3</fields>
+      <style></style>
+    </object>
+  </object>
+</resource>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="DIALOG1">
+    <title>Unit Selector</title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>2</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>System</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="UNIT_SYSTEM">
+                  <content>
+                    <item>US</item>
+                    <item>SI</item>
+                  </content>
+                  <size>100,20</size>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Category</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="UNIT_CAT">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Label</label>
+                </object>
+                <flag>wxALIGN_CENTRE</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="UNIT_LABEL">
+                  <content/>
+                </object>
+              </object>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+    </object>
+    <style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_MODAL</style>
+  </object>
+</resource>

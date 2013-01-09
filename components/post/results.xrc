@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxFrame" name="ResultFrame">
+    <title>Result Processor</title>
+    <object class="wxToolBar">
+      <object class="tool" name="TOOL_RESULT_NEW">
+        <bitmap stock_id="wxART_NEW"></bitmap>
+        <tooltip>New Result Database</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_LOAD">
+        <bitmap stock_id="wxART_FILE_OPEN"></bitmap>
+        <tooltip>Load Results</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_SAVE">
+        <bitmap stock_id="wxART_FILE_SAVE"></bitmap>
+        <tooltip>Save Results</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_SAVEAS">
+        <bitmap stock_id="wxART_FILE_SAVE_AS"></bitmap>
+        <tooltip>Save results As</tooltip>
+      </object>
+      <object class="separator"/>
+      <object class="tool">
+        <bitmap stock_id="wxART_HARDDISK"></bitmap>
+        <tooltip>Style Manager</tooltip>
+      </object>
+      <object class="tool">
+        <bitmap stock_id="wxART_CDROM"></bitmap>
+        <tooltip>Mask Manager</tooltip>
+      </object>
+      <object class="separator"/>
+      <object class="tool" name="TOOL_RESULT_MARC_T16">
+        <bitmap>../resource\self\t16.png</bitmap>
+        <tooltip>Marc *.t16 Processor</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_MARC_T19">
+        <bitmap>../resource\self\marc_t19.png</bitmap>
+        <tooltip>Marc *.t19 Processor</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_OPENSEES">
+        <bitmap>../resource\self\Opensees.png</bitmap>
+        <tooltip>Opensees *.out Processor</tooltip>
+      </object>
+      <object class="tool" name="TOOL_RESULT_TEXT">
+        <bitmap>../resource\self\plaintext.png</bitmap>
+        <tooltip>Plaintext *.t16 Processor</tooltip>
+      </object>
+    </object>
+    <object class="wxMenuBar" name="Menubar">
+      <object class="wxMenu" name="Menu_File">
+        <label>File</label>
+        <object class="wxMenuItem" name="MenuItem_New">
+          <label>New</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Open">
+          <label>Open</label>
+        </object>
+        <object class="wxMenuItem" name="MenuItem_Close">
+          <label>Close</label>
+        </object>
+        <object class="separator"/>
+        <object class="wxMenuItem" name="MenuItem_Save">
+          <label>Save</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Style">
+        <label>PStyle</label>
+      </object>
+      <object class="wxMenu" name="Menu_PData">
+        <label>PData</label>
+        <object class="wxMenuItem" name="MenuItem_Pdata_Create">
+          <label>Create</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Mask">
+        <label>Mask</label>
+        <object class="wxMenuItem" name="MenuItem_Filter">
+          <label>Create</label>
+        </object>
+      </object>
+      <object class="wxMenu" name="Menu_Figure">
+        <label>Figure</label>
+        <object class="wxMenuItem" name="MenuItem_Plot">
+          <label>Create</label>
+        </object>
+      </object>
+    </object>
+    <object class="wxSplitterWindow">
+      <object class="wxPanel">
+        <style></style>
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="TOOL_TREE_REFRESH">
+                  <bitmap>../resource\16\home.png</bitmap>
+                  <tooltip>Refresh</tooltip>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="TOOL_TREE_EXPAND">
+                  <bitmap>../resource\16\round_plus.png</bitmap>
+                  <tooltip>Refresh</tooltip>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxBitmapButton" name="TOOL_TREE_COLLAPSE">
+                  <bitmap>../resource\16\round_minus.png</bitmap>
+                  <tooltip>Refresh</tooltip>
+                </object>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTreeCtrl" name="ResultTree"/>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+        </object>
+      </object>
+      <orientation>vertical</orientation>
+      <object class="wxPanel" name="RESULT_PANEL_NOTEBOOK">
+        <style></style>
+      </object>
+      <sashpos>1</sashpos>
+      <minsize>200</minsize>
+      <size>500,500</size>
+    </object>
+    <object class="wxStatusBar">
+      <fields>3</fields>
+      <style></style>
+    </object>
+    <size>800,600</size>
+    <focused>1</focused>
+  </object>
+</resource>

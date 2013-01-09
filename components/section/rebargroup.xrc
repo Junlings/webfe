@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="DIAG_Rebar">
+    <title>Rebar Group Editor</title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <label>Settings</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>5</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Name</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REBG_Name"/>
+              </object>
+              <object class="spacer">
+                <size>0,0</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Number of Layer</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REBG_Num"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <label>Reinforcement</label>
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>12</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Name</label>
+                  <style>wxALIGN_CENTRE</style>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Type</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Number</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Lateral Distance</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Location</label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText">
+                  <label>Vertical Distance</label>
+                </object>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_1_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_1_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_1_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_1_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_1_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_1_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_2_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_2_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_2_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_2_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_2_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_2_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_3_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_3_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_3_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_3_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_3_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_3_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_4_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_4_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_4_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_4_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_4_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_4_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_5_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_5_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_5_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_5_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_5_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_5_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>5,5</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGridSizer">
+              <cols>6</cols>
+              <rows>2</rows>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_6_Name"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_6_Type">
+                  <content/>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_6_Num"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_6_LD"/>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="REB_6_LOC">
+                  <content>
+                    <item>Bottom|Middle</item>
+                    <item>Top|Middle</item>
+                    <item>Bottom|Left</item>
+                    <item>Bottom|Right</item>
+                    <item>Top|Left</item>
+                    <item>Top|Right</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="REB_6_VD"/>
+              </object>
+              <vgap>3</vgap>
+              <hgap>3</hgap>
+            </object>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+    </object>
+  </object>
+</resource>
