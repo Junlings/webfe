@@ -11,6 +11,7 @@ from core.utility.fem.create_arcplane import create_cylinderSurface
 from core.procedures.p_poledent import process_pole_dat,PoleModeling, pole_extend
 from core.export.export import exporter
 from core.post.import_marc_t16 import post_t16
+from core.post.import_plain import import_plain
 from core.plots.plots import tpfdb
 
 class commandparser():
@@ -36,7 +37,7 @@ class commandparser():
         inputstrlist = inputstr.split(',')
         
         if inputstrlist[0][0] == '*':
-            fun_handle = self.__class__.__dict__[inputstrlist[0][1:]]
+            fun_handle = self.__class__.__dict__[inputstrlist[0][1:].strip()]
             fun_handle(self,*inputstrlist[1:])
             
             self.commandhis.append(inputstr)
@@ -142,6 +143,12 @@ class commandparser():
         filename = args[0]
         newresults = self.results.load(filename)  
         self.results = newresults
+    
+    def post_plain_new(self,*args):
+        self.results.source['plain'] = {'handler':import_plain()}
+        
+    def post_plain_filelist(self,*args):
+        self.results = self.results.source['plain']['handler'].addfilelist(*args,db=self.results)
         
     
     def post_marc_t16_open(self,*args):

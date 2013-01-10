@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="DIALOG1">
+    <title>Select Data Source</title>
+    <size>600,400</size>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxFlexGridSizer">
+              <cols>4</cols>
+              <rows>4</rows>
+              <object class="sizeritem">
+                <object class="wxStaticText" name="">
+                  <label>Extension    </label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxChoice" name="FILE_EXTENSION_CHOICE">
+                  <content>
+                    <item>*.txt</item>
+                    <item>*.csv</item>
+                    <item>*.dat</item>
+                    <item>*.out</item>
+                    <item>Other</item>
+                  </content>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticText" name="">
+                  <label>     Other      </label>
+                </object>
+              </object>
+              <object class="sizeritem">
+                <object class="wxTextCtrl" name="FILE_EXTENSION_INPUT"/>
+              </object>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>5</border>
+          </object>
+          <label>File Filter</label>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="spacer">
+            <size>20,10</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxGenericDirCtrl" name="FILE_SELECTION">
+              <size>500,200</size>
+            </object>
+            <flag>wxALL|wxEXPAND</flag>
+            <border>10</border>
+          </object>
+          <label>Select data file or folder</label>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+      <object class="sizeritem">
+        <object class="wxFlexGridSizer">
+          <cols>3</cols>
+          <rows>2</rows>
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>File/Folder Path    </label>
+            </object>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="FILE_SELECT_PATH">
+              <size>350,20</size>
+            </object>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticText" name="">
+              <label>Total File Number    </label>
+            </object>
+          </object>
+          <object class="sizeritem">
+            <object class="wxTextCtrl" name="FILE_SELECT_NUM"/>
+          </object>
+          <object class="spacer">
+            <size>0,0</size>
+          </object>
+          <object class="spacer">
+            <size>0,0</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="FILE_SELECT_SCAN">
+              <label>Scan</label>
+            </object>
+            <flag>wxRIGHT|wxALIGN_RIGHT</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="FILE_SELECT_APPLY">
+              <label>Apply</label>
+            </object>
+          </object>
+        </object>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>5</border>
+      </object>
+    </object>
+  </object>
+</resource>

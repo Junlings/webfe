@@ -45,6 +45,22 @@
         <bitmap>../resource\self\plaintext.png</bitmap>
         <tooltip>Plaintext *.t16 Processor</tooltip>
       </object>
+      <object class="separator"/>
+      <object class="tool" name="TOOL_RESULT_QP_XY">
+        <bitmap>..\resource\self\xy.png</bitmap>
+      </object>
+      <object class="tool" name="TOOL_RESULT_QP_XYY">
+        <bitmap>..\resource\self\xyy.png</bitmap>
+      </object>
+      <object class="tool" name="TOOL_RESULT_QP_XXY">
+        <bitmap>..\resource\self\xxy.png</bitmap>
+      </object>
+      <object class="tool" name="TOOL_RESULT_QP_XYXY">
+        <bitmap>..\resource\self\xyxy.png</bitmap>
+      </object>
+      <object class="tool" name="TOOL_RESULT_QP_XYSELECT">
+        <bitmap>../resource\self\xyselect.png</bitmap>
+      </object>
     </object>
     <object class="wxMenuBar" name="Menubar">
       <object class="wxMenu" name="Menu_File">

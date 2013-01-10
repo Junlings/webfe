@@ -12,6 +12,7 @@ from components.plot.plotdatadiag import PlotDataFrame
 from components.plot.figurecreate import figurecreate
 from components.plot.plotframe import FigureFrame, CanvasPanel
 from components.post.postframe import PostDiag
+from components.post.plainframe import plainpost
 
 def add_method(self, method, name=None):
     if name is None:
@@ -48,7 +49,7 @@ class ResultFrame(xrcResultFrame):
         
         # bind postprocess
         self.Bind(wx.EVT_MENU, self.OnPostMarct16,self.TOOL_RESULT_MARC_T16)
-        
+        self.Bind(wx.EVT_MENU, self.OnPostPlain,self.TOOL_RESULT_TEXT)
         
         # bind tree butto
         self.TOOL_TREE_REFRESH.Bind(wx.EVT_LEFT_DOWN,self.OnResChange)
@@ -70,8 +71,13 @@ class ResultFrame(xrcResultFrame):
         self.RESULT_PANEL_NOTEBOOK.SetSizer(box)
         self.RESULT_PANEL_NOTEBOOK.Layout() 
 
-       
-
+    
+    def OnPostPlain(self,event):
+        if 'plain' not in self.results.source:
+            pub.sendMessage("COMMAND", '*post_plain_new')
+        f1 = plainpost(self)
+        f1.Show()
+        
     def OnPostMarct16(self,event):
         diag = PostDiag(self,self.results)
         diag.Show()
