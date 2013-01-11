@@ -43,12 +43,17 @@ class tpfdb():
         
         return resdict
     
-    def getcollabes(self):
+    def getcollabes(self,keylist=None):
         collist = []
-        for key in self.tdb.keys():
-            for label in self.tdb[key]['labellist']:
-                collist.append(key+':'+label)
+        if keylist == None:
+            keylist = self.tdb.keys()
         
+        for key in keylist:# self.tdb.keys():
+            if key in self.tdb.keys():
+                for label in self.tdb[key]['labellist']:
+                    collist.append(key+':'+label)
+            else:
+                raise KeyError, ('Requested key: ',key,' Do not in the dabase table')
         return collist
             
     
@@ -67,7 +72,10 @@ class tpfdb():
         for pairy in pairidlist[1:]:
             keylist.append([xlabel,pairy])
         
-        self.add_plotdata(plotkey,keylist)
+        # add default unit x and y using the first item
+        xunit = self.get_data(pairidlist[0])[1]
+        yunit = self.get_data(pairidlist[1])[1]
+        self.add_plotdata(plotkey,keylist,units=[xunit,yunit])
     
     
     def add_plotdata_table(self,plotkey,tablekey,pairidlist,mode='xy',units=None,xylabels=None,scale=None,shift=None,limits=None):
@@ -194,7 +202,7 @@ class tpfdb():
         sourceunit = self.tdb[tablekey]['unitlist'][columnid]
             
         return sourcedata,sourceunit
-
+     
 
     def curve_search(self,cxtag,cytag,vcoltag, vvalue,mode='>'):
         ''' serach the corresponging value in cx and cy respect yo vvaue in vcol'''

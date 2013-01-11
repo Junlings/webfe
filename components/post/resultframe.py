@@ -51,7 +51,13 @@ class ResultFrame(xrcResultFrame):
         self.Bind(wx.EVT_MENU, self.OnPostMarct16,self.TOOL_RESULT_MARC_T16)
         self.Bind(wx.EVT_MENU, self.OnPostPlain,self.TOOL_RESULT_TEXT)
         
-        # bind tree butto
+        # bind quick plot toolbar
+        
+        
+        
+        self.Bind(wx.EVT_MENU, self.OnQPSELECT, self.TOOL_RESULT_QP_XYSELECT)
+        
+        # bind tree button
         self.TOOL_TREE_REFRESH.Bind(wx.EVT_LEFT_DOWN,self.OnResChange)
         self.TOOL_TREE_EXPAND.Bind(wx.EVT_LEFT_DOWN,self.ResultTree.OnExpandAll)
         self.TOOL_TREE_COLLAPSE.Bind(wx.EVT_LEFT_DOWN,self.ResultTree.OnCollapseAll)
@@ -64,13 +70,25 @@ class ResultFrame(xrcResultFrame):
         
         # add notebook
         self.ModelNoteBook = wx.aui.AuiNotebook(self.RESULT_PANEL_NOTEBOOK,1,size=(500,500),style=wx.aui.AUI_NB_DEFAULT_STYLE)
-        #btn = wx.Button(self.RESULT_PANEL_NOTEBOOK,label='gg')
+        
+        self.ModelNoteBook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.OnPageChanged)
+
         box = wx.BoxSizer(wx.VERTICAL)
         box.Add(self.ModelNoteBook, 1, wx.EXPAND)
         #box.Add(btn, 2, wx.EXPAND)
         self.RESULT_PANEL_NOTEBOOK.SetSizer(box)
         self.RESULT_PANEL_NOTEBOOK.Layout() 
+    
 
+    def OnPageChanged(self, evt):
+        page = self.GetPageText(evt.GetSelection())
+        print page
+    
+    def OnQPSELECT(self,event):
+        contlist = self.results.getcollabes()
+        p1 = PlotDataFrame(self,contlist)
+        p1.Show()
+    
     
     def OnPostPlain(self,event):
         if 'plain' not in self.results.source:

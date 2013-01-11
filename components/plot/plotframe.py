@@ -9,6 +9,10 @@ from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg
 from matplotlib.backends.backend_wx import _load_bitmap
 
 from core.plots.plots import tpfdb
+import os
+filepath= os.path.realpath(__file__)
+filefolder, filename = os.path.split(filepath)
+resourcefolder = os.path.join(filefolder,'..','resource','self')
 
 class MyNavigationToolbar(NavigationToolbar2WxAgg):
     """
@@ -20,7 +24,7 @@ class MyNavigationToolbar(NavigationToolbar2WxAgg):
 
         # for simplicity I'm going to reuse a bitmap from wx, you'll
         # probably want to add your own.
-        self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap('stock_left.xpm'),
+        self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap(resourcefolder + '//' + 'L_D.png'), #stock_left.xpm'),
                            'Click me', 'Activate custom contol')
         #self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap('stock_left.xpm'),
                            #'Click me', 'Save to PDF format')       
@@ -28,12 +32,7 @@ class MyNavigationToolbar(NavigationToolbar2WxAgg):
         #wx.EVT_TOOL(self, self.ON_SAVETOPDF, self._on_savetopdf)
         
     def _on_custom(self, evt):
-        # add some text to the axes in a random location in axes (0,1)
-        # coords) with a random color
 
-        # get the axes
-        #self.canvas.figure = fun(self.canvas.figure)
-        
         self.canvas.draw()
         if evt != None:
             evt.Skip()

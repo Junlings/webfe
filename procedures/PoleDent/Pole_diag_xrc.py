@@ -41,7 +41,9 @@ class xrcPoleDiag(wx.Dialog):
         self.POLE_EXTEND_CHECK = xrc.XRCCTRL(self, "POLE_EXTEND_CHECK")
         self.RIGHTEND_XCOORD = xrc.XRCCTRL(self, "RIGHTEND_XCOORD")
         self.LEFTEND_XCOORD = xrc.XRCCTRL(self, "LEFTEND_XCOORD")
+        self.LENGTH_INCR = xrc.XRCCTRL(self, "LENGTH_INCR")
         self.SLIDE_DENTPER = xrc.XRCCTRL(self, "SLIDE_DENTPER")
+        self.CHECK_MONPROC = xrc.XRCCTRL(self, "CHECK_MONPROC")
         self.CHECK_MONPROC = xrc.XRCCTRL(self, "CHECK_MONPROC")
         self.CHECK_BENDPROC = xrc.XRCCTRL(self, "CHECK_BENDPROC")
         self.PoleProcess = xrc.XRCCTRL(self, "PoleProcess")
@@ -99,8 +101,10 @@ def __init_resources():
                 <object class="wxTextCtrl" name="PoleFile"/>
                 <flag>wxALL|wxEXPAND</flag>
               </object>
+              <object class="spacer">
+                <size>20,20</size>
+              </object>
             </object>
-            <option>1</option>
             <flag>wxALL|wxEXPAND</flag>
           </object>
           <object class="sizeritem">
@@ -137,6 +141,14 @@ def __init_resources():
                   </object>
                   <vgap>5</vgap>
                   <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Increment Length</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LENGTH_INCR"/>
+                  </object>
                 </object>
               </object>
             </object>
@@ -144,7 +156,7 @@ def __init_resources():
           </object>
           <object class="sizeritem">
             <object class="wxStaticBoxSizer">
-              <label>Options</label>
+              <label>Dent Material Option</label>
               <orient>wxVERTICAL</orient>
               <object class="sizeritem">
                 <object class="wxFlexGridSizer">
@@ -167,26 +179,6 @@ def __init_resources():
                       <tickfreq>20</tickfreq>
                     </object>
                   </object>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>Genrate Bending Proc</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxCheckBox" name="CHECK_MONPROC">
-                      <label/>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>Generate full modeling</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxCheckBox" name="CHECK_BENDPROC">
-                      <label/>
-                    </object>
-                  </object>
                 </object>
                 <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
               </object>
@@ -196,6 +188,52 @@ def __init_resources():
           </object>
           <object class="spacer">
             <size>0,0</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Procedure Option</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxFlexGridSizer">
+                  <cols>2</cols>
+                  <vgap>11</vgap>
+                  <hgap>5</hgap>
+                  <growablecols>1</growablecols>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Create Procedure</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxCheckBox" name="CHECK_MONPROC">
+                      <label/>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Genrate Bending Proc</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="CHECK_MONPROC">
+                      <label/>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Generate full modeling</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxRadioButton" name="CHECK_BENDPROC">
+                      <label/>
+                    </object>
+                  </object>
+                </object>
+                <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+              </object>
+            </object>
+            <flag>wxEXPAND</flag>
           </object>
           <object class="sizeritem">
             <object class="wxBoxSizer">

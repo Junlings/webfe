@@ -25,9 +25,19 @@ class unitsystem():
     def get(self,key):
         try:
             return self.unitlib[key]
-        except TypeError:
-            raise TypeError, str(key) + 'do not exist'
+        except:
+            try:
+                return self.unitlib[self.alias(key)]
+            except:
+                raise KeyError, str(key) + ' do not exist'
                             
+    def alias(self,name):
+        ''' in order to process the alias of certain unit writing'''
+        if name == 'in':
+            return 'in.'
+        else:
+            return name
+        
         
     def derive(self,name,coeff,dimstr,latex=None,const=0,sys='SI'):
 
