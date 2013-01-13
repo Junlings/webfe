@@ -67,7 +67,7 @@ def __init_resources():
           <object class="sizeritem">
             <object class="wxFlexGridSizer">
               <cols>2</cols>
-              <rows>2</rows>
+              <rows>5</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>Figure Key</label>

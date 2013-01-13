@@ -79,7 +79,7 @@ def __init_resources():
           <object class="sizeritem">
             <object class="wxGridSizer">
               <cols>4</cols>
-              <rows>2</rows>
+              <rows>12</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>Component</label>
@@ -177,7 +177,7 @@ def __init_resources():
           <object class="sizeritem">
             <object class="wxGridSizer">
               <cols>4</cols>
-              <rows>2</rows>
+              <rows>12</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>Component</label>

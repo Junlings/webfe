@@ -11,7 +11,6 @@
           <object class="sizeritem">
             <object class="wxGridSizer">
               <cols>4</cols>
-              <rows>2</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>Component</label>
@@ -72,6 +71,7 @@
               <object class="sizeritem">
                 <object class="wxTextCtrl" name="PATCH_1D_N"/>
               </object>
+              <rows>5</rows>
               <vgap>5</vgap>
               <hgap>5</hgap>
             </object>
@@ -84,16 +84,8 @@
             <object class="wxBoxSizer">
               <orient>wxHORIZONTAL</orient>
               <object class="sizeritem">
-                <object class="wxFlexGridSizer">
-                  <cols>1</cols>
-                  <rows>1</rows>
-                  <object class="sizeritem">
-                    <object class="wxButton" name="BTN_APPLY_Line">
-                      <label>Apply</label>
-                    </object>
-                  </object>
-                  <vgap>5</vgap>
-                  <hgap>5</hgap>
+                <object class="wxButton" name="BTN_APPLY_Line">
+                  <label>Apply</label>
                 </object>
               </object>
             </object>
@@ -101,6 +93,7 @@
             <border>5</border>
           </object>
         </object>
+        <flag>wxEXPAND</flag>
       </object>
       <object class="sizeritem">
         <object class="wxStaticBoxSizer">
@@ -109,7 +102,6 @@
           <object class="sizeritem">
             <object class="wxGridSizer">
               <cols>4</cols>
-              <rows>2</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>Component</label>
@@ -197,6 +189,7 @@
               <object class="sizeritem">
                 <object class="wxTextCtrl" name="PATCH_CYL_NZ"/>
               </object>
+              <rows>8</rows>
               <vgap>5</vgap>
               <hgap>5</hgap>
             </object>
@@ -209,16 +202,8 @@
             <object class="wxBoxSizer">
               <orient>wxHORIZONTAL</orient>
               <object class="sizeritem">
-                <object class="wxFlexGridSizer">
-                  <cols>1</cols>
-                  <rows>1</rows>
-                  <object class="sizeritem">
-                    <object class="wxButton" name="BTN_APPLY_CYL">
-                      <label>Apply</label>
-                    </object>
-                  </object>
-                  <vgap>5</vgap>
-                  <hgap>5</hgap>
+                <object class="wxButton" name="BTN_APPLY_CYL">
+                  <label>Apply</label>
                 </object>
               </object>
             </object>
@@ -226,6 +211,7 @@
             <border>5</border>
           </object>
         </object>
+        <flag>wxEXPAND</flag>
       </object>
     </object>
   </object>

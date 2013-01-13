@@ -18,6 +18,7 @@ class plainpost(xrcDIALOG1):
         self.FILE_SELECT_SCAN.Bind(wx.EVT_LEFT_DOWN,self.OnScan)
         self.FILE_SELECT_APPLY.Bind(wx.EVT_LEFT_DOWN,self.OnApply)
         
+        
 
 
         # events
@@ -31,7 +32,10 @@ class plainpost(xrcDIALOG1):
     #def dirBrowser_OnRightClick(self,event):pass
     
     def OnScan(self,event):
-        self.filepathlist = glob.glob(self.pathget+'//'+self.filter)
+        try:
+            self.filepathlist = glob.glob(self.pathget+'//'+self.filter)
+        except:
+            self.filepathlist = [self.pathget]
         self.FILE_SELECT_NUM.SetValue(str(len(self.filepathlist)))
         
     def OnApply(self,event):
@@ -39,6 +43,7 @@ class plainpost(xrcDIALOG1):
         for pathitem in self.filepathlist:
             com += ',' + pathitem
         pub.sendMessage("COMMAND", '*post_plain_filelist %s' % com)
+        pub.sendMessage("GUIREFRESH", 'results')
     
     def dirBrowser_OnSelectionChanged(self,event):
         self.pathget = self.FILE_SELECTION.GetPath()
@@ -48,10 +53,19 @@ class plainpost(xrcDIALOG1):
         selstr = self.FILE_EXTENSION_CHOICE.GetStringSelection()
         if selstr == 'Other':
             self.FILE_EXTENSION_INPUT.Enable(True)
+            self.filter = self.FILE_EXTENSION_INPUT.GetValue()
         else:
             self.FILE_EXTENSION_INPUT.Enable(False)
             self.filter = selstr
-            
+        
+        #print self.FILE_SELECTION.GetFilter()
+        self.FILE_SELECTION.SetFilter(self.filter)
+        parentpath = self.FILE_SELECTION.GetPath()
+        
+        self.FILE_SELECTION.ReCreateTree()
+        self.FILE_SELECTION.ExpandPath(parentpath)
+        
+        
     def OnEXTInput(self,event):
         selstr = self.FILE_EXTENSION_INPUT.GetValue()
         if '*' not in selstr:

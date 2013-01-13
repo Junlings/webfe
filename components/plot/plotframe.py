@@ -24,7 +24,7 @@ class MyNavigationToolbar(NavigationToolbar2WxAgg):
 
         # for simplicity I'm going to reuse a bitmap from wx, you'll
         # probably want to add your own.
-        self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap(resourcefolder + '//' + 'L_D.png'), #stock_left.xpm'),
+        self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap('stock_left.xpm'),
                            'Click me', 'Activate custom contol')
         #self.AddSimpleTool(self.ON_CUSTOM, _load_bitmap('stock_left.xpm'),
                            #'Click me', 'Save to PDF format')       

@@ -155,6 +155,7 @@ def create_units():
     units.derive('mm^(-1)',1,'mm:-1',sys='SI')
     units.derive('kN/mm',1,'kN:1,mm:-1',sys='SI')
     units.derive('ksi',1,'kip:1,in.:-2',sys='US')
+    units.derive('psi',1,'lbf:1,in.:-2',sys='US')
     units.derive('ksi^0.5',1,'ksi:0.5',latex=r'$\sqrt{\rm{ksi}}$',sys='US')
     units.derive('MPa^0.5',1,'MPa:0.5',latex=r'$\sqrt{{\rm{MPa}}}$',sys='SI')
     units.derive('in./in.',1,'m:0,s:0',sys='US')

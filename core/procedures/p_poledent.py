@@ -11,7 +11,7 @@ from core.imports.marc.import_marc_dat import importfile_marc_dat
 from core.utility.table.stress_strain import add_mat_by_stressstrain
 from math import atan
 
-def pole_extend(model,setname,targetendcoord,increment,center=(0,0),mode='yz'):
+def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='yz'):
     """ extend the selected set nodelist to one side by length of "length" and disp of "increment"
         setname: setname of the selected nodes
         targetendcoord: the end of the extend, also determine the direction
@@ -45,7 +45,13 @@ def pole_extend(model,setname,targetendcoord,increment,center=(0,0),mode='yz'):
     maxend, minend = max(xcoordlist),min(xcoordlist)
     maxdist,mindist = abs(targetendcoord-maxend),abs(targetendcoord-minend)
     avgdist = (float(maxdist) + float(mindist))/2.0
+    
+    increment = int(avgdist/incrementlength)
+    
+    
     avgdistincr = avgdist/float(increment)*float(targetendcoord)/abs(float(targetendcoord))
+    
+    
     
     
     nodecoordlist = np.array(nodecoordlist)
@@ -77,8 +83,11 @@ def pole_extend(model,setname,targetendcoord,increment,center=(0,0),mode='yz'):
                     n2 = nodecoordlist[j+1,0]
                     n3 = n4 + 1 
                 else:
-                    n2 = nodecoordlist[0,0]
-                    n3 = nolist
+                    n4 = nodecoordlist[j,0]
+                    n1 = nolist + j
+                    
+                    n3 = nodecoordlist[0,0]
+                    n2 = nolist
                 
                 newelemlist.append([int(n1),int(n2),int(n3),int(n4)])
             
@@ -91,8 +100,10 @@ def pole_extend(model,setname,targetendcoord,increment,center=(0,0),mode='yz'):
                     n2 = n1 + 1
                     n3 = n4 + 1
                 else:
-                    n2 = nolist + 0 + nodeidincr * (i-1)
-                    n3 = nolist + 0 + nodeidincr * (i)               
+                    n4 = nolist + j + nodeidincr * (i-1)
+                    n1 = nolist + j + nodeidincr * i                    
+                    n3 = nolist + 0 + nodeidincr * (i-1)
+                    n2 = nolist + 0 + nodeidincr * (i)               
                 newelemlist.append([int(n1),int(n2),int(n3),int(n4)])    
             
     elemnolist = model.element(newelemlist,setname='extension_elements_'+setname)

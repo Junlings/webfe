@@ -124,7 +124,7 @@ def __init_resources():
       <object class="sizeritem">
         <object class="wxFlexGridSizer">
           <cols>3</cols>
-          <rows>2</rows>
+          <rows>3</rows>
           <object class="sizeritem">
             <object class="wxStaticText">
               <label>File/Folder Path    </label>

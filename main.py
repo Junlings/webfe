@@ -60,7 +60,8 @@ class MyApp(wx.App):
         if request.data == 'results':
             return self.resframe.OnForceResChange(None,self.com.results)
         elif request.data == 'model':
-            return self.mainframe.OnForceRefresh(None,self.com.model)        
+            return self.mainframe.OnForceRefresh(None,self.com.model)
+        
         elif request.data == 'show_resultframe':
             if self.resframe == None:
                 self.resframe = ResultFrame(self,self.results)
@@ -71,7 +72,8 @@ class MyApp(wx.App):
                     self.resframe.OnResChange(event)
                 except:
                     self.resframe = ResultFrame(None,self.com.results)
-                    self.resframe.Show()          
+                    self.resframe.Show()
+                    
         elif 'show_figure' in request.data:
             fkey = request.data.split(':')[1]
             self.resframe.OnAddFigurePage(fkey)

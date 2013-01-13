@@ -157,7 +157,7 @@ def __init_resources():
                 </object>
               </object>
             </object>
-            <flag>wxALL|wxEXPAND</flag>
+            <flag>wxEXPAND</flag>
             <border>5</border>
           </object>
           <object class="sizeritem">
@@ -165,9 +165,9 @@ def __init_resources():
               <label>Result Request</label>
               <orient>wxVERTICAL</orient>
               <object class="sizeritem">
-                <object class="wxGridSizer">
+                <object class="wxFlexGridSizer">
                   <cols>3</cols>
-                  <rows>3</rows>
+                  <rows>4</rows>
                   <object class="sizeritem">
                     <object class="wxStaticText">
                       <label>Object Type</label>
@@ -196,7 +196,6 @@ def __init_resources():
                   <object class="sizeritem">
                     <object class="wxChoice" name="POST_t16_Request">
                       <content/>
-                      <size>180,20</size>
                     </object>
                   </object>
                   <vgap>5</vgap>
@@ -211,7 +210,6 @@ def __init_resources():
                         <item>Particular</item>
                       </content>
                       <selection>0</selection>
-                      <size>100,20</size>
                     </object>
                     <flag>wxALIGN_RIGHT</flag>
                   </object>
@@ -248,7 +246,7 @@ def __init_resources():
                     </object>
                   </object>
                 </object>
-                <flag>wxALL|wxEXPAND</flag>
+                <flag>wxEXPAND</flag>
                 <border>5</border>
               </object>
             </object>
@@ -262,7 +260,7 @@ def __init_resources():
               <object class="sizeritem">
                 <object class="wxGridSizer">
                   <cols>2</cols>
-                  <rows>2</rows>
+                  <rows>3</rows>
                   <object class="sizeritem">
                     <object class="wxRadioButton" name="POST_t16_ItemSelSingle">
                       <label>Single Item</label>
@@ -305,7 +303,7 @@ def __init_resources():
               <label>Result Save Target</label>
               <orient>wxVERTICAL</orient>
               <object class="sizeritem">
-                <object class="wxGridSizer">
+                <object class="wxFlexGridSizer">
                   <cols>3</cols>
                   <rows>2</rows>
                   <object class="sizeritem">
@@ -341,46 +339,46 @@ def __init_resources():
               <object class="sizeritem">
                 <object class="wxCheckListBox" name="POST_RequestList">
                   <content/>
+                  <size>-1,120</size>
                 </object>
-                <option>1</option>
                 <flag>wxALL|wxEXPAND</flag>
               </object>
               <object class="spacer">
                 <size>20,10</size>
-              </object>
-              <object class="sizeritem">
-                <object class="wxBoxSizer">
-                  <orient>wxHORIZONTAL</orient>
-                  <object class="sizeritem">
-                    <object class="wxButton" name="POST_t16_Delete">
-                      <label>Delete</label>
-                    </object>
-                  </object>
-                  <object class="spacer">
-                    <size>10,10</size>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxButton" name="POST_t16_Submit">
-                      <label>Submit</label>
-                    </object>
-                    <flag>wxALIGN_RIGHT</flag>
-                  </object>
-                </object>
-                <flag>wxALIGN_RIGHT</flag>
               </object>
             </object>
             <option>1</option>
             <flag>wxALL|wxEXPAND</flag>
             <border>5</border>
           </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxButton" name="POST_t16_Delete">
+                  <label>Delete</label>
+                </object>
+              </object>
+              <object class="spacer">
+                <size>10,10</size>
+              </object>
+              <object class="sizeritem">
+                <object class="wxButton" name="POST_t16_Submit">
+                  <label>Submit</label>
+                </object>
+                <flag>wxALIGN_RIGHT</flag>
+              </object>
+            </object>
+            <flag>wxALIGN_RIGHT</flag>
+          </object>
         </object>
-        <option>1</option>
-        <flag>wxALL|wxEXPAND</flag>
+        <flag>wxEXPAND</flag>
         <border>0</border>
         <border>5</border>
       </object>
     </object>
     <size>500,600</size>
+    <style>wxDEFAULT_DIALOG_STYLE</style>
   </object>
 </resource>'''
 

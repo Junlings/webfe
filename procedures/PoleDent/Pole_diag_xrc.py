@@ -38,12 +38,12 @@ class xrcPoleDiag(wx.Dialog):
         # Define variables for the controls, bind event handlers
         self.PoleSelectFile = xrc.XRCCTRL(self, "PoleSelectFile")
         self.PoleFile = xrc.XRCCTRL(self, "PoleFile")
-        self.POLE_EXTEND_CHECK = xrc.XRCCTRL(self, "POLE_EXTEND_CHECK")
+        self.IF_EXTEND = xrc.XRCCTRL(self, "IF_EXTEND")
+        self.IF_PROCEDURE = xrc.XRCCTRL(self, "IF_PROCEDURE")
+        self.SLIDE_DENTPER = xrc.XRCCTRL(self, "SLIDE_DENTPER")
         self.RIGHTEND_XCOORD = xrc.XRCCTRL(self, "RIGHTEND_XCOORD")
         self.LEFTEND_XCOORD = xrc.XRCCTRL(self, "LEFTEND_XCOORD")
         self.LENGTH_INCR = xrc.XRCCTRL(self, "LENGTH_INCR")
-        self.SLIDE_DENTPER = xrc.XRCCTRL(self, "SLIDE_DENTPER")
-        self.CHECK_MONPROC = xrc.XRCCTRL(self, "CHECK_MONPROC")
         self.CHECK_MONPROC = xrc.XRCCTRL(self, "CHECK_MONPROC")
         self.CHECK_BENDPROC = xrc.XRCCTRL(self, "CHECK_BENDPROC")
         self.PoleProcess = xrc.XRCCTRL(self, "PoleProcess")
@@ -83,6 +83,7 @@ def __init_resources():
                     </object>
                     <flag>wxALL|wxEXPAND</flag>
                   </object>
+                  <rows>2</rows>
                   <vgap>11</vgap>
                   <hgap>5</hgap>
                   <growablecols>1</growablecols>
@@ -104,55 +105,24 @@ def __init_resources():
               <object class="spacer">
                 <size>20,20</size>
               </object>
-            </object>
-            <flag>wxALL|wxEXPAND</flag>
-          </object>
-          <object class="sizeritem">
-            <object class="wxStaticBoxSizer">
-              <label>Side Extension</label>
-              <orient>wxVERTICAL</orient>
               <object class="sizeritem">
-                <object class="wxCheckBox" name="POLE_EXTEND_CHECK">
-                  <label>Extend both Sides</label>
+                <object class="wxCheckBox" name="IF_EXTEND">
+                  <label>Extend Ends</label>
                 </object>
               </object>
               <object class="spacer">
-                <size>20,20</size>
+                <size>10,10</size>
               </object>
               <object class="sizeritem">
-                <object class="wxGridSizer">
-                  <cols>2</cols>
-                  <rows>2</rows>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>surface_rightend (+)</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxTextCtrl" name="RIGHTEND_XCOORD"/>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>surface_leftend    (-)</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxTextCtrl" name="LEFTEND_XCOORD"/>
-                  </object>
-                  <vgap>5</vgap>
-                  <hgap>5</hgap>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>Increment Length</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxTextCtrl" name="LENGTH_INCR"/>
-                  </object>
+                <object class="wxCheckBox" name="IF_PROCEDURE">
+                  <label>Create Procedure</label>
                 </object>
               </object>
             </object>
-            <flag>wxEXPAND</flag>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
           </object>
           <object class="sizeritem">
             <object class="wxStaticBoxSizer">
@@ -187,7 +157,49 @@ def __init_resources():
             <flag>wxALL|wxEXPAND</flag>
           </object>
           <object class="spacer">
-            <size>0,0</size>
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Side Extension</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>3</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>surface_rightend (+)</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="RIGHTEND_XCOORD"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>surface_leftend    (-)</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LEFTEND_XCOORD"/>
+                  </object>
+                  <vgap>5</vgap>
+                  <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Increment Length</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LENGTH_INCR"/>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
           </object>
           <object class="sizeritem">
             <object class="wxStaticBoxSizer">
@@ -196,19 +208,10 @@ def __init_resources():
               <object class="sizeritem">
                 <object class="wxFlexGridSizer">
                   <cols>2</cols>
+                  <rows>2</rows>
                   <vgap>11</vgap>
                   <hgap>5</hgap>
                   <growablecols>1</growablecols>
-                  <object class="sizeritem">
-                    <object class="wxStaticText">
-                      <label>Create Procedure</label>
-                    </object>
-                  </object>
-                  <object class="sizeritem">
-                    <object class="wxCheckBox" name="CHECK_MONPROC">
-                      <label/>
-                    </object>
-                  </object>
                   <object class="sizeritem">
                     <object class="wxStaticText">
                       <label>Genrate Bending Proc</label>
@@ -234,6 +237,9 @@ def __init_resources():
               </object>
             </object>
             <flag>wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
           </object>
           <object class="sizeritem">
             <object class="wxBoxSizer">

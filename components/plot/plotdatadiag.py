@@ -18,10 +18,9 @@ class SelCheckButton(wx.CheckBox):
         self.key = skey
         
 class PlotDataFrame(wx.Frame):
-    def __init__(self,parent,contlist=None,title='Title'):
-        size = (400,80*len(contlist))
-
-
+    def __init__(self,parent,contlist=None,title='Create Plot Data'):
+        size = (-1,150 + 30*len(contlist))
+        
         super(PlotDataFrame, self).__init__(parent,size=size,title=title,style=wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
         Example(self,contlist)
         self.Show()
@@ -35,7 +34,7 @@ class Example(wx.Panel):
         
         cont = self.create_list(contlist)
         self.InitUI(cont)
-        self.Centre()
+        #self.Centre()
         self.BTN_OK.Bind(wx.EVT_LEFT_DOWN,self.OnSubmit)
         self.BTN_Reset.Bind(wx.EVT_LEFT_DOWN,self.OnReset)
         self.BTN_QUICKPL.Bind(wx.EVT_LEFT_DOWN,self.OnQuickPlot)
@@ -49,7 +48,8 @@ class Example(wx.Panel):
         for item in axislist:
             self.results[item] = {'x':None,'y':[]}
             
-        cont.append((wx.StaticText(self, label='Available Column',style=wx.ALL|wx.EXPAND|wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL), 0, wx.EXPAND))
+        cont.append((wx.StaticText(self, label='Table Name',style=wx.ALL|wx.EXPAND|wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL), 0, wx.EXPAND))
+        cont.append((wx.StaticText(self, label='Column Name',style=wx.ALL|wx.EXPAND|wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL), 0, wx.EXPAND))
         self.xchoice = wx.Choice(self, choices=axislist)
         self.xchoice.SetStringSelection(axislist[0])
         cont.append((self.xchoice, 0, wx.EXPAND|wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
@@ -57,15 +57,19 @@ class Example(wx.Panel):
         self.xchoice.Bind(wx.EVT_CHOICE, self.OnXChoice)
         
         for item in inputlist:
-            ilabel = wx.StaticText(self, label=item)
+            item_a,item_b = item.split(':')
+            ilabel_a = wx.StaticText(self, label=item_a)
+            ilabel_b = wx.StaticText(self, label=item_b)
+            
             iradio = SelRadioButton(self, skey=item)
             icheck = SelCheckButton(self, skey=item)
             
-            cont.append((ilabel, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
+            cont.append((ilabel_a, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
+            cont.append((ilabel_b, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
             cont.append((iradio, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
             cont.append((icheck, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
             
-            self.control[item] = {'label':ilabel,'radio':iradio,'check':icheck}
+            self.control[item] = {'label_a':ilabel_a,'label_b':ilabel_b,'radio':iradio,'check':icheck}
             
             self.Bind(wx.EVT_RADIOBUTTON,self.SelectRadioButton,iradio)
             self.Bind(wx.EVT_CHECKBOX,self.SelectCheckButton,icheck)
@@ -127,27 +131,32 @@ class Example(wx.Panel):
         
     def InitUI(self,cont):
         vbox = wx.BoxSizer(wx.VERTICAL)
-        gs = wx.GridSizer(6, 3, 5, 5)
+        
+        ntotal = len(cont)
+        nrow = ntotal/4+1
+        
+        gs = wx.FlexGridSizer(nrow, 4, 5, 5)
 
         gs.AddMany(cont)
-        
+        gs.AddGrowableCol(0, 1)
+        gs.AddGrowableCol(1, 2)
         hbox1 = wx.BoxSizer(wx.HORIZONTAL)
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
-        vbox.Add(gs, proportion=1, flag=wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL)
-        vbox.Add(hbox1, flag=wx.ALIGN_CENTER)
-        vbox.Add(hbox2, flag=wx.ALIGN_CENTER)
+        vbox.Add(gs, proportion=1, flag=wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL,border=5)
+        vbox.Add(hbox1,border=5)#, flag=wx.ALIGN_CENTER)
+        vbox.Add(hbox2,border=5)#, flag=wx.ALIGN_CENTER)
         
         self.BTN_OK = wx.Button(self,label='OK')
         self.BTN_Reset = wx.Button(self,label='Reset')
         self.BTN_QUICKPL = wx.Button(self,label='QUICK Plot')
         self.Pdatakeylabel = wx.StaticText(self,label='Plot Data Key')
         self.Pdatakey = wx.TextCtrl(self,size=(150,20))
-        hbox1.Add(self.Pdatakeylabel , flag=wx.ALIGN_CENTER)
-        hbox1.Add(self.Pdatakey , flag=wx.ALIGN_CENTER)
+        hbox1.Add(self.Pdatakeylabel)# , flag=wx.ALIGN_CENTER)
+        hbox1.Add(self.Pdatakey)# , flag=wx.ALIGN_CENTER)
         
-        hbox2.Add(self.BTN_Reset, flag=wx.ALIGN_CENTER)
-        hbox2.Add(self.BTN_QUICKPL, flag=wx.ALIGN_CENTER)
-        hbox2.Add(self.BTN_OK, flag=wx.ALIGN_CENTER)
+        hbox2.Add(self.BTN_Reset)#, flag=wx.ALIGN_CENTER)
+        hbox2.Add(self.BTN_QUICKPL)#, flag=wx.ALIGN_CENTER)
+        hbox2.Add(self.BTN_OK)#, flag=wx.ALIGN_CENTER)
         self.SetSizer(vbox)
 
     def OnSubmit(self,event):
@@ -179,7 +188,9 @@ class Example(wx.Panel):
         pub.sendMessage("COMMAND", '*plot_figure_add,%s,%s,%s,%s' % (fname,pdataname,'publish','line-one axis'))
         
         # =============== show figure
-        pub.sendMessage("GUIREFRESH", 'show_figure:%s' % fname)        
+        pub.sendMessage("GUIREFRESH", 'show_figure:%s' % fname)
+        pub.sendMessage("GUIREFRESH", 'results')
+        self.Parent.Destroy()
 if __name__ == '__main__':
   
     app = wx.App()

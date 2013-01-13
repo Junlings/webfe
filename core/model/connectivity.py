@@ -128,7 +128,9 @@ class connlist():
             return max(self.seqlist)
         else:
             return 0
-
+        
+ 
+    
     def get_elemtable(self):
         '''
         Generate element table for 3d display purpose

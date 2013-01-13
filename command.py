@@ -94,17 +94,19 @@ class commandparser():
     
     
     def procedure_poledent(self,*args):
+        # generate basic modeling
         process_pole_dat(self.model,args[0],args[1])
         
+        # add analysis procedures if needed
         if len(args) > 2:
-            if args[2] == 'True':
+            if args[2] == 'curvature':
                 self.model = PoleModeling(self.model)
                 
         if len(args) == 6:
-            rightxcoord = float(args[4])
-            leftxcoord = float(args[5])
-            self.model = pole_extend(self.model,"surface_rightend",rightxcoord,10)
-            self.model = pole_extend(self.model,"surface_leftend",leftxcoord,10)
+            rightxcoord = float(args[3])
+            leftxcoord = float(args[4])
+            self.model = pole_extend(self.model,"surface_rightend",rightxcoord,float(args[5]))
+            self.model = pole_extend(self.model,"surface_leftend",leftxcoord,float(args[5]))
             
     def export_model(self,*args):
         fullpath = args[1]

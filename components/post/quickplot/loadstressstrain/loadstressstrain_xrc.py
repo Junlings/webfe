@@ -104,7 +104,7 @@ def __init_resources():
               <object class="sizeritem">
                 <object class="wxGridSizer">
                   <cols>2</cols>
-                  <rows>2</rows>
+                  <rows>4</rows>
                   <object class="sizeritem">
                     <object class="wxStaticText" name="POST_L_ItemSourceLabel">
                       <label>Reaction Type</label>
@@ -168,7 +168,7 @@ def __init_resources():
               <object class="sizeritem">
                 <object class="wxGridSizer">
                   <cols>2</cols>
-                  <rows>2</rows>
+                  <rows>5</rows>
                   <object class="sizeritem">
                     <object class="wxStaticText" name="POST_D_ItemSourceLabel">
                       <label>Stress Type</label>

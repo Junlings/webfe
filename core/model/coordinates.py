@@ -238,6 +238,7 @@ class coordlist():
             
         self.isint(ndim)
         self.ndim = ndim
+        self.coordbound = {}
 
     
     def update(self):
@@ -259,11 +260,13 @@ class coordlist():
         
     def get_maxmin(self):
         ''' get the range of the list'''
-        coordtable = self.coordtable
-        nodemax = [max(coordtable[:,0]),max(coordtable[:,1]),max(coordtable[:,2])]
-        nodemin = [min(coordtable[:,0]),min(coordtable[:,1]),min(coordtable[:,2])]
-        self.maxmin =[nodemax,nodemin]
-        return self.maxmin
+        self.get_coordtable()
+        return [[self.coordbound['xmax'],self.coordbound['ymax'],self.coordbound['zmax']],
+                [self.coordbound['xmin'],self.coordbound['ymin'],self.coordbound['zmin']]]
+                
+                
+                
+                
     
     def get_coordtable(self):
         '''
@@ -276,6 +279,14 @@ class coordlist():
             ind += 1
 
         self.coordtable = out
+        self.coordbound = {}
+        self.coordbound['xmax'] = np.amax(out[:,0])
+        self.coordbound['xmin'] = np.amin(out[:,0])
+        self.coordbound['ymax'] = np.amax(out[:,1])
+        self.coordbound['ymin'] = np.amin(out[:,1])
+        self.coordbound['zmax'] = np.amin(out[:,2])
+        self.coordbound['zmin'] = np.amin(out[:,2])
+        
 
     def get_seqcoordtable(self):
         '''

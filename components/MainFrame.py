@@ -22,6 +22,7 @@ from components.section.section_xrc import xrcDIAG_Section
 from components.section.rebargroup_xrc import xrcDIAG_Rebar
 from components.post.postframe import PostDiag
 from components.post.resultframe import ResultFrame
+from components.gl.glpanel import FEM_3D_window
 
 global _maxdigits
 _maxdigits = 3
@@ -58,6 +59,7 @@ class MainFrame(xrcMainFrame):
         #box.Add(btn, 2, wx.EXPAND)
         self.ModelNoteBookPanel.SetSizer(box)
         self.ModelNoteBookPanel.Layout() 
+        
 
         
     def CreateBinding(self):
@@ -131,6 +133,9 @@ class MainFrame(xrcMainFrame):
     # model tree 
     def OnTreeActivate(self,event):
         pathlist =  self.ModelTree.GetSelectionPath()
+        if len(pathlist) == 0:
+            p1 = FEM_3D_window(self.ModelNoteBookPanel,model=self.model)
+            self.ModelNoteBook.AddPage(p1, "model")
         
         if pathlist[0] == 'setlist':           
             if len(pathlist) == 1:  # setlist

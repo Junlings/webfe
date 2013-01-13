@@ -12,6 +12,13 @@ import os
 import zlib
 import shutil
 import matplotlib
+#import OpenGL
+from ctypes import util
+try:
+    from OpenGL.platform import win32
+except AttributeError:
+    pass
+        
 
 # Remove the build folder
 shutil.rmtree("build", ignore_errors=True)
@@ -80,11 +87,11 @@ class Target(object):
 
 data_files = []
 
-includes = ["wx.lib.pubsub.*", "wx.lib.pubsub.core.*", "wx.lib.pubsub.pubsub1.*", "wx.lib.pubsub.pubsub2.*", "wx.lib.pubsub.utils.*" ]
+includes = ["wx.lib.pubsub.*", "wx.lib.pubsub.core.*", "wx.lib.pubsub.pubsub1.*", "wx.lib.pubsub.pubsub2.*", "wx.lib.pubsub.utils.*" ,"ctypes", "logging"]
 excludes = ['_gtkagg', '_tkagg', 'bsddb', 'curses', 'email', 'pywin.debugger',
             'pywin.debugger.dbgcon', 'pywin.dialogs', 'tcl',
             'Tkconstants', 'Tkinter']
-packages = ['matplotlib', 'pytz','wx.lib.pubsub']
+packages = ['matplotlib', 'pytz','wx.lib.pubsub','OpenGL']
 dll_excludes = ['libgdk-win32-2.0-0.dll','libgdk_pixbuf-2.0-0.dll', 'libgobject-2.0-0.dll', 'tcl84.dll',
                 'tk84.dll',
                 'MSVCP90.dll', 'mswsock.dll', 'powrprof.dll']

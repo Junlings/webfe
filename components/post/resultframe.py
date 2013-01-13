@@ -70,9 +70,7 @@ class ResultFrame(xrcResultFrame):
         
         # add notebook
         self.ModelNoteBook = wx.aui.AuiNotebook(self.RESULT_PANEL_NOTEBOOK,1,size=(500,500),style=wx.aui.AUI_NB_DEFAULT_STYLE)
-        
-        self.ModelNoteBook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.OnPageChanged)
-
+        self.ModelNoteBook.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.OnPageChanged)
         box = wx.BoxSizer(wx.VERTICAL)
         box.Add(self.ModelNoteBook, 1, wx.EXPAND)
         #box.Add(btn, 2, wx.EXPAND)
@@ -81,13 +79,19 @@ class ResultFrame(xrcResultFrame):
     
 
     def OnPageChanged(self, evt):
-        page = self.GetPageText(evt.GetSelection())
-        print page
+        pageename = self.ModelNoteBook.GetPageText(evt.GetSelection())
+        ptype,pname = pageename.split(':')
+        self.activepage = {'type':ptype,'key':pname}
+        #print self.activepage
     
     def OnQPSELECT(self,event):
-        contlist = self.results.getcollabes()
-        p1 = PlotDataFrame(self,contlist)
-        p1.Show()
+    	#print self.ModelNoteBook.GetSelection()
+    	#print self.ModelNoteBook.GetPageText(self.ModelNoteBook.GetSelection())
+        
+        if self.activepage['type'] == 'Table':
+            contlist = self.results.getcollabes([self.activepage['key']])
+            p1 = PlotDataFrame(self,contlist)
+            p1.Show()
     
     
     def OnPostPlain(self,event):
@@ -120,7 +124,7 @@ class ResultFrame(xrcResultFrame):
     def OnAddFigurePage(self,figurekey):
         mfigure = self.results.figurerealize(figurekey)
         f1 = CanvasPanel(self.ModelNoteBook,mfigure)
-        self.ModelNoteBook.AddPage(f1, "Figure:"+figurekey)        
+        self.ModelNoteBook.AddPage(f1, "Figure:"+figurekey, select=True)        
         
     def OnResChange(self,event):
         

@@ -593,3 +593,44 @@ class model():
     
     def modelloadbyfile(self,filename):
         return loadbyfile(filename)
+    
+    
+    def gl_get_nodetable(self):
+        return self.nodelist.coordtable
+    
+    def gl_get_modelbound(self):
+        minmax = self.nodelist.get_maxmin()
+        return [minmax[0][0],minmax[1][0],
+                minmax[0][1],minmax[1][1],
+                minmax[0][2],minmax[1][2]]
+    
+    def gl_get_elemtable(self,mode='nodeform'):
+        """
+        Generate element table for 3d display purpose
+        """
+        vertices_elem = {}
+        vertices_elem['line'] = []
+        vertices_elem['quad'] = []
+        vertices_elem['hex'] = []
+        
+        for key,elemi in self.connlist.itemlib.items():
+            out = []
+
+            for i in range(0,len(elemi.nodelist)):
+                nodeseq = elemi.nodelist[i]
+                nodei = self.nodelist.itemlib[nodeseq]
+                
+                if mode == 'nodeform':
+                    out.append(nodei.xyz)
+                elif mode == 'deform':
+                    out.append(nodei.dxyz)
+                else:
+                    raise KeyError
+            
+            if len(out) == 2:
+                vertices_elem['line'].extend(out)
+            elif len(out) == 4:
+                vertices_elem['quad'].extend(out)
+            elif len(out) == 8:
+                vertices_elem['hex'].extend(out)
+        return vertices_elem   
