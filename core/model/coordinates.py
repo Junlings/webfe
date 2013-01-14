@@ -416,6 +416,11 @@ class coordlist():
         return newlist
     
     def select_node_coordlist(self,rxyzlist,err=0.00001,nodelist=None):
+        """ select nodes based on the input coordinates list
+            a qucik way then loop over all nodes one by one
+            rxyzlist: [[x1,y1,z1],[x2,y2,z2],...[xn,yn,zn]]
+         
+        """
         
         if nodelist == None:
             nodelist = self.seqlist        

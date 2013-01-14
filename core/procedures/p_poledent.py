@@ -11,6 +11,65 @@ from core.imports.marc.import_marc_dat import importfile_marc_dat
 from core.utility.table.stress_strain import add_mat_by_stressstrain
 from math import atan
 
+
+
+def pole_contact_plate(model,name,centercoord,length,width,bottomheight,platezloc,stiffness):
+    """ This procedure add the contact plate in the model for use as either support or loading
+         name: plate set name
+         centercoord: center coordinates of the plate center [x,y,z]
+         length: length of contact plate in x direction
+         width: widtb of the contact plate in y direction
+         bottomheight: the height above which shall be included in the node range
+         platezloc: location of the plate
+         stiffness: stiffness of the connection springs
+    """
+    
+    #  searchig the connecting nodes
+    xcenter,ycenter,zcenter = centercoord
+    xmin = xcenter - length/2.0
+    xmax = xcenter + length/2.0
+    ymin = ycenter - width/2.0
+    ymax = ycenter + width/2.0
+    zmin = min(zcenter,platezloc)
+    zmax = max(zcenter,platezloc)
+    
+    pnodelist = model.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
+    model.nodeset(name,{'nodelist':pnodelist})
+    
+    #  add additonal nodes on plate and create springs
+    nodecoordlist = []
+    for nodeseq in pnodelist:
+        xyz = model.nodelist.itemlib[nodeseq].xyz
+        nodecoordlist.append([xyz[0],xyz[1],plateloc])
+    
+    snodeseq = model.node(nodecoordlist,setname='in_plate_nodes')
+    
+    
+    # add plate center node and tie this node to all nodes in plate
+    cnodeseq = model.node([centercoord]) 
+    
+    model.nodaltie('in plate','marc_rbe2',paralib={'tietype':'fix',
+                                                        'retnode':cnodeseq,
+                                                        'tienodelist':'in_plate_nodes'})
+    
+
+    # add springs
+    nodei = 0
+    for nodeseq in pnodelist:
+
+        springname = 'spring_'+str(nodeseq)
+        
+        model.nodaltie(springname,'onetoonespring',paralib={'tietype':'',
+                                                        'retnode':nodeseq,
+                                                        'tienode':snodeseq + nodei,
+                                                        'stiff':stiffness,
+                                                        'DOF':'z'})    
+        nodei += 1
+        
+    
+    return model
+
+
 def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='yz'):
     """ extend the selected set nodelist to one side by length of "length" and disp of "increment"
         setname: setname of the selected nodes

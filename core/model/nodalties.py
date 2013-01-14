@@ -14,7 +14,11 @@ class onetoonetie(nodalties):
         self.tieid = paralib['tieid']
         self.retnode = paralib['retnode']
         self.tienode = paralib['tienode']
-        
+    
+    def get_parlist(self):
+        return [self.retnode,self.tienode]
+    
+    
 class onetoonespring(nodalties):
     def __init__(self,paralib=None):
         nodalties.__init__(self)
@@ -24,7 +28,10 @@ class onetoonespring(nodalties):
         self.stiff = paralib['stiff']
         self.retnode = paralib['retnode']
         self.tienode = paralib['tienode']
-
+        
+    def get_parlist(self):
+        return [self.retnode,self.tienode]
+    
 class marc_rbe2(nodalties):
     def __init__(self,paralib=None):
         nodalties.__init__(self)
@@ -32,7 +39,17 @@ class marc_rbe2(nodalties):
         self.tieid = paralib['tieid']
         self.retnode = paralib['retnode']
         self.tienodelist = paralib['tienodelist']
-        
+
+    def get_parlist(self):
+        output = []
+        if type(self.tienodelist) == type("setname"):
+            output.extend([self.retnode,self.tienodelist])            
+            
+        else:
+            for node in self.tienodelist:
+                output.extend([self.retnode,node])
+        return output
+    
 if __name__ == '__main__':
     pass
     

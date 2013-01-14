@@ -4,6 +4,9 @@ import sys
 from wx import glcanvas
 import numpy as np
 import wx
+import ctypes
+from webcolors import name_to_rgb_float, get_color_list
+
 try:
     from OpenGL.GLUT import *
     from OpenGL.GL import *
@@ -11,6 +14,21 @@ try:
 except:
     print ''' Fehler: PyOpenGL nicht intalliert !!'''
     sys.exit(  )
+
+
+gl_setting = {
+    'color':{
+        'bg':'black',
+        'node':'red',
+        'element':'white',
+        'nodaltie':'green',   
+    },
+
+    'node':True,
+    'element':True,
+    'nodaltie':True,
+    }
+
 
 class wxGLWindow(glcanvas.GLCanvas):
     """Implements a simple wxPython OpenGL window.
@@ -130,15 +148,22 @@ class wxGLWindow(glcanvas.GLCanvas):
     def wxSize(self, event = None):
         """Called when the window is resized"""
         """Called when the window is resized"""
-        pass
+        #pass
     
         self.w,self.h = self.GetClientSizeTuple()
+            
+        self.SetCurrent(self.context)
+        glViewport(0, 0, self.w, self.h)
+        event.Skip()
+            
+            
+        '''
         if self.GetContext():
-            self.SetCurrent()
+            self.SetCurrent(self.context)
             glViewport(0, 0, self.w, self.h)
             event.Skip()
-
-
+        '''
+        
     def wxEraseBackground(self, evt):
         """Routine does nothing, but prevents flashing"""
         pass        
@@ -154,8 +179,8 @@ class wxGLWindow(glcanvas.GLCanvas):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glMatrixMode( GL_PROJECTION )
         glLoadIdentity( )
-    
-        self.generate_vertices()
+        
+        #self.generate_vertices()
         
         #glutInit()
         #xSize, ySize = glutGet( GLUT_WINDOW_WIDTH ), glutGet( GLUT_WINDOW_HEIGHT )
@@ -187,6 +212,7 @@ class wxGLWindow(glcanvas.GLCanvas):
           self.InitGL()
           self.GL_uninitialised=0
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        
         self.DrawGL()
         glFlush()                   # Flush
         self.SwapBuffers()  # Swap buffers
@@ -210,144 +236,71 @@ class FEM_3D_window(wxGLWindow):
     def __init__(self,parent,model):#*args,**kargs):
         wxGLWindow.__init__(self,parent)#,args,kargs)
         self.model = model
+        self.settings = gl_setting 
         self.InitGL()
-
+        
     def InitGL(self):
-        self.generate_vertices()
-
-    def generate_vertices(self,mode='element',factor=1):
-        global vertices_line
-        global vertices_quad
-        global vertices_hex
-        global vertices_grid
-    
-
-        # distill grids
-        vertices_grid = self.model.gl_get_nodetable()#'nodeform',factor)
-   
         self.modelbond = self.model.gl_get_modelbound()
-        #[grid[:,0].min(),grid[:,0].max(),
-        #                grid[:,1].min(),grid[:,1].max(),
-        #                grid[:,2].min(),grid[:,2].max()]    
-       
-       
+        self.model.gl_get_nodetable()
+        self.model.gl_get_elemtable()
+        self.model.gl_get_nodaltietable()
 
-
-        vertices_elem = self.model.gl_get_elemtable('nodeform')
+    def intepcolor(self,name):
+        return name_to_rgb_float(name)
     
-        grid = np.array(vertices_grid)
-    
-
-        #print self.modelbond
-        if mode == 'element':
-            vertices_line = np.array(vertices_elem['line'])
-            vertices_quad = np.array(vertices_elem['quad'])
-            vertices_hex =  np.array(vertices_elem['hex'])
-            vertices_grid = grid
-
     def DrawGL(self, event=None):
         #print 'draw new'
-    
         self.transformation()
+        
         glEnableClientState(GL_VERTEX_ARRAY)
-    
-        # create line element
-        if len(vertices_line) > 0 :
-            glVertexPointerd(vertices_line)
-            n_line=len(vertices_line)
-            glDrawArrays(GL_LINES, 0, n_line)
-    
-        #create quad elements
-        if len(vertices_quad ) >0:
-            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE)
-            glVertexPointerd(vertices_quad)
-            n_quad=len(vertices_quad)
-            glDrawArrays(GL_QUADS, 0, n_quad)
-    
         
-        #create nodes
-        glVertexPointerd(vertices_grid)
-        n_grid=len(vertices_grid)
+        # Create nodes if required        
+        if self.settings['node']:
+            self.DrawNodes()
+        
+        # create element if required
+        if self.settings['element']:
+            self.DrawElements()
+        
+        if self.settings['nodaltie']:
+            self.DrawNodalTie()
+        
+    def DrawNodes(self,event=None):
+        """ Draw fem nodes based on preseetings """
+
+        glVertexPointerd(self.model.vertices_grid)
+        n_grid=len(self.model.vertices_grid)
+        glColor(self.intepcolor(self.settings['color']['node']))
+        glPointSize(5)
         glDrawArrays(GL_POINTS, 0, n_grid)
-
-    def OnRefresh(self,event):
-        global vertices_line
-        global vertices_quad
-        global vertices_hex
-        global vertices_grid
-        vertices_grid = []
-        # distill grids
-        temp =coordlist.get_nodetable('nodeform',1)
-        vertices_grid.extend(temp)
     
-        vertices_elem = {}
-        vertices_elem['line'] = []
-        vertices_elem['quad'] = []
-        vertices_elem['hex'] = []
-    
-    
-        vertices_elem = connlist.get_elemtable(coordlist,vertices_elem,'nodeform')
-    
-        grid = np.array(vertices_grid)
-    
-        self.modelbond=[grid[:,0].min(),grid[:,0].max(),
-                        grid[:,1].min(),grid[:,1].max(),
-                        grid[:,2].min(),grid[:,2].max()]
-        #print self.modelbond
-    
-        vertices_line = []#np.array(vertices_elem['line'])
-        vertices_quad = [] #np.array(vertices_elem_input['quad'])
-        vertices_hex =  [] #np.array(vertices_elem_input['hex'])
-        vertices_grid = grid
-
-'''
-class Model3dPanel(wx.Panel):
-    def __init__(self,parent = None,id=-1,model=None):
-        wx.Panel.__init__(self,parent, id, style = wx.NO_FULL_REPAINT_ON_RESIZE)
-        self.model = model
-        ## add opengl windows to the frame
-        box = wx.BoxSizer(wx.HORIZONTAL)
-        glwindow = FEM_3D_window(self,self.model)
-        box.Add(glwindow, 1,wx.EXPAND)
-
-        self.SetAutoLayout(True)
-        self.SetSizer(box)
-        self.Layout()
+    def DrawNodalTie(self,event=None):
         
-        self.Show(True)
-
-    def OnRefresh(self,event):
-        global vertices_line
-        global vertices_quad
-        global vertices_hex
-        global vertices_grid
-        vertices_grid = []
-        # distill grids
-        temp =coordlist.get_nodetable('nodeform',1)
-        vertices_grid.extend(temp)
-    
-        vertices_elem = {}
-        vertices_elem['line'] = []
-        vertices_elem['quad'] = []
-        vertices_elem['hex'] = []
-    
-    
-        vertices_elem = connlist.get_elemtable(coordlist,vertices_elem,'nodeform')
-    
-        grid = np.array(vertices_grid)
-    
-        self.modelbond=[grid[:,0].min(),grid[:,0].max(),
-                        grid[:,1].min(),grid[:,1].max(),
-                        grid[:,2].min(),grid[:,2].max()]
-        #print self.modelbond
-    
-        vertices_line = []#np.array(vertices_elem['line'])
-        vertices_quad = [] #np.array(vertices_elem_input['quad'])
-        vertices_hex =  [] #np.array(vertices_elem_input['hex'])
-        vertices_grid = grid
-
-'''
-
+        n_tie=len(self.model.vertices_nodaltie)
+        glColor(self.intepcolor(self.settings['color']['nodaltie']))
+        glVertexPointerd(self.model.vertices_nodaltie) 
+        glDrawArrays(GL_LINES, 0, n_tie)      
+        
+    def DrawElements(self,event=None):
+        """ Draw fem elements based on preseetings """
+        
+        glPointSize(1)
+        glColor(self.intepcolor(self.settings['color']['element']))
+        
+        if 'line' in self.model.vertices_elem.keys() :
+            vertices_line = self.model.vertices_elem['line']
+            n_line=len(vertices_line)
+            if n_line >0 :
+                glVertexPointerd(vertices_line)           
+                glDrawArrays(GL_LINES, 0, n_line)
+        
+        if 'quad' in self.model.vertices_elem.keys():
+            vertices_quad = self.model.vertices_elem['quad']
+            n_quad=len(vertices_quad)
+            if n_quad >0:
+                glPolygonMode(GL_FRONT_AND_BACK,GL_LINE)
+                glVertexPointerd(vertices_quad)
+                glDrawArrays(GL_QUADS, 0, n_quad)
 
 if __name__ == '__main__':
 
@@ -363,16 +316,22 @@ if __name__ == '__main__':
                 [1,0,0],
                 [2,0,0],
                 [3,0,0],
-                [3,0,0],
-                [5,0,0]])
+                [4,0,0],
+                [5,0,0],
+                [5,2,0]])
     
     # create element
     model1.element([[1,2],
                     [2,3],
                     [3,4]])
+    model1.nodaltie('in plate','marc_rbe2',paralib={'tietype':'fix',
+                                                        'retnode':7,
+                                                        'tienodelist':[6]})
     app = wx.App()
     f1 = wx.Frame(None)
     p1 = FEM_3D_window(f1,model=model1)
+
+        
     f1.Show()
 
     app.MainLoop()

@@ -596,7 +596,8 @@ class model():
     
     
     def gl_get_nodetable(self):
-        return self.nodelist.coordtable
+        self.vertices_grid = np.array(self.nodelist.coordtable)
+        #return self.nodelist.coordtable
     
     def gl_get_modelbound(self):
         minmax = self.nodelist.get_maxmin()
@@ -633,4 +634,33 @@ class model():
                 vertices_elem['quad'].extend(out)
             elif len(out) == 8:
                 vertices_elem['hex'].extend(out)
-        return vertices_elem   
+                
+        for key,item in vertices_elem.items():
+            vertices_elem[key] = np.array(item)
+            
+        self.vertices_elem = vertices_elem  
+        #return vertices_elem
+    def gl_get_nodaltietable(self):
+        if len(self.nodaltielist.items()) > 0:
+            vertices_nodaltie_seq = []
+            for key, item in self.nodaltielist.items():
+                
+                if 'retnode' in item.__dict__ and 'tienode' in item.__dict__:
+                    vertices_nodaltie_seq.extend([item.retnode,item.tienode])
+                
+                elif 'retnode' in item.__dict__ and 'tienodelist' in item.__dict__:
+                    if type(item.tienodelist) == type([1,2,3]):
+                        vertices_nodaltie_seq.extend(item.get_parlist())
+                    else:
+                        for nodeseq in self.setlist[item.tienodelist].nodelist:
+                            vertices_nodaltie_seq.extend([item.retnode,nodeseq])
+                    
+                                        
+            vertices_nodaltie = []
+            for nodeseq in vertices_nodaltie_seq:
+                vertices_nodaltie.append(self.nodelist.itemlib[nodeseq].xyz)
+                
+            self.vertices_nodaltie = np.array(vertices_nodaltie)
+        
+        else:
+            self.vertices_nodaltie = []
