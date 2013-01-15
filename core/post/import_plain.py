@@ -19,13 +19,14 @@ class import_plain():
         if fkey == None:
             fkey = os.path.split(fullfilepath)[-1]
             if '.' in fkey:
-                fkey = fkey.split('.')[0]
+                fkey,ftype = fkey.split('.')
+                
                 i = 2
                 while fkey in self.filedict.keys():
                     fkey = os.path.split(fullfilepath)[-i] + '_' +fkey
                     i += 1
                 
-            self.filedict[fkey] = {'path':fullfilepath}
+            self.filedict[fkey] = {'path':fullfilepath,'type':ftype}
         return fkey
     
     def readinall(self):
@@ -33,14 +34,27 @@ class import_plain():
             self.readin(key)
     
     def readin(self,fkey,delimiter=',',header='',formatarray=None):
+        ''' readin the file content'''
+        
+        # set delimiter based on file extension
+        if self.filedict[fkey]['type'] == 'csv':
+            delimiter=','
+            
+        elif self.filedict[fkey]['type'] == 'out':
+            delimiter=' '
+        
+        # read in file
         cr = csv.reader(open(self.filedict[fkey]['path'],'rb'), delimiter=delimiter)
         
+        # initial data
         n = 1
         datalist = []
         labellist = []
         unitlist = []
+        
+        
+        # readin
         for line in cr:
-            
             if n == 1 and 'label' in header:
                 labellist = line
             elif n == 1 and 'unit' in header:
@@ -72,7 +86,13 @@ class import_plain():
                 
                 if len(datatemp) > 0:
                     datalist.append(datatemp)
-                
+        
+        # add default label
+        if len(labellist) == 0:
+            labellist = ['col_'+str(i) for i in range(0,len(datalist[0]))]
+        
+        if len(unitlist) == 0:
+            unitlist =  ['N/A' for i in range(0,len(datalist[0]))]
         self.filedict[fkey]['labellist'] = labellist
         self.filedict[fkey]['unitlist'] = unitlist
         self.filedict[fkey]['data'] = np.array(datalist)

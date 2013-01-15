@@ -215,6 +215,8 @@ class ex_Marc():
         return exp
         
 
+
+
     def ex_sec_single(self,key,sec,mat=None,mode=None):
         exp = ''
         if sec.__class__.__name__ == 'shell_section':
@@ -226,14 +228,40 @@ class ex_Marc():
         #    exp = self.geometry.truss3d()
         return exp
     
-
+    
+    def DOF_string_to_int(self,inputstr,ndm=3):
+        if inputstr.strip() == 'x' or inputstr.strip() == 'X':
+            return 1
+        elif inputstr.strip() == 'y' or inputstr.strip() == 'Y':
+            return 2
+        elif inputstr.strip() == 'z' or inputstr.strip() == 'Z':
+            if ndm == 3:
+                return 3
+        else:
+            raise TypeError,('Degree of freedom string ',inputstr, ' do not defined')
+         
+    
     def ex_nodaltie_single(self,key,nodaltie):
         exp = ''
         if nodaltie.__class__.__name__ == 'marc_rbe2':
-            exp = self.nodaltie.rbe2(nodaltie.tietype,nodaltie.tieid,nodaltie.retnode,nodaltie.tienodelist)
+            
+            # adjust the nodelist seq for output
+            if type(nodaltie.tienodelist) == type([1,2,3]):
+                tienodelist = []
+                for nodeseq in nodaltie.tienodelist:
+                    tienodelist.append(self.node_seq[nodeseq]) 
+            else: # setname input
+                tienodelist = nodaltie.tienodelist
+            
+            exp = self.nodaltie.rbe2(key,nodaltie.tietype,nodaltie.tieid,self.node_seq[nodaltie.retnode],tienodelist)
             
         elif nodaltie.__class__.__name__ == 'onetoonespring':
-            exp = self.nodaltie.rbe2()
+            if nodaltie.tietype == '':
+                tietype = 'fixed_dof'
+            else:
+                tietype = nodaltie.tietype
+                
+            exp = self.nodaltie.spring(key,tietype,nodaltie.tieid,self.DOF_string_to_int(nodaltie.DOF),self.node_seq[nodaltie.retnode],nodaltie.stiff,self.node_seq[nodaltie.tienode]) #tietype,tieid,DOF,retnode,stiff,tienode=None)
             
         elif nodaltie.__class__.__name__ == 'onetoonetie':
             exp = self.geometry.truss3d(key,sec.para['area'])
@@ -300,8 +328,8 @@ class ex_Marc():
         if len(job.reqresultslist) > 0:            
             exp += self.jobop.req_result(key,job.reqresultslist)
         
-        if job.submit == True:
-            exp += self.jobop.submit_job(key)
+        if job.submit == True or job.submit == False:
+            exp += self.jobop.submit_job(key,job.submit)
         return exp
     
 class modeldb():
@@ -740,13 +768,13 @@ class node_ties():
         return inputstr 
         
         
-    def rbe2(self,tietype,tieid,retnode,tienodelist):
+    def rbe2(self,name,tietype,tieid,retnode,tienodelist):
         '''
         create rbe2
         '''
         inputstr = ''
         inputstr += "*new_rbe2\n"  
-        inputstr += "*rbe2_name reb2_%s_%s\n" % (tieid,tietype)
+        inputstr += "*rbe2_name reb2_%s\n" % (name)
 
         if tietype=='pin':
            inputstr += "*rbe2_tied_dof 1\n"
@@ -774,7 +802,14 @@ class node_ties():
            inputstr += "*rbe2_tied_dof 3\n"
            inputstr += "*rbe2_tied_dof 4\n"
            inputstr += "*rbe2_tied_dof 5\n"
-
+        
+        elif tietype=='spring_Y':
+           inputstr += "*rbe2_tied_dof 1\n"
+           inputstr += "*rbe2_tied_dof 3\n"
+           inputstr += "*rbe2_tied_dof 4\n"
+           inputstr += "*rbe2_tied_dof 5\n"
+           inputstr += "*rbe2_tied_dof 6\n"
+           
         elif tietype=='RX':
            inputstr += "*rbe2_tied_dof 4\n"
            
@@ -783,6 +818,7 @@ class node_ties():
         if type(tienodelist) == type([]):   # nodelist
             for nodeid in tienodelist:
                 inputstr += "*add_rbe2_tied_nodes %s # \n" % nodeid
+                
         elif type(tienodelist) == type(''):  # setname
             inputstr += "*add_rbe2_tied_nodes %s # \n" % tienodelist
         else:
@@ -790,7 +826,7 @@ class node_ties():
         inputstr += "#\n"
         return inputstr   
 
-    def  spring(self,tietype,tieid,DOF,retnode,stiff,tienode=None):
+    def  spring(self,name,tietype,tieid,DOF,retnode,stiff,tienode=None):
         '''
         Create spring,
         Three type, ture-direciton,fixed_dof, and link to ground
@@ -805,7 +841,7 @@ class node_ties():
     
             inputstr += "*link_class spring *spring_dof 0 %i\n" % DOF
             inputstr += "*link_class spring *spring_dof 1 %i\n" % DOF
-            inputstr += "*link_class spring *spring_param stiffness %g\n" % k
+            inputstr += "*link_class spring *spring_param stiffness %g\n" % stiff
             inputstr += "*link_class spring *spring_option spring_type:fixed_dof\n"
             inputstr += "*link_class spring *spring_node 0\n"
             inputstr += "%i\n" % tienode
@@ -1581,18 +1617,25 @@ class jobop():
         for i in range(0,len(require)):
             inputstr += "*add_post_var\n "
             inputstr += "%s \n" % require[i]
+        
+        # ask for both t16 and t19 results files
+        inputstr += '*job_option post:both\n'
         return inputstr
     
-    def submit_job(self,name):
+    def submit_job(self,name,ifsubmit=True):
         '''
         submit a job
         '''
         inputstr = "*save_as_model model1.mud yes\n"
         inputstr += "*edit_job\n"
         inputstr += name +'\n'
-        inputstr += "*submit_job 1 *monitor_job\n"
         
-        #inputstr += "*post_open_default\n"
+        # select common solver for matrix
+        inputstr += '*job_option solver:mfront_sparse\n'
+        
+        if ifsubmit:
+            inputstr += "*submit_job 1 *monitor_job\n"
+            #inputstr += "*post_open_default\n"
         return inputstr     
    
 class post():

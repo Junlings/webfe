@@ -1,4 +1,5 @@
-import os
+from __future__ import division
+#import os
 import numpy as np
 
 from core.model.registry import model
@@ -13,13 +14,12 @@ from math import atan
 
 
 
-def pole_contact_plate(model,name,centercoord,length,width,bottomheight,platezloc,stiffness):
+def pole_contact_plate(model1,name,centercoord,length,width,plateyloc,stiffness,spring=True):
     """ This procedure add the contact plate in the model for use as either support or loading
          name: plate set name
          centercoord: center coordinates of the plate center [x,y,z]
          length: length of contact plate in x direction
          width: widtb of the contact plate in y direction
-         bottomheight: the height above which shall be included in the node range
          platezloc: location of the plate
          stiffness: stiffness of the connection springs
     """
@@ -28,49 +28,55 @@ def pole_contact_plate(model,name,centercoord,length,width,bottomheight,platezlo
     xcenter,ycenter,zcenter = centercoord
     xmin = xcenter - length/2.0
     xmax = xcenter + length/2.0
-    ymin = ycenter - width/2.0
-    ymax = ycenter + width/2.0
-    zmin = min(zcenter,platezloc)
-    zmax = max(zcenter,platezloc)
+    ymin = min(ycenter,plateyloc)
+    ymax = max(ycenter,plateyloc)
+    zmin = zcenter - width/2.0
+    zmax = zcenter + width/2.0
     
-    pnodelist = model.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
-    model.nodeset(name,{'nodelist':pnodelist})
-    
-    #  add additonal nodes on plate and create springs
-    nodecoordlist = []
-    for nodeseq in pnodelist:
-        xyz = model.nodelist.itemlib[nodeseq].xyz
-        nodecoordlist.append([xyz[0],xyz[1],plateloc])
-    
-    snodeseq = model.node(nodecoordlist,setname='in_plate_nodes')
+    pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
+    model1.nodeset(name,{'nodelist':pnodelist})
     
     
-    # add plate center node and tie this node to all nodes in plate
-    cnodeseq = model.node([centercoord]) 
-    
-    model.nodaltie('in plate','marc_rbe2',paralib={'tietype':'fix',
-                                                        'retnode':cnodeseq,
-                                                        'tienodelist':'in_plate_nodes'})
-    
-
-    # add springs
-    nodei = 0
-    for nodeseq in pnodelist:
-
-        springname = 'spring_'+str(nodeseq)
+    if spring:
+        #  add additonal nodes on plate and create springs
+        nodecoordlist = []
+        for nodeseq in pnodelist:
+            xyz = model1.nodelist.itemlib[nodeseq].xyz
+            nodecoordlist.append([xyz[0],plateyloc,xyz[2]])
         
-        model.nodaltie(springname,'onetoonespring',paralib={'tietype':'',
-                                                        'retnode':nodeseq,
-                                                        'tienode':snodeseq + nodei,
-                                                        'stiff':stiffness,
-                                                        'DOF':'z'})    
-        nodei += 1
+        snodeseq = model1.node(nodecoordlist,setname=name+'_plate')
         
+        
+        # add plate center node and tie this node to all nodes in plate
+        cnodeseq = model1.node([[centercoord[0],plateyloc,centercoord[2]]],setname=name+'_plate_center') 
     
-    return model
+        model1.nodaltie(name,'marc_rbe2',paralib={'tietype':'fix',
+                                                            'retnode':cnodeseq+1,
+                                                            'tienodelist':name+'_plate'})
+    
+    
+        # add springs
+        nodei = 1
+        for nodeseq in pnodelist:
+    
+            springname = 'spring_'+str(nodeseq)
+            
+            model1.nodaltie(springname,'onetoonespring',paralib={'tietype':'fixed_dof',
+                                                            'retnode':nodeseq,
+                                                            'tienode':snodeseq + nodei,
+                                                            'stiff':stiffness,
+                                                            'DOF':'y'})
+            #model1.nodaltie(name+str(nodei),'marc_rbe2',paralib={'tietype':'spring_Y',
+            #                                                'retnode':nodeseq,
+            #                                                'tienodelist':[snodeseq + nodei]})
+            nodei += 1
+        
+        return model1
+    
+    else:
+        return model1
 
-
-def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='yz'):
+def pole_extend(model1,setname,targetendcoord,incrementlength,center=(0,0),mode='yz'):
     """ extend the selected set nodelist to one side by length of "length" and disp of "increment"
         setname: setname of the selected nodes
         targetendcoord: the end of the extend, also determine the direction
@@ -80,7 +86,7 @@ def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='
     
     """
     
-    nodedict = model.select_coordinates_setname(setname)
+    nodedict = model1.select_coordinates_setname(setname)
     nodecoordlist = []
     xcoordlist = []
     
@@ -128,7 +134,7 @@ def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='
             z = nodecoordlist[j,2]
             newnodelist.append([x,y,z])
     
-    nolist = model.node(newnodelist,setname='extension_nodes_'+setname) + 1
+    nolist = model1.node(newnodelist,setname='extension_nodes_'+setname) + 1
     
     # create elements
     newelemlist = []
@@ -165,11 +171,11 @@ def pole_extend(model,setname,targetendcoord,incrementlength,center=(0,0),mode='
                     n2 = nolist + 0 + nodeidincr * (i)               
                 newelemlist.append([int(n1),int(n2),int(n3),int(n4)])    
             
-    elemnolist = model.element(newelemlist,setname='extension_elements_'+setname)
+    elemnolist = model1.element(newelemlist,setname='extension_elements_'+setname)
     
     print "Extension nodes and elements created"
     
-    return model
+    return model1
 
 def process_pole_dat(model1,fullfilename,dentpercent=0.5):
     ''' process the pole marc dat file
@@ -283,6 +289,7 @@ def process_pole_dat(model1,fullfilename,dentpercent=0.5):
     
     print "Element set Created: %s # 'Full Surface' and %s # 'dentelems'" % (len(Allelements),len(dentelemlist))
 
+    return model1
 
 def add_material(model1):
     ''' this is the defination of the steel and aluminum material'''
@@ -357,3 +364,65 @@ def PoleModeling(model1):
     model1.job('job1','static_job',{'loadcaselist':['loadcase0','loadcase1'],'submit':False,'reqresultslist':['stress','total_strain','plastic_strain']})
     
     return model1
+
+
+def add_support(model1,name,xcenter,ycenter,zcenter,length,width):
+    # select supporting plate
+    plateyloc = -1e6  # a big number to simulate the ground
+    xmin = xcenter - length/2.0
+    xmax = xcenter + length/2.0
+    ymin = min(ycenter,plateyloc)
+    ymax = max(ycenter,plateyloc)
+    zmin = zcenter - width/2.0
+    zmax = zcenter + width/2.0
+    
+    pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
+    model1.nodeset(name,{'nodelist':pnodelist})    
+    
+    model1.disp(name,{'xyz':[1,1,1,1,1,1],'DOF':6,'scalar':0,'setnamelist':[name]})
+    
+    return model1
+
+def pole_bending_modeling(model1,leftsupportx,rightsupportx,supporty,leftplatecenterx,rightplatecenterx,plateheighty,lengthx,heighty,stiffness):
+    """ continue with pole_extend command and add support and load plate """
+    
+    
+    # add loading plate
+    model1 = pole_contact_plate(model1,'rightloadplate',(rightplatecenterx,heighty,0),lengthx,1000,plateheighty,stiffness)
+    model1 = pole_contact_plate(model1,'leftloadplate',(leftplatecenterx,heighty,0),lengthx,1000,plateheighty,stiffness)
+    
+    
+    # add support
+    model1 = add_support(model1,'leftsupport',leftsupportx,supporty,0,lengthx * 2,10000)  # due to fact that only one side of plate will be selected
+    model1 = add_support(model1,'rightsupport',rightsupportx,supporty,0,lengthx * 2,10000) # big width number to seelct all nodes
+       
+    
+    model1 = add_material(model1)
+    
+    model1.load('leftrightload',{'xyz':[0,1,0,0,0,0],'DOF':6,'scalar':-1,'setnamelist':['leftloadplate_plate_center','rightloadplate_plate_center']}) 
+
+    model1.section('sec_1','shell_section',{'thickness':0.1875})
+
+    
+    model1.property('prop1','quad4',{'type':75,'thinkness':0.01})
+    model1.property('prop_dent','quad4',{'type':75})
+    
+    
+    model1.elemset_sub_setname('surface_elements','dentelems')
+    
+    model1.link_prop_conn('prop1',setnamelist=['surface_elements-dentelems'])
+    model1.link_prop_conn('prop_dent',setnamelist=['dentelems','extension_elements_surface_leftend','extension_elements_surface_rightend'])
+    
+    model1.link_sec_prop('sec_1','prop1')
+    model1.link_sec_prop('sec_1','prop_dent')
+    
+    # associate the material
+    model1.link_mat_prop('pole_alum','prop1')
+    model1.link_mat_prop('pole_alum_dent','prop_dent')
+    
+    model1.loadcase('loadcase1','static_arclength',{'boundarylist':['leftsupport','rightsupport','leftrightload'],'para':{'nstep':1}})
+    
+    #model1.job('job1','static_job',{'loadcaselist':['loadcase0','loadcase1'],'submit':True,'reqresultslist':['stress','total_strain','plastic_strain']})
+    model1.job('job1','static_job',{'loadcaselist':['loadcase0','loadcase1'],'submit':False,'reqresultslist':['stress','total_strain','plastic_strain']})
+    
+    return model1    

@@ -20,13 +20,47 @@ class PoleDiag(xrcPoleDiag):
         
         self.Bind(wx.EVT_CHECKBOX, self.OnExtend, self.IF_EXTEND)
         self.Bind(wx.EVT_CHECKBOX, self.OnProc, self.IF_PROCEDURE )
-
+        
+        self.Bind(wx.EVT_RADIOBUTTON,self.FourPointCheck,self.CHECK_BENDPROC)
+        self.Bind(wx.EVT_RADIOBUTTON,self.BendCheck,self.CHECK_MONPROC)
+        
         self.RIGHTEND_XCOORD.Enable(False)
         self.LEFTEND_XCOORD.Enable(False)
         self.LENGTH_INCR.Enable(False)
         self.CHECK_MONPROC.Enable(False)
         self.CHECK_BENDPROC.Enable(False)              
-
+        self.PARA_leftsupportx.Enable(False)   
+        self.PARA_rightsupportx.Enable(False)   
+        self.PARA_supporty.Enable(False)   
+        self.PARA_leftplatecenterx.Enable(False)   
+        self.PARA_rightplatecenterx.Enable(False)   
+        self.PARA_plateheighty.Enable(False)   
+        self.PARA_lengthx.Enable(False)   
+        self.PARA_heighty.Enable(False)   
+        self.PARA_stiffness.Enable(False)   
+    
+    def BendCheck(self,event):
+        self.PARA_leftsupportx.Enable(False)   
+        self.PARA_rightsupportx.Enable(False)   
+        self.PARA_supporty.Enable(False)   
+        self.PARA_leftplatecenterx.Enable(False)   
+        self.PARA_rightplatecenterx.Enable(False)   
+        self.PARA_plateheighty.Enable(False)   
+        self.PARA_lengthx.Enable(False)   
+        self.PARA_heighty.Enable(False)   
+        self.PARA_stiffness.Enable(False)         
+        
+    def FourPointCheck(self,event):
+        self.PARA_leftsupportx.Enable(True)   
+        self.PARA_rightsupportx.Enable(True)     
+        self.PARA_supporty.Enable(True)    
+        self.PARA_leftplatecenterx.Enable(True)      
+        self.PARA_rightplatecenterx.Enable(True)     
+        self.PARA_plateheighty.Enable(True)      
+        self.PARA_lengthx.Enable(True)      
+        self.PARA_heighty.Enable(True)      
+        self.PARA_stiffness.Enable(True)             
+        
     def OnExtend(self,event):
         if self.IF_EXTEND.IsChecked():
             self.RIGHTEND_XCOORD.Enable(True)
@@ -51,9 +85,9 @@ class PoleDiag(xrcPoleDiag):
         fullpath = self.PoleFile.GetValue()
         dentperc = self.SLIDE_DENTPER.GetValue()
         procname = ''
-        if self.CHECK_MONPROC.GetValue() == 'True':
+        if self.CHECK_MONPROC.GetValue() == True:
             procname = 'curvature'
-        if self.CHECK_BENDPROC.GetValue() == 'True':
+        if self.CHECK_BENDPROC.GetValue() == True:
             procname = 'fullbending'
 
         rightend_xcoord = self.RIGHTEND_XCOORD.GetValue()
@@ -61,14 +95,28 @@ class PoleDiag(xrcPoleDiag):
         incrlength = self.LENGTH_INCR.GetValue()
         ifextend = self.IF_EXTEND.IsChecked()
         
+        self.Hide()
+        
         if ifextend:
             pub.sendMessage("COMMAND", "*procedure_poledent,%s,%s,%s,%s,%s,%s" % (fullpath,dentperc,procname, rightend_xcoord,leftend_xcoord,incrlength))
         else:
             pub.sendMessage("COMMAND", "*procedure_poledent,%s,%s,%s" % (fullpath,dentperc,procname))
         
         
+        if procname == 'fullbending':
+            pub.sendMessage("COMMAND", "*procedure_poledent_fourpoint,%s,%s,%s,%s,%s,%s,%s,%s,%s" % (
+                self.PARA_leftsupportx.GetValue(),
+                self.PARA_rightsupportx.GetValue(),     
+                self.PARA_supporty.GetValue(),  
+                self.PARA_leftplatecenterx.GetValue(),
+                self.PARA_rightplatecenterx.GetValue(),
+                self.PARA_plateheighty.GetValue(),
+                self.PARA_lengthx.GetValue(),
+                self.PARA_heighty.GetValue(),
+                self.PARA_stiffness.GetValue())  
+            )
         
-        self.Destroy()
+        #self.Destroy()
     
     
     def OnFileSelect(self,event):

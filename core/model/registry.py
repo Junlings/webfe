@@ -152,7 +152,7 @@ class model():
         return self.get(self.get_material(matname),prop)
     
     # ======================= Start model construction function ==========
-    def node(self,list,setname='default'):
+    def node(self,nlist,setname='default'):
         ''' create list of coordinate instance and add to nodelist
             input:
                 list --  node location list [[x1,y1,z1],[x2,y2,z2],..,[xn,yn,zn]]
@@ -165,7 +165,7 @@ class model():
         no = nn
         tempnode = []
         tempnodeseqlist = []
-        for item in list:
+        for item in nlist:
             nn += 1
             dseq = None
             # convert to the desired numpy array format
@@ -186,11 +186,12 @@ class model():
                 raise ValueError,('input node coordinates',item,
                                   'can not convert to numpy float array')
             if dseq == None:
-                tempnode.append(coordinate(item,seq=nn))
+                seq = nn
             else:
-                tempnode.append(coordinate(item,seq=dseq))
-                
-            tempnodeseqlist.append(nn)
+                seq = dseq
+            
+            tempnode.append(coordinate(item,seq=seq))   
+            tempnodeseqlist.append(seq)
             
         if setname not in self.setlist.keys():
             self.nodeset(setname,{'nodelist':tempnodeseqlist})

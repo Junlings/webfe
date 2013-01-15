@@ -46,6 +46,15 @@ class xrcPoleDiag(wx.Dialog):
         self.LENGTH_INCR = xrc.XRCCTRL(self, "LENGTH_INCR")
         self.CHECK_MONPROC = xrc.XRCCTRL(self, "CHECK_MONPROC")
         self.CHECK_BENDPROC = xrc.XRCCTRL(self, "CHECK_BENDPROC")
+        self.PARA_leftsupportx = xrc.XRCCTRL(self, "PARA_leftsupportx")
+        self.PARA_rightsupportx = xrc.XRCCTRL(self, "PARA_rightsupportx")
+        self.PARA_supporty = xrc.XRCCTRL(self, "PARA_supporty")
+        self.PARA_leftplatecenterx = xrc.XRCCTRL(self, "PARA_leftplatecenterx")
+        self.PARA_rightplatecenterx = xrc.XRCCTRL(self, "PARA_rightplatecenterx")
+        self.PARA_plateheighty = xrc.XRCCTRL(self, "PARA_plateheighty")
+        self.PARA_lengthx = xrc.XRCCTRL(self, "PARA_lengthx")
+        self.PARA_heighty = xrc.XRCCTRL(self, "PARA_heighty")
+        self.PARA_stiffness = xrc.XRCCTRL(self, "PARA_stiffness")
         self.PoleProcess = xrc.XRCCTRL(self, "PoleProcess")
 
 
@@ -214,7 +223,7 @@ def __init_resources():
                   <growablecols>1</growablecols>
                   <object class="sizeritem">
                     <object class="wxStaticText">
-                      <label>Genrate Bending Proc</label>
+                      <label>Genrate Pure Bending</label>
                     </object>
                   </object>
                   <object class="sizeritem">
@@ -224,7 +233,7 @@ def __init_resources():
                   </object>
                   <object class="sizeritem">
                     <object class="wxStaticText">
-                      <label>Generate full modeling</label>
+                      <label>Generate four point bending</label>
                     </object>
                   </object>
                   <object class="sizeritem">
@@ -237,6 +246,116 @@ def __init_resources():
               </object>
             </object>
             <flag>wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxStaticBoxSizer">
+                  <label>Support Plate</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxGridSizer">
+                      <cols>2</cols>
+                      <rows>3</rows>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>left Support X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_leftsupportx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>right Support X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_rightsupportx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Support Y</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_supporty"/>
+                      </object>
+                      <vgap>5</vgap>
+                      <hgap>5</hgap>
+                    </object>
+                  </object>
+                </object>
+                <flag>wxEXPAND</flag>
+              </object>
+              <object class="sizeritem">
+                <object class="wxStaticBoxSizer">
+                  <label>Loading Plate</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxGridSizer">
+                      <cols>2</cols>
+                      <rows>6</rows>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>left load  X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_leftplatecenterx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>right load X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_rightplatecenterx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Load range Y</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_plateheighty"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Plate length (x)</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_lengthx"/>
+                      </object>
+                      <vgap>5</vgap>
+                      <hgap>5</hgap>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Plate height y</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_heighty"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>spring stiffness</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_stiffness"/>
+                      </object>
+                    </object>
+                  </object>
+                </object>
+                <flag>wxEXPAND</flag>
+              </object>
+            </object>
           </object>
           <object class="spacer">
             <size>20,20</size>

@@ -8,7 +8,7 @@ from core.model.registry import model
 from core.export.export import exporter
 from core.settings import settings
 from core.utility.fem.create_arcplane import create_cylinderSurface
-from core.procedures.p_poledent import process_pole_dat,PoleModeling, pole_extend
+from core.procedures.p_poledent import process_pole_dat,PoleModeling, pole_extend, pole_bending_modeling
 from core.export.export import exporter
 from core.post.import_marc_t16 import post_t16
 from core.post.import_plain import import_plain
@@ -107,7 +107,11 @@ class commandparser():
             leftxcoord = float(args[4])
             self.model = pole_extend(self.model,"surface_rightend",rightxcoord,float(args[5]))
             self.model = pole_extend(self.model,"surface_leftend",leftxcoord,float(args[5]))
-            
+
+    def procedure_poledent_fourpoint(self,*args):
+        leftsupportx,rightsupportx,supporty,leftplatecenterx,rightplatecenterx,plateheighty,lengthx,heighty,stiffness = map(float,args)
+        self.model = pole_bending_modeling(self.model,leftsupportx,rightsupportx,supporty,leftplatecenterx,rightplatecenterx,heighty,lengthx,plateheighty,stiffness)
+    
     def export_model(self,*args):
         fullpath = args[1]
         libtype = args[0]
