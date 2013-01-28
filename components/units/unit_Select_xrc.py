@@ -64,7 +64,7 @@ def __init_resources():
           <object class="sizeritem">
             <object class="wxGridSizer">
               <cols>2</cols>
-              <rows>2</rows>
+              <rows>4</rows>
               <object class="sizeritem">
                 <object class="wxStaticText">
                   <label>System</label>
@@ -112,7 +112,7 @@ def __init_resources():
         <border>5</border>
       </object>
     </object>
-    <style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_MODAL</style>
+    <style>wxDEFAULT_DIALOG_STYLE</style>
   </object>
 </resource>'''
 

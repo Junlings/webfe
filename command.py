@@ -180,6 +180,14 @@ class commandparser():
         parlist = args[1:]
         self.results.add_plotdata_command(key,parlist) #plotkey,tablekey,pairidlist,mode='xy')
     
+    def plot_edit_tdb_table_unit(self,*args):
+        ''' modify the column unit label for sepcify table and col'''
+        tablename = args[0]
+        col_id_start,col_id_end = map(int,args[1].split(':'))
+        unitlabel = args[2]
+        self.results.edit_unitlabel(tablename,col_id_start,col_id_end,unitlabel)
+    
+    
     def plot_figure_add(self,*args):
         self.results.add_figure(*self.strfiy(args))
     

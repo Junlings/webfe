@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
 import  wx
+from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import pub
 from unit_Select_xrc import xrcDIALOG1
 from core.plots.unitsystem import create_units
 class UnitSelectDiag(xrcDIALOG1):
     """ Tree Frane """
     def __init__(self, parent,row,col):
         xrcDIALOG1.__init__(self,parent)   # Call the function PreXXX where XXX is your wx base class
+        ModelNoteBook = parent.parent
+        self.tablename = ModelNoteBook.GetPageText(ModelNoteBook.GetSelection()).split(':')[1]
         self.unitsystem = create_units()
         self.unitdict = self.unitsystem.get_unit_dict()
         self.row = row
@@ -42,9 +46,13 @@ class UnitSelectDiag(xrcDIALOG1):
 
     def OnUnitLABEL(self,event):
         unitlabel = self.UNIT_LABEL.GetStringSelection()
-        self.Parent.grid.tableBase.SetValue(self.row,self.col,unitlabel)
-        self.Parent.grid.ForceRefresh()
         
+        original = self.Parent.grid.tableBase.GetValue(self.row,self.col)
+        if original != unitlabel:
+            self.Parent.grid.tableBase.SetValue(self.row,self.col,unitlabel)
+            self.Parent.grid.ForceRefresh()
+            pub.sendMessage("COMMAND", '*plot_edit_tdb_table_unit,%s,%s:%s,%s' % (self.tablename,self.row,self.row,unitlabel))
+            
     def getunit(self,event):
         unitlabel = self.UNIT_LABEL.GetStringSelection()
         return unitlabel

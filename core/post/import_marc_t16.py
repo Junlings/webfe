@@ -510,6 +510,7 @@ class post_t16:
         resdict = {}
         for incr in range(0,self.increment):
             self.p.moveto(incr)
+            print 'Start extract results from increment: ',incr
             
             for key,item in reqdict.items():
                 #print item

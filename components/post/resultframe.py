@@ -79,7 +79,7 @@ class ResultFrame(xrcResultFrame):
     
 
     def OnPageChanged(self, evt):
-        pageename = self.ModelNoteBook.GetPageText(evt.GetSelection())
+        pageename = self.ModelNoteBook.GetPageText(self.ModelNoteBook.GetSelection())
         ptype,pname = pageename.split(':')
         self.activepage = {'type':ptype,'key':pname}
         #print self.activepage

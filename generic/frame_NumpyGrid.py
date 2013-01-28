@@ -11,6 +11,9 @@ import numpy as np
 from generic_frame_simple import GenericFrameSimple
 from GUI_uti import textEntry
 from components.units.unit_select import UnitSelectDiag
+from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import pub
+
 
 class GenericTableNumpy(wx.grid.PyGridTableBase):
     """
@@ -92,7 +95,7 @@ class GenericTableNumpy(wx.grid.PyGridTableBase):
 
     def SetValue(self, row, col, value):
         ''' need to update here to call the command and refresh the grid '''
-        if row == 0:
+        if col == 0:
             self.unitlist[col] = str(value)
         else:
             self.data[row,col] = value
@@ -235,7 +238,10 @@ class NumpyGrid(wx.grid.Grid):
         for r in range(rows):
             for c in range(cols):
                 self.SetCellValue(self.GetSelectionBlockTopLeft()[0][0] + r, self.GetSelectionBlockTopLeft()[0][1] + c, '')
-                
+    
+    def GetValue(self,row,col):
+        return self.tableBase.GetValue(row,col)
+    
 class NumpyGridFrame(GenericFrameSimple):
     
     def __init__(self,parent,settings = {'title':'NumpyGridFrame','size':(500,500)}):
@@ -275,6 +281,7 @@ class NumpyGridPanel(wx.Panel):
     def __init__(self,parent):
         
         wx.Panel.__init__(self, parent,-1,style=wx.ALL|wx.EXPAND)
+        self.parent = parent
 
         self.grid = NumpyGrid(self,None)
         self.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnCellLeftClick)
@@ -287,13 +294,19 @@ class NumpyGridPanel(wx.Panel):
     
     def OnCellLeftClick(self, event):
         if event.GetRow() == 0:
+            
             row = event.GetRow()
             col = event.GetCol()
+            
             diag = UnitSelectDiag(self,col,row)
+            
 
             if diag.ShowModal() == wx.ID_OK:
                 unitlabel = diag.getunit()
-                self.SetValue(row,col,unitlabel)
+                if unitlabel != originalvalue:
+                    self.SetValue(row,col,unitlabel)
+                    pub.sendMessage("OnCommand", '*post_pdata_edit_unit,%s' % parent)
+     
 
         event.Skip()
         

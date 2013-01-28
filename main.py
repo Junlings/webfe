@@ -80,5 +80,15 @@ class MyApp(wx.App):
             
         
 if __name__ == '__main__':
-    app = MyApp(False)
-    app.MainLoop()
+    for arg in sys.argv:
+        print arg
+    
+    if '-f' in sys.argv:
+        commandsys = commandparser()
+        commandsys.macro_load(sys.argv[2])
+        
+
+        
+    else:
+        app = MyApp(False)
+        app.MainLoop()

@@ -181,8 +181,8 @@ setup(
               },
 
     zipfile = "lib\library.zip",
-    console = [],
-    windows = [GUI2Exe_Target_1]
+    console = [GUI2Exe_Target_1],
+    windows = []#GUI2Exe_Target_1]
     )
 
 # This is a place where any post-compile code may go.

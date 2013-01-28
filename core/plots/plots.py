@@ -113,11 +113,14 @@ class tpfdb():
         
         if pkey in self.pdb.keys():
             
+            self.pdb[pkey]['datalabelpair'].extend(keypairlist)
+            '''
             self.pdb[pkey] = {'datalabelpair':self.pdb[pkey]['datalabelpair'].extend(keypairlist),
                               'units':self.pdb[pkey]['units'].extend(units),
                               'xylabels':self.pdb[pkey],#.extend(xylabels),
                               'transform':self.pdb[pkey]['transform'].update(transform),
                               'masklist':self.pdb[pkey]['masklist'].extend(masklist)}
+            '''
         else:
             self.pdb[pkey] = {'datalabelpair':keypairlist,
                               'units':units,
@@ -279,7 +282,7 @@ class tpfdb():
             
             [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
             if not (uscale == 1 and ushift == 0):
-                sourcedata = sourcedata * uscale + ushift
+                sourcedata =   np.float64(uscale) * sourcedata  + ushift
                 
         # do transformation if needed
         
@@ -287,7 +290,7 @@ class tpfdb():
             if icurve in self.pdb[pkey]['transform'].keys():
                 if mode in self.pdb[pkey]['transform'][icurve].keys():
                     tscale,tshift = self.pdb[pkey]['transform'][icurve][mode]
-                    sourcedata = sourcedata * tscale + tshift
+                    sourcedata = np.float(tscale) * sourcedata  + tshift
         
         
         
@@ -311,7 +314,12 @@ class tpfdb():
     def add_style(stylekey):
         self.sdb[stylekey] = self.sdb['default']  # copy default
     
+    # ================== the modification functions API for GUI functions ===
     
+    
+    def edit_unitlabel(self,tablename,col_id_start,col_id_end,unitlabel):
+        self.tdb[tablename]['unitlist'][col_id_start:col_id_end+1] = unitlabel
+        
     # ===================following are drawing functions
     
     def add_figure(self,fskey,pkey,skey,ftype):

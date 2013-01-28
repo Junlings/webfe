@@ -135,11 +135,14 @@ def create_units():
     units.derive('cm',0.01,'m:1',sys='SI')
     units.derive('mm',0.001,'m:1',sys='SI')
     units.derive('in.',25.4,'mm:1',sys='US')
+    units.derive('Inches',25.4,'mm:1',sys='US')
+    units.derive('inches',25.4,'mm:1',sys='US')
     units.derive('ft',12,'in.:1',sys='US')
     units.derive('G',9.8,'m:1,s:-2',sys='SI')
     units.derive('N',1.0,'kg:1,G:1',sys='SI')
     units.derive('kN',1000.0,'N:1',sys='SI')
     units.derive('kip',4.448,'kN:1',sys='US')
+    units.derive('Kips',4.448,'kN:1',sys='US')
     units.derive('lbf',0.001,'kip:1',sys='US')
     units.derive('Pa',1,'N:1,m:-2',sys='SI')
     units.derive('MPa',1e6,'Pa:1',sys='SI')
@@ -164,6 +167,9 @@ def create_units():
     units.derive('strain',1,'m:0',sys='US|SI')
     units.derive('ms',1e-6,'strain:0',sys='US|SI')
     units.derive('microstrain',1e-6,'strain:0',sys='US|SI')
+    units.derive('Microstrain',1e-6,'strain:0',sys='US|SI')
+    
+
     #f = open('unit.pydat','w')
     #pickle.dump(units,f)
     return units
