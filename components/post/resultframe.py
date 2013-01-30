@@ -13,6 +13,7 @@ from components.plot.figurecreate import figurecreate
 from components.plot.plotframe import FigureFrame, CanvasPanel
 from components.post.postframe import PostDiag
 from components.post.plainframe import plainpost
+from components.plot.plotdatasetframe import PlotDataSetPanel
 
 def add_method(self, method, name=None):
     if name is None:
@@ -108,19 +109,27 @@ class ResultFrame(xrcResultFrame):
     def OnTreeActivate(self,event):
         pathlist = self.ResultTree.GetSelectionPath()
         
-        if pathlist[0] == 'Table':
-            f1 = NumpyGridPanel(self.ModelNoteBook)
-            f1.grid.update_grid(self.results.tdb[pathlist[1]])
-            self.ModelNoteBook.AddPage(f1, "Table:"+pathlist[1])
-            
-            #f2 = NumpyGridFrame(self.ModelNoteBook)
-            #f2.grid.update_grid(self.results.tdb[pathlist[1]])
-            #f2.Show()
-            
-
-        if pathlist[0] == 'Figure':
-            self.OnAddFigurePage(pathlist[1])
+        if len(pathlist) == 2:  # the root choice
+            if pathlist[0] == 'Table':
+                f1 = NumpyGridPanel(self.ModelNoteBook)
+                f1.grid.update_grid(self.results.tdb[pathlist[1]])
+                self.ModelNoteBook.AddPage(f1, "Table:"+pathlist[1])
+                
+                #f2 = NumpyGridFrame(self.ModelNoteBook)
+                #f2.grid.update_grid(self.results.tdb[pathlist[1]])
+                #f2.Show()
+                
     
+            elif pathlist[0] == 'Figure':
+                self.OnAddFigurePage(pathlist[1])
+            
+            elif pathlist[0] == 'Plot':
+                p1 = PlotDataSetPanel(self)
+                self.ModelNoteBook.AddPage(p1, "Plot Data:"+pathlist[1])
+            
+            else:
+                pass
+        
     def OnAddFigurePage(self,figurekey):
         mfigure = self.results.figurerealize(figurekey)
         f1 = CanvasPanel(self.ModelNoteBook,mfigure)

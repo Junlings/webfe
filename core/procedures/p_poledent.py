@@ -366,7 +366,7 @@ def PoleModeling(model1):
     return model1
 
 
-def add_support(model1,name,xcenter,ycenter,zcenter,length,width):
+def add_support(model1,name,xcenter,ycenter,zcenter,length,width,default=[1,1,1,0,0,0]):
     # select supporting plate
     plateyloc = -1e6  # a big number to simulate the ground
     xmin = xcenter - length/2.0
@@ -379,7 +379,7 @@ def add_support(model1,name,xcenter,ycenter,zcenter,length,width):
     pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
     model1.nodeset(name,{'nodelist':pnodelist})    
     
-    model1.disp(name,{'xyz':[1,1,1,1,1,1],'DOF':6,'scalar':0,'setnamelist':[name]})
+    model1.disp(name,{'xyz':default,'DOF':6,'scalar':0,'setnamelist':[name]})
     
     return model1
 
@@ -393,13 +393,14 @@ def pole_bending_modeling(model1,leftsupportx,rightsupportx,supporty,leftplatece
     
     
     # add support
-    model1 = add_support(model1,'leftsupport',leftsupportx,supporty,0,lengthx * 2,10000)  # due to fact that only one side of plate will be selected
-    model1 = add_support(model1,'rightsupport',rightsupportx,supporty,0,lengthx * 2,10000) # big width number to seelct all nodes
+    model1 = add_support(model1,'leftsupport',leftsupportx,supporty,0,lengthx * 2,10000,default=[1,1,1,0,0,0])  # due to fact that only one side of plate will be selected
+    model1 = add_support(model1,'rightsupport',rightsupportx,supporty,0,lengthx * 2,10000,default=[0,1,1,0,0,0]) # big width number to seelct all nodes
        
     
     model1 = add_material(model1)
+    model1.table('loadtable',1,['time'],[[0,0],[1,1]])
+    model1.load('leftrightload',{'xyz':[0,1,0,0,0,0],'DOF':6,'scalar':-1,'setnamelist':['leftloadplate_plate','rightloadplate_plate'],'tabletag':'loadtable'})
     
-    model1.load('leftrightload',{'xyz':[0,1,0,0,0,0],'DOF':6,'scalar':-1,'setnamelist':['leftloadplate_plate_center','rightloadplate_plate_center']}) 
 
     model1.section('sec_1','shell_section',{'thickness':0.1875})
 
@@ -420,7 +421,7 @@ def pole_bending_modeling(model1,leftsupportx,rightsupportx,supporty,leftplatece
     model1.link_mat_prop('pole_alum','prop1')
     model1.link_mat_prop('pole_alum_dent','prop_dent')
     
-    model1.loadcase('loadcase1','static_arclength',{'boundarylist':['leftsupport','rightsupport','leftrightload'],'para':{'nstep':1}})
+    model1.loadcase('loadcase1','static_arclength',{'boundarylist':['leftsupport','rightsupport','leftrightload'],'para':{'nstep':50}})
     
     #model1.job('job1','static_job',{'loadcaselist':['loadcase0','loadcase1'],'submit':True,'reqresultslist':['stress','total_strain','plastic_strain']})
     model1.job('job1','static_job',{'loadcaselist':['loadcase0','loadcase1'],'submit':False,'reqresultslist':['stress','total_strain','plastic_strain']})

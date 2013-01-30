@@ -72,7 +72,7 @@ class unit():
         ''' get the conversion factor that self/other = factor
         '''
         if not self.issamedim(other):
-            raise TypeError,("dimension do not match, conversion failed")           
+            raise TypeError,("dimension do not match, conversion failed between'",self.name,"'and'",other.name)           
         else:
             return [float(self.coef) / float(other.coef),
                     float(self.const) - float(other.const)]

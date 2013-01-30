@@ -293,14 +293,23 @@ class FEM_3D_window(wxGLWindow):
             if n_line >0 :
                 glVertexPointerd(vertices_line)           
                 glDrawArrays(GL_LINES, 0, n_line)
-        
+
         if 'quad' in self.model.vertices_elem.keys():
             vertices_quad = self.model.vertices_elem['quad']
-            n_quad=len(vertices_quad)
+            n_quad = len(vertices_quad)
             if n_quad >0:
                 glPolygonMode(GL_FRONT_AND_BACK,GL_LINE)
                 glVertexPointerd(vertices_quad)
                 glDrawArrays(GL_QUADS, 0, n_quad)
+
+
+        if 'hex' in self.model.vertices_elem.keys():
+            vertices_hex = self.model.vertices_elem['hex']
+            n_hex = len(vertices_hex)
+            if n_hex >0:
+                glPolygonMode(GL_FRONT_AND_BACK,GL_LINE)
+                glVertexPointerd(vertices_hex)
+                glDrawArrays(GL_QUADS, 0, n_hex)
 
 if __name__ == '__main__':
 

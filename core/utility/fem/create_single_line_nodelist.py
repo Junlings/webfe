@@ -2,11 +2,14 @@
 """ This module provide the way to create the coordinates """
 
 
-def create_single_line_nodecoord(model,coord_start,coord_end,N,
+def create_single_line_nodecoord(model1,coord_start,coord_end,N,
                                 nodesetname=None,
                                 elemsetname=None):
-    pass
-
+    ind = model1.node([coord_start,coord_end])
+    
+    model1 = create_single_line_nodelist(model1,ind+1,ind+2,N,nodesetname=nodesetname,elemsetname=elemsetname)
+    
+    return model1
 
 def create_single_line_nodelist(model,coord_start_seq,coord_end_seq,N,
                                 nodesetname=None,
@@ -55,7 +58,7 @@ def create_single_line_nodelist(model,coord_start_seq,coord_end_seq,N,
         step_y=((-Y_start+Y_end))/float(N)
         step_z=((-Z_start+Z_end))/float(N)
         
-
+        tempnodelist = []
         for i in range(1,N):
             tempnode = model.add_node([i*step_x+X_start,i*step_y+Y_start,i*step_z+Z_start],setname=nodesetname)
             #grid.append([i*step_x+X_start,i*step_y+Y_start,i*step_z+Z_start])

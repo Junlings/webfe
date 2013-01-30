@@ -31,8 +31,12 @@ class commandparser():
         """ Parser the input command """
         
         inputstr = inputstr.strip()
+        if len(inputstr) == 0:  # blank line
+            return 0
+        
         if inputstr[-1] == '\n':
             inputstr = inputstr[:-1]
+            
         print inputstr
         inputstrlist = inputstr.split(',')
         
@@ -185,11 +189,18 @@ class commandparser():
         tablename = args[0]
         col_id_start,col_id_end = map(int,args[1].split(':'))
         unitlabel = args[2]
-        self.results.edit_unitlabel(tablename,col_id_start,col_id_end,unitlabel)
+        self.results.edit_tdb_unitlabel(tablename,col_id_start,col_id_end,unitlabel)
     
     
     def plot_figure_add(self,*args):
         self.results.add_figure(*self.strfiy(args))
+        
+    def plot_figure_save(self,*args):
+        figurekey = args[0]
+        fileformat = args[1]
+        plotname = args[2]
+        
+        self.results.savefig(figurekey,fileformat,name=plotname)
     
     def macro_start(self):
         self.macro_start = len(self.commandhis)

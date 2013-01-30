@@ -1,17 +1,50 @@
-import numpy as np
+#!/usr/bin/env python
+""" This module define the data mask and operations to support decoration of plot column data """
+
+#import numpy as np
+
+SINGLE_OPERATION_OPTIONS = (
+    ('Shift','Shift'),                                     # shift certain amount
+    ('FlipSign','FlipSign'),                               # flip the sign of whole column data
+    ('CutStart','CutStart'),                               # delete the first few data points
+    ('CutEnd','CutEnd'),                                   # delete the last few data points
+    ('Scale','Scale'),                                     # scale the column data
+    ('StartUntilLargerThan','StartUntilLargerThan'),       # delete the first few data unit read large then certain amount
+)
+
+COOP_OPERATION_OPTIONS = (
+     ('Shift','Shift'),
+     ('FlipSign','FlipSign'),
+     ('CutStart','CutStart'),
+     ('CutEnd','CutEnd'),
+     ('Scale','Scale'),
+     ('CutNegative','CutNegative'),                        # cut the megative part of the column data, default mode 'X'
+     ('CutDrop','CutDrop'),                                # Cut the drop part of the pair data, default mode 'y'
+)
+
+
 
 def search_average(data,datanum,doorvalue,mode='LargerThan'):
-    ''' search the one dimension data when there are datanum of continuous data larger than doorvalue'''
+    ''' search the one dimension data when the average of these datanum of continuous data larger than doorvalue
+        data: column data in table
+        datanum : total number of data points
+        doorvalue: target values that compared to the data points
+        mode: define the select criteria average of "data point" mode "doorvalue"
+    
+    '''
     
     for i in range(0,data.shape[0]):
-        
         if np.average(data[i:i+datanum]) > doorvalue and mode =='LargerThan':
-        
             return i
     
     
 def search_continue(data,datanum,doorvalue,mode='LargerThan'):
-    ''' search the one dimension data when there are datanum of continuous data larger than doorvalue'''
+    ''' search the one dimension data when there are datanum of continuous data larger than doorvalue
+            data: column data in table
+        datanum : total number of data points
+        doorvalue: target values that compared to the data points
+        mode: define the select criteria "data point" mode "doorvalue"
+    '''
     count = 0
     for i in range(0,data.shape[0]):
         
@@ -24,32 +57,47 @@ def search_continue(data,datanum,doorvalue,mode='LargerThan'):
                 count = 0
 
 def search_drop(data,dropamount):
+    ''' search the data index when value of dropamount happen in the column data '''
     for i in range(data.shape[0]-1,1,-1):
         drop = float(data[i] - data[i-1])
-        #print drop,data[i],data[i-1]
         if  abs(drop) >  dropamount: 
                 return i-1
 
 class dmask():
+    ''' class to define the data mask'''
     def __init__(self,name,paralib):
-        self.name = name
-        self.paralib = paralib
+        self.name = name          # identification in the lib
+        self.paralib = paralib    # define the operation lib
     
-    
+
     # single column operation
     def operlist(self,coldata,operlist):
+        '''operate based on the operation list'''
         for oper in operlist:
             coldata = self.oper(coldata,oper)
             #print coldata
         return coldata
     
+    
+    def apply(self,*args):
+        ''' generic data operation '''
+        if len(args) == 1:
+            return self.oper(args[0])
+            
+        elif len(args) == 2:
+            return self.coop(args[0],args[1])
+             
+    
     def oper(self,coldata):
+        ''' single operation on input coldata '''
         oper = self.paralib
+        
         if oper['oper'] == 'Shift':
             newcoldata = coldata + oper['scalar']
             
         elif oper['oper'] == 'FlipSign':
-            newcoldata =  - coldata
+            #print coldata.shape
+            newcoldata =  -1 * coldata
         
         elif oper['oper'] == 'CutStart':
             newcoldata =  coldata[oper['scalar']:]
@@ -68,7 +116,9 @@ class dmask():
             
         else:
             raise KeyError,('Operation',oper['oper'], ' do not defined\n')
-            
+        
+        #print coldata
+        #print newcoldata
         return newcoldata
         
     
@@ -113,6 +163,11 @@ class dmask():
         
 
 
+def create_default():
+    ''' create commonly used default data masks'''
+    frequent_masklib = {}
+    frequent_masklib['col_flipsign'] = dmask('col_flipsign',{'oper':'FlipSign','scalar':None})
+    return frequent_masklib
 if __name__ == '__main__':
     import numpy as np
     
@@ -123,21 +178,13 @@ if __name__ == '__main__':
     a3 = np.array([1,2,3,4,5,6,8,9,0,1,2,3,4,5,6])
     print search_continue(a1,3,5,mode='LargerThan')
     print search_drop(a3,1)
-    '''
+
     m1 = dmask('d1',{'oper':'Shift','scalar':2})
-    operlist = [
-        {'oper':'shift','scalar':2},
-        {'oper':'flipsign'},
-        {'oper':'cutstart','scalar':2},
-        {'oper':'cutend','scalar':2}
-        
-        
-    ]
-    
-    a1 = m1.operlist(a1,operlist)
+
+    a1 = m1.oper(a1)
     print a1
     print 1
-    '''
+
     
     
         

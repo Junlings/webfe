@@ -333,6 +333,16 @@ class connlist():
                 
         return out_seqlist
         
+    def select_nodelist_elemlist(self,elemlist):
+        temp = []
+        for seq in self.seqlist:
+            if seq in elemlist :
+                temp.extend(self.itemlib[seq].nodelist)
+                
+        temp = list(set(temp))
+        
+        return temp
+        
             
         
     def select_elem_seq(self,seqlist):
@@ -377,7 +387,23 @@ class connlist():
             elemi = self.itemlib[seq]
             elemi.update_nodeseq(updatelist)
         
-        
+
+    def deletebylist(self,itemseqlist,update=False):
+        for item in itemseqlist:
+            self.delete(item,update=False)
+        self.update()
+
+    def delete(self,itemseq,update=True):
+        if itemseq in self.itemlib.keys():    
+            del self.itemlib[itemseq]   # sequence based dictionary keys
+        else:
+            raise KeyError,('The node with sequence:"',itemseq,
+                            '" do not exist')
+
+        if update == True:
+            # instance update list properties
+            self.update()
+            
 if __name__ == '__main__':
     
     n1 = node([1,1,1])

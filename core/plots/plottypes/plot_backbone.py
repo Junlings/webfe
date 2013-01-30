@@ -279,8 +279,32 @@ class plotbackbone():
         return [tunitx,tunity]
     
     
-    
-    def addPlot(self,axeskey,plotdata,datalabel=None,legend=True):
+
+    def addPlot(self,axeskey,plotdata,legend=True):
+        ax = self.axeslib[axeskey]
+        linehandle = []
+        labellist = []
+
+        for icurvekey in plotdata.curvekeylist:
+            icurve = plotdata.curvelib[icurvekey]
+            try:
+                style_in_use = self.presetting.linelib[icurve.ind]
+            except KeyError:
+                style_in_use = self.presetting.linelib['default']
+                
+            handle = ax.plot(icurve.xdata,icurve.ydata,**style_in_use) 
+            linehandle.append(handle) 
+        
+
+            labellist.append(icurve.legend)
+
+        
+        if legend == True:
+            ax.legend(labellist,**self.legendlib['default'])
+        # adjust limits if nesessary
+        self.linkLimitsall()
+        
+    def addPlotOld(self,axeskey,plotdata,datalabel=None,legend=True):
         ax = self.axeslib[axeskey]
         linehandle = []
         labellist = []

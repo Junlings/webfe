@@ -1,7 +1,7 @@
 #from plotsettings import publish_style
 from plot_backbone import plotbackbone, FigureCanvas
 
-def single_axis_line(plotdata,units,xylabels,datalabel=None,style=None,legend=True):
+def single_axis_line(plotdata,style=None):
     
     if style == None:
         plotsetting1 = publish_style()
@@ -17,20 +17,14 @@ def single_axis_line(plotdata,units,xylabels,datalabel=None,style=None,legend=Tr
     # determine the locator for each axis
     plotsetting1.add('locatorlib','x1',mode='auto')
     plotsetting1.add('locatorlib','y1',mode='auto')
-    
-    '''
-    if 'x1' not in limits.keys():
-        limits['x1'] = ['auto','auto']
-    if 'y1' not in limits.keys():
-        limits['y1'] = ['auto','auto']        
-    '''    
-    plotsetting1.update('axislib','x1',unit=units[0],locator='x1',label=xylabels[0])#,limits=limits['x1'])#,locator='auto')
-    plotsetting1.update('axislib','y1',unit=units[1],locator='y1',label=xylabels[1])#,limits=limits['y1'])#,locator='auto') 
+      
+    plotsetting1.update('axislib','x1',unit=plotdata.unit[0],locator='x1',label=plotdata.label[0])#,limits=limits['x1'])#,locator='auto')
+    plotsetting1.update('axislib','y1',unit=plotdata.unit[1],locator='y1',label=plotdata.label[1])#,limits=limits['y1'])#,locator='auto') 
     
                      
     # create plot backbone
     pl1 = plotbackbone(plotsetting1)
-    pl1.addPlot('axes_major',plotdata,datalabel=datalabel,legend=legend)
+    pl1.addPlot('axes_major',plotdata) #,datalabel=datalabel,legend=legend)
     
     #pl1.setTextbox('firstbox','axes_major')
     #pl1.setTextbox('secondbox','axes_major')

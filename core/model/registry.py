@@ -273,6 +273,11 @@ class model():
                 
         return tempelem
 
+
+    def delete_elements(self,seqlist):
+        self.connlist.deletebylist(seqlist)
+        
+        
     def material(self,matname,matclass,paralib={}):
         ''' add material instance to the matlist.
             inputs:
@@ -503,18 +508,30 @@ class model():
             raise ValueError,"More than one node picked" 
         else:
             return seq[0]
-            
+
+    def pick_node_coord_3d(self,coord,err=0.0001):
+        seq = list(self.nodelist.select_node_coord(rx=[coord[0]-err,coord[0]+err],ry=[coord[1]-err,coord[1]+err],rz=[coord[2]-err,coord[2]+err]))
+        if len(seq) > 1:
+            raise ValueError,"More than one node picked" 
+        else:
+            return seq[0]
+        
     def select_nodes_online_2d(self,N1,N2):
         seq = list(self.nodelist.select_node_coord(rx=rx,ry=ry,rz=[0,0]))
         return seq
 
     def select_elements_nodelist(self,nodelist):
+        ''' select element that contain the nodelist'''
         res = self.connlist.select_nodelist(nodelist)
-  
+        return res
+    
+    def select_nodes_elemlist(self,elemlist):
+        res = self.connlist.select_nodelist_elemlist(elemlist)
         return res
     
     
     def select_nodes_setname(self,setname):
+        ''' select node based on the input setname'''
         if setname in self.setlist.keys():
             nodelist = self.setlist[setname].nodelist
             return nodelist
@@ -633,8 +650,22 @@ class model():
                 vertices_elem['line'].extend(out)
             elif len(out) == 4:
                 vertices_elem['quad'].extend(out)
+                
             elif len(out) == 8:
-                vertices_elem['hex'].extend(out)
+                f_top = out[0:4]
+                f_bot = out[4:8]
+                f_left = [out[0],out[3],out[7],out[4]]
+                f_right = [out[1],out[2],out[6],out[5]]
+                f_front = [out[0],out[4],out[5],out[1]]
+                f_back = [out[3],out[7],out[6],out[2]]
+                
+                vertices_elem['hex'].extend(f_top)
+                vertices_elem['hex'].extend(f_bot)
+                vertices_elem['hex'].extend(f_right)
+                vertices_elem['hex'].extend(f_left)
+                vertices_elem['hex'].extend(f_front)
+                vertices_elem['hex'].extend(f_back)
+
                 
         for key,item in vertices_elem.items():
             vertices_elem[key] = np.array(item)

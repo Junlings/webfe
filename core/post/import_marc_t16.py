@@ -500,30 +500,72 @@ class post_t16:
         return self.postset1(reqlist,recorder.ninc)
     
     
+    def get_request_incrlist(self,incr_s,incr_e,incr_i):
+        if incr_s == -1:
+            incrs = 0
+            
+        if incr_e > (self.increment-1):
+            incre = self.increment-1
+            
+        if incr_i <=0:
+            incr_i = 1
+            
+        
+        return range(incr_s,incr_e+1,incr_i)     
+    
     def postset_dict(self,results):
         """
         postset3 was defined working with the new wxpython GUI command settings
         """
         self.results = results
-
+        
+        # Get store request
         reqdict = self.results.source['marc_t16']['request']
+        incr_req_dict = {}
+        # Obtain request increment list for all requests
+        for key,item in reqdict.items():
+            #print item
+            incr_s = int(item[-3])
+            incr_e = int(item[-2])
+            incr_i = int(item[-1])
+            req_incrlist = self.get_request_incrlist(incr_s,incr_e,incr_i)
+            incr_req_dict[key] = req_incrlist
+        
+        
         resdict = {}
+        
         for incr in range(0,self.increment):
-            self.p.moveto(incr)
-            print 'Start extract results from increment: ',incr
-            
+            need_process = False
+            # check if need to extract
             for key,item in reqdict.items():
-                #print item
-                if key in resdict.keys():
-                    data,labellist = self.postset_incr(item)
-                    resdict[key]['data'] = np.vstack((resdict[key]['data'],data))
-                    resdict[key]['labellist'] = labellist
-                else:
-                    resdict[key] = {}
-                    resdict[key]['data'] = self.postset_incr(item)
-                    resdict[key]['labellist'] = []
+
+                if incr in incr_req_dict[key]:
+                    need_process = True
+            
+            #print need_process
+            if need_process:
+                
+                self.p.moveto(incr)
+                print 'Start extract results from increment: ',incr
+                
+                # extract
+                for key,item in reqdict.items():   
+                    if key in resdict.keys():
+                        data,labellist = self.postset_incr(item)
+                       
+                        resdict[key]['data'] = np.vstack((resdict[key]['data'],data))
+                        resdict[key]['labellist'] = labellist
+                    else:
+                        resdict[key] = {}
+                        resdict[key]['data'],resdict[key]['labellist'] = self.postset_incr(item)
+            
+            else:
+                print 'increment skipped',incr
+            
+        
         
         for key,item in reqdict.items():
+            
             self.results.add(key,resdict[key]['data'][2:,:],labellist=resdict[key]['labellist'],unitlist = ['N/A'] * len(labellist))
         
     '''

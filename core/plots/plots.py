@@ -1,14 +1,133 @@
-""" This is the module """
-""" This is the module """
+#!/usr/bin/env python
+""" This is the module support the plot function
+    including the table management
+    plotdata management
+    figure management
+"""
 import os.path
+
+# create default unit system predefined
 from unitsystem import create_units
+
+# Import the plot style from inividual files
 from plottypes.line import double_axis_line, single_axis_line
+
+# Import predefined plot styles
+from plotsettings import publish_style, testresult_style,default_style,mono_style
+
+# Import data mask for data manipulation
+from dmask import dmask, create_default
+
 import timeit
 import numpy as np
-from plotsettings import publish_style, testresult_style,default_style,mono_style
-from dmask import dmask
-from core.lib.libop import loadbyfile, savebyfile
 
+#from core.lib.libop import loadbyfile, savebyfile
+
+class icurve():
+    def __init__(self,ind,inputdict={}):
+        self.ind = ind
+        self.xtablekey = ''
+        self.xcolumnid = ''
+        self.xcolumnname = ''
+        self.xmasklist = []
+        self.xdata = None
+        self.xunit = ''
+        
+        self.ytablekey = ''
+        self.ycolumnid = ''
+        self.ycolumnname = ''
+        self.ymasklist = []
+        self.ydata = None
+        self.yunit = ''
+        
+        self.xymasklist = []
+        self.legend = ''
+        
+        
+        for key in inputdict.keys():
+            if key in self.__dict__.keys():
+                self.__dict__[key] = inputdict[key]
+
+    def retrive(self,targetunits,results):
+        ''' retrive results from table
+            pkey: plotdata key
+            dkey: in format of tablename:columnid|mask1|mask2|mask3|
+        
+        '''
+        # locate record in table
+
+        xunit = targetunits[0]
+        yunit = targetunits[1]
+        self.xdata,self.xunit = results.retrive(self.xtablekey,self.xcolumnid,xunit)
+        self.ydata,self.yunit = results.retrive(self.ytablekey,self.ycolumnid,yunit) 
+    
+    def xapply(self,results):
+        for maskkey in self.xmasklist:
+            self.xdata = results.mdb[maskkey].apply(self.xdata)
+           
+    def yapply(self,results):
+        for maskkey in self.ymasklist:
+            self.ydata = results.mdb[maskkey].apply(self.ydata)
+
+    def xyapply(self,results):
+        for maskkey in self.xymasklist:
+            self.xdata,self.ydata = results.mdb[maskkey].apply(self.xdata,self.ydata)
+            
+    def process(self,targetunits,results):
+        # retrive results from tables
+        self.retrive(targetunits,results)
+        # apply xmask
+        self.xapply(results)
+        # apply ymask
+        self.yapply(results)
+        # apply xymask
+        self.xyapply(results)
+        
+    
+class plotdata():
+    def __init__(self,inputdict={}):
+        self.curvelib = {}
+        self.curvekeylist = []
+        self.unit = ['N/A','N/A','N/A','N/A']
+        self.label = ['x1','y1','x2','y2']
+        
+        for key in inputdict.keys():
+            if key in self.__dict__.keys():
+                self.__dict__[key] = inputdict[key]    
+    
+    def add_curve(self,icurve):
+        if icurve.ind == -1:
+            if len(self.curvekeylist) == 0:
+                icurve.ind = 1
+            else:
+                icurve.ind = max(self.curvekeylist)+1
+            self.add_curve(icurve)
+        else:
+            if icurve.ind not in self.curvelib:
+                self.curvelib[icurve.ind] = icurve
+                self.curvekeylist.append(icurve.ind)
+            else:
+                icurve.ind = -1
+                self.add_curve(icurve)
+    
+
+                
+    def process(self,results,selcurvelist = None):
+        if selcurvelist == None:
+            selcurvelist = self.curvekeylist
+            
+        #print self.curvelib
+        for curvekey in self.curvekeylist:
+            if curvekey in selcurvelist:
+                self.curvelib[curvekey].process(self.unit,results)
+        
+        
+    def edit_unit(self,unit_x1,unit_y1,unit_x2,unit_y2):
+        self.unit = [unit_x1,unit_y1,unit_x2,unit_y2]
+
+    def edit_label(self,label_x1,label_y1,label_x2,label_y2):
+        self.label = [label_x1,label_y1,label_x2,label_y2]
+        
 class tpfdb():
     ''' result plot database
         has dictionary structure for
@@ -24,7 +143,7 @@ class tpfdb():
                     'test':testresult_style(),
                     'publish':publish_style(),
                     'mono':mono_style()}  # plot style database
-        self.mdb = {}  # data column mask lib
+        self.mdb = create_default()  # data column mask lib
         self.fdb = {}  # figure database: figure format
         self.fsdb = {}  # figure database: figure settings format
         self.tdb = {}  # result table database
@@ -32,18 +151,201 @@ class tpfdb():
         self.source = {}
     
     def generate_libdict(self):
+        ''' define the database '''
         resdict = {}
         
-        resdict['Source'] = self.source
-        resdict['Table'] = self.tdb
-        resdict['Mask'] = self.mdb
-        resdict['Plot'] = self.pdb
-        resdict['Style'] = self.sdb
-        resdict['Figure'] = self.fsdb
+        resdict['Source'] = self.source   # for data source control, imports
+        resdict['Table'] = self.tdb       # result table database
+        resdict['Mask'] = self.mdb        # mask database
+        resdict['Plot'] = self.pdb        # plotata database
+        resdict['Style'] = self.sdb       # plot style database
+        resdict['Figure'] = self.fsdb     # plot figure database
         
         return resdict
     
+    
+    def sparse_keystr(self,inputstr):
+        masklist = []
+        
+        if ':' in inputstr:
+            tablename,columnname = inputstr.split(':')  
+            
+            # sparser out the mask list
+            if '|' in columnname:
+                temp = columnname.split('|')
+                columnname = temp[0]
+                masklist = temp[1:]
+                
+            try:
+                columnname = self.get_table_column_label_by_id(tablename,columnname)
+                columnid = self.get_table_column_id_by_label(tablename,columnname)
+            
+            except:
+                #columnid = self.get_table_column_id_by_label(tablename,columnname)
+                try:
+                    columnid = self.get_table_column_id_by_label(tablename,columnname)
+                except:
+                    raise Error
+            
+            return tablename,columnid,masklist
+        else:
+            raise TypeError,('error table:column|mask input string:',inputstr)
+    
+    
+    def get_table_column_label_by_id(self,tablekey,columnid):
+        ''' input columnid to get column name '''
+        if tablekey in self.tdb.keys():
+            
+            if type(columnid) != type(int(1)):
+                try:
+                    return self.get_table_column_label_by_id(self,tablekey,int(columnid))
+                except:
+                    raise TypeError,('Input columnid shall be type int, got',type(columnid))
+            else:
+                if len(self.tdb[tablekey]['labellist']) < columnid:
+                    raise ValueError,('request column id:',columnid,'larger than the maximum length of table: ',tablekey,' of ',len(self.tdb[tablekey]['labellist']))
+                else:
+                    return self.tdb[tablekey]['labellist'][columnid]
+        else:
+            raise KeyError,('Table:', tablekey,' do not exist')
+        
+        
+    def get_table_column_id_by_label(self,tablekey,columnname):
+        ''' input columnid to get column name '''
+        if tablekey in self.tdb.keys():
+            
+            if type(columnname) != type(''):
+                raise TypeError,('Input columnname shall be type str, got',type(columnname))
+            else:
+                if columnname not in self.tdb[tablekey]['labellist']:
+                    raise ValueError,('request column name: ',columnname,'not found in: ',tablekey)
+                else:
+                    return self.tdb[tablekey]['labellist'].index(columnname)
+        else:
+            raise KeyError,('Table:', tablekey,' do not exist')
+
+    def get_table_column_unit_by_label(self,tablekey,columnname):
+        ''' input columnid to get column name '''
+        if tablekey in self.tdb.keys():
+            
+            if type(columnname) != type(''):
+                raise TypeError,('Input columnname shall be type str, got',type(columnname))
+            else:
+                if columnname not in self.tdb[tablekey]['labellist']:
+                    raise ValueError,('request column name: ',columnname,'not found in: ',tablekey)
+                else:
+                    return self.tdb[tablekey]['unitlist'].index(columnname)
+        else:
+            raise KeyError,('Table:', tablekey,' do not exist')
+        
+    def get_table_column_unit_by_id(self,tablekey,columnid):
+        ''' input columnid to get column name '''
+        if tablekey in self.tdb.keys():
+            
+            if type(columnid) != type(int(1)):
+                try:
+                    return self.get_table_column_unit_by_id(self,tablekey,int(columnid))
+                except:
+                    raise TypeError,('Input columnid shall be type int, got',type(columnid))
+            else:
+                if len(self.tdb[tablekey]['labellist']) < columnid:
+                    raise ValueError,('request column id:',columnid,'larger than the maximum length of table: ',tablekey,' of ',len(self.tdb[tablekey]['labellist']))
+                else:
+                    return self.tdb[tablekey]['unitlist'][columnid]
+        else:
+            raise KeyError,('Table:', tablekey,' do not exist')
+        
+    def add_plotdata_command(self,plotkey,pairidlist): # default mode 'xyy'):
+        ''' add plot data by refering table name and column labels
+            mode can be specified to simplify 
+        '''
+        if plotkey not in self.pdb.keys():  # new plot data
+            p1 = plotdata()
+        else:
+            p1 = self.pdb[plotkey]
+            
+        xtablename,xcolumnid,xmasklist = self.sparse_keystr(pairidlist[0])
+        xunit = self.get_table_column_unit_by_id(xtablename,xcolumnid)
+        
+        for pairy in pairidlist[1:]:
+            ytablename,ycolumnid,ymasklist = self.sparse_keystr(pairy)
+            yunit = self.get_table_column_unit_by_id(ytablename,ycolumnid)
+            
+            icurveins = icurve(-1,inputdict={
+                         'xtablekey' : xtablename,
+                         'xcolumnid' : xcolumnid,
+                         'xmasklist' : xmasklist,
+                         'ytablekey' : ytablename,
+                         'ycolumnid' : ycolumnid,
+                         'ymasklist' : ymasklist,
+                         'legend'    : self.get_table_column_label_by_id(ytablename,ycolumnid),
+                         'xunit'     : xunit,
+                         'yunit'     : yunit,
+                                    })
+            p1.add_curve(icurveins)
+        
+        p1.unit = [p1.curvelib[p1.curvekeylist[0]].xunit,
+                   p1.curvelib[p1.curvekeylist[0]].yunit,'N/A','N/A']
+        self.pdb[plotkey] = p1
+
+
+    def add_plotdata(self,plotkey,pairidlist,xymasklist=[]): # default mode 'xyy'):
+        ''' add plot data by refering table name and column labels
+            mode can be specified to simplify 
+        '''
+        
+        p1 = plotdata()
+        
+        xtablename,xcolumnid,xmasklist = self.sparse_keystr(pairidlist[0])
+        xunit = self.get_table_column_unit_by_id(xtablename,xcolumnid)
+        
+
+        ytablename,ycolumnid,ymasklist = self.sparse_keystr(pairidlist[1])
+        yunit = self.get_table_column_unit_by_id(ytablename,ycolumnid)
+            
+        icurveins = icurve(-1,inputdict={
+                     'xtablekey' : xtablename,
+                     'xcolumnid' : xcolumnid,
+                     'xmasklist' : xmasklist,
+                     'ytablekey' : ytablename,
+                     'ycolumnid' : ycolumnid,
+                     'ymasklist' : ymasklist,
+                     'legend'    : self.get_table_column_label_by_id(ytablename,ycolumnid),
+                     'xunit'     : xunit,
+                     'yunit'     : yunit,
+                     'xymasklist': xymasklist,
+                                })
+        p1.add_curve(icurveins)
+        
+        p1.unit = [p1.curvelib[p1.curvekeylist[0]].xunit,
+                   p1.curvelib[p1.curvekeylist[0]].yunit,'N/A','N/A']
+        self.pdb[plotkey] = p1
+    
+    
+    def process(self,pkey):
+        self.pdb[pkey].process(self)
+        
+
+    def add(self,key,array2D,unitlist=None,labellist=None):
+        ''' add single table to the tdb'''
+        #if array2D.dtype != np.float32:
+        #    array2D.dtype = np.float32
+        self.tdb[key] = {'data':array2D,'unitlist':unitlist,'labellist':labellist}
+        
+ 
+    def add_dmask(self,key,paralib):
+        ''' add mask to mask list '''
+        self.mdb[key] = dmask(key,paralib)
+        
+    # the following are the drawing style functions
+    def add_style(stylekey):
+        ''' add mask to mask list '''
+        self.sdb[stylekey] = self.sdb['default']  # copy default
+        
+        
+
     def getcollabes(self,keylist=None):
+        ''' Get Column label of the table give tablekey '''
         collist = []
         if keylist == None:
             keylist = self.tdb.keys()
@@ -55,27 +357,29 @@ class tpfdb():
             else:
                 raise KeyError, ('Requested key: ',key,' Do not in the dabase table')
         return collist
-            
     
-    def add(self,key,array2D,unitlist=None,labellist=None):
-        ''' add single table to the tdb'''
-        self.tdb[key] = {'data':array2D,'unitlist':unitlist,'labellist':labellist}
-        
-    
-    def add_plotdata_command(self,plotkey,pairidlist):#@,mode='xy'):
-        ''' add plot data by refering table name and column labels
-            mode can be specified to simplify 
-        '''
-        keylist = []
 
-        xlabel = pairidlist[0]
-        for pairy in pairidlist[1:]:
-            keylist.append([xlabel,pairy])
+    def retrive(self,tablekey,columnid,targetunit):
+        ''' strict parameter inputs'''
+ 
+       # do unit convert
+        if tablekey in self.tdb.keys():  # defined in table
+            
+            sourcedata = self.tdb[tablekey]['data'][:,columnid]
+            sourceunit = self.tdb[tablekey]['unitlist'][columnid]
+            try:
+                [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
+            except:
+                raise ValueError,('unit conversion for table:',tablekey,' Column:',columnid,' Column name:', self.get_table_column_label_by_id(tablekey,columnid),
+                                  'failed','Source unit:',sourceunit,'Target unit',targetunit)
+            
+            if not (uscale == 1 and ushift == 0):
+                sourcedata =   uscale * sourcedata  + ushift            
         
-        # add default unit x and y using the first item
-        xunit = self.get_data(pairidlist[0])[1]
-        yunit = self.get_data(pairidlist[1])[1]
-        self.add_plotdata(plotkey,keylist,units=[xunit,yunit])
+        return sourcedata,sourceunit
+    
+        
+    """
     
     
     def add_plotdata_table(self,plotkey,tablekey,pairidlist,mode='xy',units=None,xylabels=None,scale=None,shift=None,limits=None):
@@ -83,15 +387,16 @@ class tpfdb():
             mode can be specified to simplify 
         '''
         keylist = []
-        if mode == 'xy':
+        if mode == 'xy':  # single pair [x,y]
             for pairid in pairidlist:
                 keylist.append([tablekey+':'+str(pairid[0]),tablekey+':'+str(pairid[1])])
-        elif mode == 'xyy':
+        
+        elif mode == 'xyy':  # multiple pair [x,y1,y2,...yn]
             xlabel = pairidlist[0]
             for pairy in pairidlist[1]:
                 keylist.append([xlabel,tablekey+':'+str(pairy)])
 
-        elif mode == 'xxy':
+        elif mode == 'xxy': # multiple pair [x1,x2,x3,...,xn,y]
             ylabel = pairidlist[-1]
             for pairx in pairidlist[:-1]:
                 keylist.append([tablekey+':'+str(pairx),ylabel])
@@ -103,30 +408,9 @@ class tpfdb():
         self.add_plotdata(plotkey,keypairlist,units=units,xylabels=xylabels,limits=limits)
         
         
-    def add_plotdata(self,pkey,keypairlist,units=None,xylabels=['x','y'],transform={},masklist=[]):
-        ''' specify the data source name with 'table:col' indicate a column in table '''
-        if units == None:
-            units = ['N/A','N/A']
-        
-        if xylabels == None:
-            xylabels = ['x','y']
-        
-        if pkey in self.pdb.keys():
-            
-            self.pdb[pkey]['datalabelpair'].extend(keypairlist)
-            '''
-            self.pdb[pkey] = {'datalabelpair':self.pdb[pkey]['datalabelpair'].extend(keypairlist),
-                              'units':self.pdb[pkey]['units'].extend(units),
-                              'xylabels':self.pdb[pkey],#.extend(xylabels),
-                              'transform':self.pdb[pkey]['transform'].update(transform),
-                              'masklist':self.pdb[pkey]['masklist'].extend(masklist)}
-            '''
-        else:
-            self.pdb[pkey] = {'datalabelpair':keypairlist,
-                              'units':units,
-                              'xylabels':xylabels,
-                              'transform':transform,
-                              'masklist':masklist}            
+
+    
+    
     
     def decorate_plotdata(self,pkey,curvekey,linedata,linelegend=None):
         ''' decorate the pdata to add additional lines for labeling purposes'''
@@ -144,9 +428,9 @@ class tpfdb():
         plabel = {}
         punitlist = []
         icurve = 1
+        
         for key in self.pdb[pkey]['datalabelpair']:
-            
-            if len(key) == 2:
+            if len(key) == 2:  # normal [x,y] data pair
                 # deal with x axis
                 datax,unitx = self.retrive_result(pkey,key[0],mode='x',icurve=icurve)
                 
@@ -154,7 +438,7 @@ class tpfdb():
                 datay,unity = self.retrive_result(pkey,key[1],mode='y',icurve=icurve)
                 plabel[icurve] = key[1]
                 
-            elif len(key) == 1:
+            elif len(key) == 1: # single [x] with index as x axis
                 # deal with x axis
                 datax,unitx = self.retrive_result(pkey,key[0],mode='index',icurve=icurve)
                 
@@ -164,7 +448,7 @@ class tpfdb():
                 
             
             #apply local mask apply on the curve
-            elif len(key) == 3: # the third one will be mask list separate by |
+            elif len(key) == 3: # the third one will be mask list separate on both axis
                 datax,unitx = self.retrive_result(pkey,key[0],mode='x',icurve=icurve)
                 
                 # deal with y axis
@@ -187,7 +471,7 @@ class tpfdb():
             pdataxy = np.vstack([datax,datay]).T       
             pdatadict[icurve] = pdataxy
             
-            icurve += 1
+            icurve += 1  # increment curve index
             punitlist.extend([unitx,unity])
             
         #self.pdb[pkey]['pdata'] = pdatadict
@@ -196,13 +480,33 @@ class tpfdb():
         self.pdb[pkey]['punits'] = punitlist
     
     
-    def get_data(self,dkey):    
-        tablekey,columnid =dkey .split(':')
+    def get_data(self,dkey):
+        ''' get column data based on the dkey in format of
+            a) tablename:column name
+            b) tablename:column index
+            c) tablename:column id/name|mask1|mask2|
+        '''
+        tablekey,columnid =dkey.split(':')
+        
+        masklist = None
+        if '|' in columnid:
+            temp = columnid.split('|')
+            columnid = temp[0]
+            masklist = temp[1:]
+            
+        
         if type(columnid) != int:
             columnid = self.tdb[tablekey]['labellist'].index(columnid)          
         
+        
+        
         sourcedata = self.tdb[tablekey]['data'][:,columnid]
         sourceunit = self.tdb[tablekey]['unitlist'][columnid]
+        
+        if masklist != None:
+            for maskkey in masklist:
+                sourcedata = self.mdb[masklist].apply(sourcedata)
+        
             
         return sourcedata,sourceunit
      
@@ -243,8 +547,45 @@ class tpfdb():
         else:
             return None,None,None
     
+    
+    def retrive_result_simple(self,tablekey,columnid,mode='x'):
+        
+        if type(columnid) != int:
+            columnid = str(columnid)
+            tablekey = str(tablekey)
+            columnid = self.tdb[tablekey]['labellist'].index(columnid)
+            
+        # retract unit target
+        if self.pdb[pkey]['units'] == None:
+            targetunit = 'N/A'
+        else:
+            
+            if mode == 'x':
+                targetunit = self.pdb[pkey]['units'][0]
+            elif mode == 'index':
+                targetunit = self.pdb[pkey]['units'][0]
+            else:
+                targetunit = self.pdb[pkey]['units'][1]
+        
+       
+       # do unit convert
+        if tablekey in self.tdb.keys():  # defined in table
+            
+            sourcedata = self.tdb[tablekey]['data'][:,columnid]
+            sourceunit = self.tdb[tablekey]['unitlist'][columnid]
+            
+            [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
+            if not (uscale == 1 and ushift == 0):
+                sourcedata =   uscale * sourcedata  + ushift            
+        
+        return sourcedata,targetunit
+    
     def retrive_result(self,pkey,dkey,mode='x',icurve=0):
-        ''' retrive results from table '''
+        ''' retrive results from table
+            pkey: plotdata key
+            dkey: in format of tablename:columnid|mask1|mask2|mask3|
+        
+        '''
         # locate record in table
         key_b = dkey
         masklist = key_b.split('|')
@@ -282,7 +623,7 @@ class tpfdb():
             
             [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
             if not (uscale == 1 and ushift == 0):
-                sourcedata =   np.float64(uscale) * sourcedata  + ushift
+                sourcedata =   uscale * sourcedata  + ushift
                 
         # do transformation if needed
         
@@ -290,7 +631,7 @@ class tpfdb():
             if icurve in self.pdb[pkey]['transform'].keys():
                 if mode in self.pdb[pkey]['transform'][icurve].keys():
                     tscale,tshift = self.pdb[pkey]['transform'][icurve][mode]
-                    sourcedata = np.float(tscale) * sourcedata  + tshift
+                    sourcedata = tscale * sourcedata  + tshift
         
         
         
@@ -307,24 +648,29 @@ class tpfdb():
         return sourcedata,targetunit
     
     
-    def add_dmask(self,key,paralib):
-        self.mdb[key] = dmask(key,paralib)
-        
-    # the following are the drawing style functions
-    def add_style(stylekey):
-        self.sdb[stylekey] = self.sdb['default']  # copy default
+
     
     # ================== the modification functions API for GUI functions ===
     
-    
-    def edit_unitlabel(self,tablename,col_id_start,col_id_end,unitlabel):
-        self.tdb[tablename]['unitlist'][col_id_start:col_id_end+1] = unitlabel
+    """
+    def edit_tdb_unitlabel(self,tablename,col_id_start,col_id_end,unitlabel):
+        for ind in range(col_id_start,col_id_end+1):
+            self.tdb[tablename]['unitlist'][ind] = unitlabel
+            
+    def edit_pdb_unit(self,pkey,x1unit,y1unit,x2unit='N/A',y2unit='N/A'):
+        self.pdb[pkey].unit = [x1unit,y1unit,x2unit,y2unit]
         
     # ===================following are drawing functions
     
     def add_figure(self,fskey,pkey,skey,ftype):
+        ''' create figure configuration '''
         self.fsdb[fskey] = {'fskey':fskey,'pkey':pkey,'skey':skey,'ftype':ftype}
         
+        # process plot data
+        self.process(pkey)
+        
+        # realize the figures
+        self.figurerealize(fskey)
     
     def figurerealize(self,fskey):
         fssetting = self.fsdb[fskey]
@@ -342,19 +688,13 @@ class tpfdb():
         if pkey == None:
             pkey = fkey
         
-        if 'pdatadict' not in self.pdb[pkey].keys():
-            self.process_plotdata(pkey)
-        plotdata = self.pdb[pkey]['pdatadict']
-        units = self.pdb[pkey]['units']
-        xylabels = self.pdb[pkey]['xylabels']
-        datalabel = self.pdb[pkey]['plabel']
-        #limits = self.pdb[pkey]['limits']
+        plotdata = self.pdb[pkey]
         
         if mode == 'single':
-            fig = single_axis_line(plotdata,units,xylabels,datalabel,style=self.sdb[skey],legend=legend)
+            fig = single_axis_line(plotdata,style=self.sdb[skey])
             
         elif mode == 'double':
-            fig = double_axis_line(plotdata,units,xylabels,datalabel,style=self.sdb[skey])
+            fig = double_axis_line(plotdata,style=self.sdb[skey])
     
         self.fdb[fkey] = fig
         
@@ -375,16 +715,18 @@ class tpfdb():
             
             self.savefig(fkey,format,name=name,dpi=dpi)
     
-    def savefig(self,fkey,format,name=None,dpi=300,path=None):
+    def savefig(self,fkey,format,name=None,dpi=300):
         ''' save single figure in database'''
         if name == None:
             name = fkey+'.'+format
-            
-        if path != None:
             resfolder = os.path.join(*path)
             if not os.path.isdir(resfolder):
                 os.mkdir(resfolder)
-            name = os.path.join(resfolder,name)
+            name = os.path.join(resfolder,name)        
+        
+        
+
+
         self.fdb[fkey].figure.savefig(name,format=format,dpi=dpi)
     
     
@@ -480,6 +822,15 @@ if __name__ == '__main__':
     rp.add_dmask('flip',{'oper':'FlipSign'})
     rp.add_dmask('cutstart1',{'oper':'CutNegative','nodenum':2})
     
+    
+    rp.add_plotdata_command('plot1',['da:dx|flip','db:dx'])
+    rp.edit_pdb_unit('plot1','in.','in.','mm','mm')
+    rp.process('plot1')
+    rp.line('plot1','plot1',skey='publish')
+    rp.savefig('plot1','jpg')
+    print 1
+    
+    '''
     rp.add_plotdata('plot1',[['da:dx','db:dx','cutstart1'],['da:dx','db:dy']],units=['m','m'],xylabels=['x','y'],masklist=None)
     #rp.add_plotdata('plot2',[['da:dx','db:dx'],['da:dx','db:dy']],units=['m','m','in.','in.'],xylabels=['x1','y1','x2','y2'],transform={1:{'x':[2,-10]}})
     rp.add_plotdata('plot2',[['da:dx','db:dx'],['da:dx','db:dy']],units=['m','m'],xylabels=['x','y'],masklist=None)
@@ -497,5 +848,6 @@ if __name__ == '__main__':
     
     rp.save('tt.res')
     print 1
+    '''
     
     
