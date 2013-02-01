@@ -14,7 +14,9 @@ import datetime
 global _maxdigits
 _maxdigits = 3
 
- 
+
+
+
 class RedirectText:
     def __init__(self,aWxTextCtrl):
         self.out=aWxTextCtrl
@@ -36,6 +38,8 @@ class MyApp(wx.App):
         self.resframe = ResultFrame(self.mainframe,self.com.results)
         self.mainframe.Show()
         #self.resframe.Show()
+        
+
 
         pub.subscribe(self.OnCommand, "COMMAND")
         pub.subscribe(self.OnGUI, "GUI")
@@ -46,15 +50,17 @@ class MyApp(wx.App):
         
         print '*Webfe desktop version started on %s' % datetime.datetime.now()
         return True
-    
+
     def OnCommand(self,command): #,update=True):
         wx.BeginBusyCursor()  # indicator command running
-        try:
-            self.com.parser(command.data)
-        except Exception as inst:
-            print inst
+        self.mainframe.OnStart(None,self.com.parser,command)
+        #try:
+        #    self.com.parser(command.data)
+        #except Exception as inst:
+        #    print inst
             
         wx.EndBusyCursor()
+ 
 
         
     def OnGUI(self,GUI_event):

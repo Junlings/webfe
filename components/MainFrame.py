@@ -24,9 +24,76 @@ from components.post.postframe import PostDiag
 from components.post.resultframe import ResultFrame
 from components.gl.glpanel import FEM_3D_window
 
+from threading import *
+import time
 global _maxdigits
 _maxdigits = 3
 
+# Define notification event for thread completion
+EVT_RESULT_ID = wx.NewId()
+
+
+def EVT_RESULT(win, func):
+    """Define Result Event."""
+    win.Connect(-1, -1, EVT_RESULT_ID, func)
+
+class ResultEvent(wx.PyEvent):
+    """Simple event to carry arbitrary result data."""
+    def __init__(self, data):
+        """Init Result Event."""
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_RESULT_ID)
+        self.data = data
+        
+# Thread class that executes processing
+class WorkerThread(Thread):
+    """Worker Thread Class."""
+    def __init__(self, notify_window,parser,command):
+        """Init Worker Thread Class."""
+        Thread.__init__(self)
+        self._notify_window = notify_window
+        self._want_abort = 0
+        self.command = command
+        self.parser = parser
+        # This starts the thread running on creation, but you could
+        # also make the GUI thread responsible for calling this
+        self.start()
+
+
+    def run(self):
+        """Run Worker Thread."""
+        # This is the code executing in the new thread. Simulation of
+        # a long process (well, 10s here) as a simple loop - you will
+        # need to structure your processing so that you periodically
+        # peek at the abort variable
+        
+       
+        try:
+            self.parser(self.command.data)
+            wx.PostEvent(self._notify_window, ResultEvent(True))
+        except:
+            wx.PostEvent(self._notify_window, ResultEvent(False))
+        '''
+        for i in range(10):
+            time.sleep(1)
+            if self._want_abort:
+                # Use a result of None to acknowledge the abort (of
+                # course you can use whatever you'd like or even
+                # a separate event type)
+                wx.PostEvent(self._notify_window, ResultEvent(None))
+                return
+        '''
+        # Here's where the result would be returned (this is an
+        # example fixed result of the number 10, but it could be
+        # any Python object)
+        
+
+    def abort(self):
+        """abort worker thread."""
+        # Method for use by main thread to signal an abort
+        self._want_abort = 1
+        
+        
 def add_method(self, method, name=None):
     if name is None:
         name = method.func_name
@@ -60,7 +127,11 @@ class MainFrame(xrcMainFrame):
         self.ModelNoteBookPanel.SetSizer(box)
         self.ModelNoteBookPanel.Layout() 
         
+        # And indicate we don't have a worker thread yet
+        self.worker = None
 
+        # Set up event handler for any worker thread results
+        EVT_RESULT(self,self.OnResult)
         
     def CreateBinding(self):
         
@@ -129,6 +200,35 @@ class MainFrame(xrcMainFrame):
         # Bind model tree
         self.ModelTree.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnTreeActivate)  
 
+
+    
+    def OnStart(self, event,parser,command):
+        """Start Computation."""
+        # Trigger the worker thread unless it's already busy
+        if not self.worker:
+            self.MAIN_STATUSBAR.SetStatusText('Starting computation....', 2)
+            self.worker = WorkerThread(self,parser,command)
+
+    def OnStop(self, event):
+        """Stop Computation."""
+        # Flag the worker thread to stop if running
+        if self.worker:
+            self.MAIN_STATUSBAR.SetStatusText('Trying to abort computation....', 2)
+            self.worker.abort()
+
+    def OnResult(self, event):
+        """Show Result status."""
+        if event.data is None:
+            # Thread aborted (using our convention of None return)
+            self.MAIN_STATUSBAR.SetStatusText('Computation aborted....', 2)
+        else:
+            # Process results here
+            self.MAIN_STATUSBAR.SetStatusText('Computation Complete Status: %s' % event.data, 2)
+            #self.status.SetLabel('Computation Result: %s' % event.data)
+        # In either event, the worker is done
+        self.worker = None
+        
+        
 
     def OnForceRefresh(self,event,model):
         self.model = model
