@@ -168,6 +168,8 @@ def create_default():
     frequent_masklib = {}
     frequent_masklib['col_flipsign'] = dmask('col_flipsign',{'oper':'FlipSign','scalar':None})
     return frequent_masklib
+
+
 if __name__ == '__main__':
     import numpy as np
     

@@ -11,6 +11,7 @@ class importfile_marc_dat():
         self.style = stylesetting                         ### define the style
         self.leftkey = []                                 ### define leftkeys
         self.logfile = logfile
+        
     def scanf(self):              ##### scan the file and create the key words driven input content
         preline = [] # previous line, temporary storage
         allline = [] 
@@ -197,21 +198,21 @@ class importfile_marc_dat():
         vv = self.scanf_lines(self.contentdict['connectivity'],connectivity)
         return vv
     
-    def add_nodes(self,model):
+    def add_nodes(self,model1):
         ''' add nodes to the model '''
         coords = self.get_coordinates()
-        model.node(coords[2:])
+        model1.node(coords[2:])
         if self.logfile != None:
             print 'Imported %s nodes\n' % len(coords[2:])
-        return model
+        return model1
     
-    def add_elements(self,model):
+    def add_elements(self,model1):
         ''' add nodes to the model '''
         conns = self.get_connectivity()
-        model.element(conns[2:],daterange=[2,9])
+        model1.element(conns[2:],daterange=[2,9])
         if self.logfile != None:
             print 'Imported %s elements\n' % len(conns[2:])
-        return model
+        return model1
     
     
 if __name__ == '__main__':

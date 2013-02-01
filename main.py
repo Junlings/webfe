@@ -49,7 +49,11 @@ class MyApp(wx.App):
     
     def OnCommand(self,command): #,update=True):
         wx.BeginBusyCursor()  # indicator command running
-        self.com.parser(command.data)
+        try:
+            self.com.parser(command.data)
+        except Exception as inst:
+            print inst
+            
         wx.EndBusyCursor()
 
         

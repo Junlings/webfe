@@ -21,7 +21,7 @@ from dmask import dmask, create_default
 import timeit
 import numpy as np
 
-#from core.lib.libop import loadbyfile, savebyfile
+from core.lib.libop import loadbyfile, savebyfile
 
 class icurve():
     def __init__(self,ind,inputdict={}):
@@ -185,7 +185,7 @@ class tpfdb():
                 try:
                     columnid = self.get_table_column_id_by_label(tablename,columnname)
                 except:
-                    raise Error
+                    raise Error,("table column do not found for input str",inputstr)
             
             return tablename,columnid,masklist
         else:
@@ -358,8 +358,33 @@ class tpfdb():
                 raise KeyError, ('Requested key: ',key,' Do not in the dabase table')
         return collist
     
+    
+    
+    def row_to_column(self,tablekey,rowid_start,rowid_end,rowid_step):
+        ''' get the row vector from table with targeted unit '''
 
-    def retrive(self,tablekey,columnid,targetunit):
+        if tablekey in self.tdb.keys():  # defined in table
+            
+            if rowid_start == -1:
+                rowid_start = 0
+            
+            if rowid_end == -1:
+                rowid_end = self.tdb[tablekey]['data'].shape[0]
+            
+            req_rows = range(rowid_start,rowid_end,rowid_step)
+            
+            row_data = self.tdb[tablekey]['data'][req_rows,:].T   # transpose
+            row_label = map(str,req_rows)
+            
+            row_unit = ['N/A'] * len(req_rows) 
+            
+            return row_label,row_unit,row_data
+        else:
+            raise TypeError,('Table name:',tablekey, 'not existed, row-to-column operation aborted')
+        
+    
+    
+    def retrive(self,tablekey,columnid,targetunit=None):
         ''' strict parameter inputs'''
  
        # do unit convert
@@ -367,18 +392,136 @@ class tpfdb():
             
             sourcedata = self.tdb[tablekey]['data'][:,columnid]
             sourceunit = self.tdb[tablekey]['unitlist'][columnid]
-            try:
-                [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
-            except:
-                raise ValueError,('unit conversion for table:',tablekey,' Column:',columnid,' Column name:', self.get_table_column_label_by_id(tablekey,columnid),
-                                  'failed','Source unit:',sourceunit,'Target unit',targetunit)
             
-            if not (uscale == 1 and ushift == 0):
-                sourcedata =   uscale * sourcedata  + ushift            
+            if targetunit != None:
+                try:
+                    [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
+                except:
+                    raise ValueError,('unit conversion for table:',tablekey,' Column:',columnid,' Column name:', self.get_table_column_label_by_id(tablekey,columnid),
+                                      'failed','Source unit:',sourceunit,'Target unit',targetunit)
+            
+                if not (uscale == 1 and ushift == 0):
+                    sourcedata =   uscale * sourcedata  + ushift            
         
         return sourcedata,sourceunit
     
+    
+    def replace(self,tablekey,columnlabel,sourcedata,sourceunit=None,sourcelabel=None):
+        if tablekey not in self.tdb.keys():  # defined in table
+            raise TypeError,('Table name:',tablekey, 'not existed, replace operation aborted')
+        else:
+            columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+            origindata,originalunit = self.retrive(tablekey,columnid)
+            
+            if origindata.shape != sourcedata.shape:
+                raise TypeError,('Source data length',sourcedata.shape,' not the same as origin',origindata.shape)
+            else:
+                columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+                self.tdb[tablekey]['data'][:,columnid] = sourcedata
+                
+                if sourceunit != None:
+                    self.tdb[tablekey]['unitlist'][columnid] = sourceunit
+                
+                if sourcelabel != None:
+                    self.tdb[tablekey]['labellist'][columnid] = sourcelabel
+            
+            
+    def insert(self,tablekey,columnlabel,sourcedata,sourceunit,sourcelabel,mode='after'):
         
+        if tablekey in self.tdb.keys():  # defined in table
+            columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+            
+            
+            self.tdb[tablekey]['data'] = np.insert(self.tdb[tablekey]['data'],columnid+1,sourcedata,axis=1)
+            self.tdb[tablekey]['unitlist'].insert(columnid, sourceunit)
+            self.tdb[tablekey]['labellist'].insert(columnid, sourcelabel)
+            
+        else:
+            raise TypeError,('Table name:',tablekey, 'not existed, insert operation aborted')
+            
+    def append(self,tablekey,sourcedata,sourceunit,sourcelabel):
+        
+        if tablekey in self.tdb.keys():  # defined in table
+            columnlabel = self.tdb[tablekey]['labellist'][-1]
+            self.insert(tablekey,columnlabel,sourcedata,sourceunit,sourcelabel)
+        else:
+            raise TypeError,('Table name:',tablekey, 'not existed, insert operation aborted')
+        
+        
+    
+    def new_or_replace(self,tablekey,columnlabel,sourcedata,sourceunit=None,sourcelabel=None):
+        if tablekey in self.tdb.keys():  # defined in table
+            self.replace(tablekey,columnlabel,sourcedata,sourceunit=sourceunit,sourcelabel=sourcelabel)
+        # new table
+        else:
+            self.tdb[tablekey] = {'data':sourcedata,'unitlist':'N/A','labellist':['Col0']}
+
+            if sourceunit != None:
+                self.tdb[tablekey]['unitlist'] = [sourceunit]
+            
+            if sourcelabel != None:
+                self.tdb[tablekey]['labellist'] = [sourcelabel]
+                
+    def tmask_select_row(self,tablekey,rowid,targettablekey,targetcolumnid):
+        ''' select the rowid of tablekey and add to targettablekey at columnid '''
+    
+        slabel,sunit,sdata = self.row_to_column(tablekey,rowid,rowid+1)
+        
+        self.new_or_replace(targettablekey,targetcolumnid,sdata,sourceunit=sunit[0],sourcelabel=slabel[0])
+        
+        return 
+    
+    
+    def tmask_incrment_setresults(self,targettablekey,tablekey,incr_start,incr_end,incr_step):
+        ''' collect certain increment results from the whole table '''
+        if tablekey in self.tdb.keys():
+            
+            slabel,sunit,sdata = self.row_to_column(tablekey,incr_start,incr_end,incr_step)
+        
+            #targettablekey = tablekey + '_'.join([str(incr_start),str(incr_end),str(incr_step)])
+            self.add(targettablekey,sdata,sunit,slabel)
+        else:
+            raise TypeError,('Table name:',tablekey, 'not existed, increment operation aborted')
+    
+    
+    def tmask_coordlist(self,model1,tablekey,labellist):
+        ''' input labellist get location information '''
+        res = []
+        
+        for label in labellist:
+            ltype,lcontent,options = self.parses_label(label)
+            #print ltype,lcontent,options
+            if options[0] in map(str,range(0,20)):
+                nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[int(options[0])]
+                node = model1.nodelist.itemlib[nodeseq]
+                res.append(node.xyz)
+            else:
+                nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[0]  # use first integration points, may need modification in the future
+                node = model1.nodelist.itemlib[nodeseq]
+                res.append(node.xyz)
+                
+                
+        self.add(tablekey,np.array(res),labellist=['Coord X','Coord Y','Coord Z'],unitlist = ['in.','in.','in.'])
+        #return res
+        
+        
+        
+    def parses_label(self,inputstr):
+        
+        ltype,lcontent = inputstr.split('_')
+        options = []
+        if '-' in lcontent:
+            temp = lcontent.split('-')
+            
+            lcontent = temp[0]
+            options = temp[1:]
+        
+        return ltype,lcontent,options
+        
+        
+        
+        
+    
     """
     
     
@@ -656,6 +799,9 @@ class tpfdb():
     def edit_tdb_unitlabel(self,tablename,col_id_start,col_id_end,unitlabel):
         for ind in range(col_id_start,col_id_end+1):
             self.tdb[tablename]['unitlist'][ind] = unitlabel
+
+    def edit_tdb_label(self,tablename,columnid,updatelabel):
+        self.tdb[tablename]['labellist'][columnid] = updatelabel
             
     def edit_pdb_unit(self,pkey,x1unit,y1unit,x2unit='N/A',y2unit='N/A'):
         self.pdb[pkey].unit = [x1unit,y1unit,x2unit,y2unit]

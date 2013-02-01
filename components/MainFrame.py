@@ -121,6 +121,10 @@ class MainFrame(xrcMainFrame):
         self.Bind(wx.EVT_MENU, self.OnPostMarct16, self.MenuItem_PostMarcT16)
         
         
+        # bind import option
+        
+        self.Bind(wx.EVT_MENU, self.OnImpMarcDat, self.MenuItem_ImpMarcDat)
+        
         
         # Bind model tree
         self.ModelTree.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnTreeActivate)  
@@ -168,7 +172,30 @@ class MainFrame(xrcMainFrame):
             paths = dlg.GetPaths()
         pub.sendMessage("COMMAND", '*save_project,%s' % paths[0])
 
-
+    
+    
+    
+    def OnImpMarcDat(self,event):
+        ''' import model dat file '''
+        wildcard = "MSC.Marc Data File (*.dat)|*.dat|" \
+         "All files (*.*)|*.*"
+        
+        dlg = wx.FileDialog(
+            self, message="Choose a file",
+            defaultFile="",
+            wildcard=wildcard,
+            style=wx.FD_OPEN | wx.CHANGE_DIR
+            )
+        
+        if dlg.ShowModal() == wx.ID_OK:
+            paths = dlg.GetPaths()
+            print "You chose the following file(s):"
+            for path in paths:
+                print path
+    
+            pub.sendMessage("COMMAND", '*import_marc_dat,%s,%s' % (paths[0],'Extended'))
+            pub.sendMessage("GUIREFRESH", 'model')
+        
 
     def OnOpen(self,event):
         ''' load pickle model file '''

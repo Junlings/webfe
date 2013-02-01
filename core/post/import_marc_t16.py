@@ -80,8 +80,8 @@ class post_t16:
         self.p = post_open(t16file)
         """ try if the file is successfully readed"""
         self.ptime = 0
-        self.nodescalarlib = {}
-        self.elemscalarlib = {}
+        self.nodescalarlib = {}  # available node scalar name lib
+        self.elemscalarlib = {}  # available element scalar name lib
         self.setlib = {}
         self.ninc = [0,10000,1]
         try:
@@ -94,6 +94,7 @@ class post_t16:
         # obtain the scalar results dictionary
         self.disp_element_scalar()
         self.disp_node_scalar()
+        self.disp_set()
         #self.disp_increment_str()
         self.increment_str = []
     def disp_increment_str(self):
@@ -178,7 +179,7 @@ class post_t16:
         for i in range(0,nset):
             s=self.p.set(i)
             resdata.append(s.name)
-            self.setlib[s] = i
+            self.setlib[s.name] = i
         return resdata
     
     def disp_element_scalar(self):
@@ -238,7 +239,8 @@ class post_t16:
     #======================set function group================================
     def getset_content(self,setseq):
         """ Obtain the content of certain set, nodes or elements """
-        s=self.p.set(setseq)
+
+        s = self.p.set(setseq)
         
         resdata=[]
         if s.type=='node':
@@ -274,8 +276,13 @@ class post_t16:
         """
         element_seq = self.p.element_sequence(element_id)
         slist = self.p.element_scalar(element_seq,scalar_seq)
-        if node_insideseq == -1: # element value
-            resdata = slist.value
+        if node_insideseq == -1: # element average value
+            res = 0.0
+            for item in slist:
+                res += item.value
+            resdata = res / len(slist)
+            
+            
         elif node_insideseq >= 0: # integration point value
             resdata = slist[node_insideseq].value
         return resdata
@@ -337,8 +344,6 @@ class post_t16:
         reqtype = req[0]
 
 
-        
-        
         if reqtype=='Node Scalar': # nodal scalar results
             
             reqitem = req[2:-3]
@@ -347,7 +352,8 @@ class post_t16:
             
             if len(reqitem) == 1:
                 try:
-                    settype,itemlist=self.getset_content(reqitem)  # setname input
+                    setseq = self.setlib[reqitem[0]]
+                    settype,itemlist=self.getset_content(setseq)  # setname input
                 except:
                     itemlist = reqitem                           # single input
             else:
@@ -367,8 +373,11 @@ class post_t16:
             elemnodeid = req[2]
 
             if len(reqitem) == 1:
+
+
                 try:
-                    settype,itemlist=self.getset_content(reqitem)  # setname input
+                    setseq = self.setlib[reqitem[0]]
+                    settype,itemlist=self.getset_content(setseq)  # setname input
                 except:
                     itemlist = reqitem                           # single input
             else:
@@ -377,9 +386,14 @@ class post_t16:
 
             for elemid in itemlist:
                 res.append(self.getdata_element_scalar(int(elemid),self.elemscalarlib[reqcontent],int(elemnodeid)))
-
-            labellist = ['Elem_'+str(item)+ '-'+str(elemnodeid) for item in itemlist]
             
+            if int(elemnodeid) > -1:
+                labellist = ['Elem_'+str(item)+ '-'+ str(elemnodeid) for item in itemlist]
+            elif int(elemnodeid) == -1:
+                labellist = ['Elem_'+str(item)+ '-'+ 'a' for item in itemlist]
+            else:
+                raise ValueError,('Wrong nodeinside number',elemnodeid)
+                
         elif req[0]=='Time': # get analysis time
             
             res.append(self.p.time * float(req[1]))
@@ -500,7 +514,28 @@ class post_t16:
         return self.postset1(reqlist,recorder.ninc)
     
     
+    def clean_up(self,inputstr):
+        if type(inputstr) == type(int(1)):
+            return
+        
+        else:
+            try:
+                return int(inputstr)
+            except:
+                if 'e' in inputstr:
+                    try:
+                        a,b = inputstr.split('e')
+                        return  int(a) * 10**int(b)
+                    except:
+                        raise ValueError,('convert failed',inputstr)
+        
+    
     def get_request_incrlist(self,incr_s,incr_e,incr_i):
+        
+        incr_s = self.clean_up(incr_s)
+        incr_e = self.clean_up(incr_e)
+        incr_i = self.clean_up(incr_i)
+        
         if incr_s == -1:
             incrs = 0
             
@@ -525,9 +560,9 @@ class post_t16:
         # Obtain request increment list for all requests
         for key,item in reqdict.items():
             #print item
-            incr_s = int(item[-3])
-            incr_e = int(item[-2])
-            incr_i = int(item[-1])
+            incr_s = item[-3]
+            incr_e = item[-2]
+            incr_i = item[-1]
             req_incrlist = self.get_request_incrlist(incr_s,incr_e,incr_i)
             incr_req_dict[key] = req_incrlist
         
@@ -566,7 +601,7 @@ class post_t16:
         
         for key,item in reqdict.items():
             
-            self.results.add(key,resdict[key]['data'][2:,:],labellist=resdict[key]['labellist'],unitlist = ['N/A'] * len(labellist))
+            self.results.add(key,resdict[key]['data'][2:,:],labellist=resdict[key]['labellist'],unitlist = ['N/A'] * len(resdict[key]['labellist']))
         
     '''
     The following commented out function is for future file communication 

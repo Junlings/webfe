@@ -187,8 +187,8 @@ class generate_batch():
             self.post_single(key,postfun)
             
     def post_single(self,key,postfun):
-        postfun(key,self.folder[1].split('.')[0]+'.t19')
-        
+        #postfun(key,self.folder[1].split('.')[0]+'.t19')
+        postfun(os.path.join(self.folder[0],key),self.folder[1].split('.')[0]+'.t16')
 
 if __name__ == '__main__':
     di = generate_batch('model1_job1.dat')

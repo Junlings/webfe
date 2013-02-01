@@ -115,6 +115,10 @@ class GenericTableNumpy(wx.grid.PyGridTableBase):
 class NumpyGrid(wx.grid.Grid):
     def __init__(self, parent,data):
         wx.grid.Grid.__init__(self, parent, 1,style=wx.ALL|wx.EXPAND)
+        self.parent = parent
+        
+        
+        
         self.Bind(wx.grid.EVT_GRID_LABEL_LEFT_DCLICK, self.OnLabelLeftDClick)        
         self.Bind(wx.grid.EVT_GRID_LABEL_RIGHT_CLICK, self.OnLabelRightClick)  
         wx.EVT_KEY_DOWN(self, self.OnKey)
@@ -125,24 +129,37 @@ class NumpyGrid(wx.grid.Grid):
     
     def OnLabelLeftDClick(self,event):
         col = event.GetCol()
-        label = textEntry(self,'Editcolumn label')
+        label = textEntry(self,'Editcolumn label',self.tableBase.colLabels[col])
         #print col,label
         if label != None:
             self.tableBase.colLabels[col] = label
             self.tableBase.GetColLabelValue(col)
+            
+            # send command request
+            ModelNoteBook = self.parent.parent
+            self.tablename = ModelNoteBook.GetPageText(ModelNoteBook.GetSelection()).split(':')[1]
+            pub.sendMessage("COMMAND", '*plot_edit_tdb_table_label,%s,%s,%s' % (self.tablename,col,label))
         self.ForceRefresh()
+        
+        
+        
         
     def OnLabelRightClick(self,event):
         """ column data manuipulation"""
         self.col = event.GetCol()
+        self.row = event.GetRow()    
+        ModelNoteBook = self.parent.parent
+        self.tablename = ModelNoteBook.GetPageText(ModelNoteBook.GetSelection()).split(':')[1]
+            
         frame = wx.Frame(None)        
         menu_id1 = wx.NewId()
         menu_id2 = wx.NewId()
         frame.menu = wx.Menu()
-        frame.menu.AppendItem(wx.MenuItem(frame.menu, menu_id1, "Inverse"))
-        frame.menu.AppendItem(wx.MenuItem(frame.menu, menu_id2, "Shift"))
-        frame.Bind(wx.EVT_MENU, self.Inverse, id=menu_id1)
-        frame.Bind(wx.EVT_MENU, self.menu, id=menu_id2)
+        frame.menu.AppendItem(wx.MenuItem(frame.menu, menu_id1, "Extract Increment Row"))
+        frame.menu.AppendItem(wx.MenuItem(frame.menu, menu_id2, "Extract Item Location"))
+        #frame.menu.AppendItem(wx.MenuItem(frame.menu, menu_id2, "Shift"))
+        frame.Bind(wx.EVT_MENU, self.ExtractIncr, id=menu_id1)
+        frame.Bind(wx.EVT_MENU, self.ExtractCoor, id=menu_id2)
         frame.PopupMenu(frame.menu)
         
 
@@ -150,6 +167,18 @@ class NumpyGrid(wx.grid.Grid):
         print self.col
         self.tableBase.databack.dataset[:,self.col] = self.tableBase.databack.dataset[:,self.col]*-1
         self.ForceRefresh()
+    
+    def ExtractIncr(self,event):
+
+        newtablename = self.tablename + '_' + str(self.row)
+        pub.sendMessage("COMMAND", '*plot_edit_tdb_increment,%s,%s,%s,%s,1' % (newtablename,self.tablename,str(self.row),str(self.row+1)))
+        pub.sendMessage("OnGUIREFRESH",'results')
+
+    def ExtractCoor(self,event):
+
+        newtablename = self.tablename + '_coord'
+        pub.sendMessage("COMMAND", '*plot_edit_tdb_coordlist,%s,%s' % (self.tablename,newtablename))
+        pub.sendMessage("OnGUIREFRESH",'results')
         
     def menu(self,event):
         pass

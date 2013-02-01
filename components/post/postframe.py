@@ -24,12 +24,22 @@ class PostDiag(xrcFRAME1):
         self.POST_t16_QP_LD.Bind(wx.EVT_LEFT_DOWN,self.OnQPLD)
         self.POST_t16_QP_LSTRESS.Bind(wx.EVT_LEFT_DOWN,self.OnQPLSS)
         
+
+        self.Bind(wx.EVT_RADIOBUTTON,self.OnRequestItemSet,self.POST_t16_ItemSelSet)
+        #self.POST_t16_ItemSet
+
         #self.BTN_APPLY_CYL.Bind(wx.EVT_LEFT_UP,self.OnApplyCyl)    
         
         if 'marc_t16' in self.results.source.keys():
             if self.results.source['marc_t16']['file'] != None:
                 self.POST_t16_File.SetValue(self.results.source['marc_t16']['file'])
     
+    
+    def OnRequestItemSet(self,event):
+        setnamelist = self.results.source['marc_t16']['handler'].setlib.keys()
+        self.POST_t16_ItemSet.Clear()
+        self.POST_t16_ItemSet.AppendItems(setnamelist)
+        #print 'request itetset'
     
     def OnChoiceIncr(self,event):
         selected = self.POST_t16_Incr.GetStringSelection()
@@ -116,8 +126,8 @@ class PostDiag(xrcFRAME1):
             #self.POST_t16_File.setValue(self.results.source['marc_t16'])
             
             self.POST_t16_File.SetValue(paths[0])
-            self.POST_t16_ItemSet.Clear()
-            self.POST_t16_ItemSet.AppendItems(self.results.source['marc_t16']['handler'].setlib.keys())  
+            
+            #self.POST_t16_ItemSet.AppendItems(self.results.source['marc_t16']['handler'].setlib.keys())  
             
             
     def OnApply(self,event):

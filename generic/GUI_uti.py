@@ -117,9 +117,12 @@ def OpenFile(obj):
     return filename
 
 
-def textEntry(obj,display):
+def textEntry(obj,display,default=None):
     dlg = wx.TextEntryDialog(obj, display,'Text Entry')
-    dlg.SetValue("Default")
+    if default != None:
+        dlg.SetValue(default)
+    else:
+        dlg.SetValue("Default")
     if dlg.ShowModal() == wx.ID_OK:
         value =  dlg.GetValue()
         dlg.Destroy()
