@@ -124,16 +124,17 @@ class ResultFrame(xrcResultFrame):
                 self.OnAddFigurePage(pathlist[1])
             
             elif pathlist[0] == 'Plot':
-                p1 = PlotDataSetPanel(self)
+                p1 = PlotDataSetPanel(self,pathlist[1])
                 self.ModelNoteBook.AddPage(p1, "Plot Data:"+pathlist[1])
             
             else:
                 pass
         
     def OnAddFigurePage(self,figurekey):
-        mfigure = self.results.figurerealize(figurekey)
-        f1 = CanvasPanel(self.ModelNoteBook,mfigure)
-        self.ModelNoteBook.AddPage(f1, "Figure:"+figurekey, select=True)        
+        ''' double click figure key to pop up figure panel'''
+        mfigure = self.results.figurerealize(figurekey)  # realize figure with all updates
+        f1 = CanvasPanel(self.ModelNoteBook,mfigure)     # create figure canvas
+        self.ModelNoteBook.AddPage(f1, "Figure:"+figurekey, select=True)       # add figure canvas to notebook 
         
     def OnResChange(self,event):
         

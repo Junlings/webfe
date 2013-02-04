@@ -135,6 +135,7 @@ def create_units():
     units.derive('cm',0.01,'m:1',sys='SI')
     units.derive('mm',0.001,'m:1',sys='SI')
     units.derive('in.',25.4,'mm:1',sys='US')
+    units.derive('in',25.4,'mm:1',sys='US')
     units.derive('Inches',25.4,'mm:1',sys='US')
     units.derive('inches',25.4,'mm:1',sys='US')
     units.derive('ft',12,'in.:1',sys='US')

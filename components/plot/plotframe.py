@@ -30,6 +30,7 @@ class MyNavigationToolbar(NavigationToolbar2WxAgg):
                            #'Click me', 'Save to PDF format')       
         wx.EVT_TOOL(self, self.ON_CUSTOM, self._on_custom)
         #wx.EVT_TOOL(self, self.ON_SAVETOPDF, self._on_savetopdf)
+        self.canvas = canvas
         
     def _on_custom(self, evt):
 
@@ -51,6 +52,7 @@ class CanvasPanel(wx.Panel):
     def __init__(self,parent,figure,*args,**kargs):
         wx.Panel.__init__(self,parent)
         # initialize the external data source
+        
         figure.set_dpi(150)
         sizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(sizer)
@@ -69,13 +71,21 @@ class CanvasPanel(wx.Panel):
         
         self.text_x = wx.TextCtrl(self, wx.NewId(), "Value X:", size=(100, -1))
         self.text_y = wx.TextCtrl(self, wx.NewId(), "Value Y:", size=(100, -1))
+
         sizer.Add(self.text_x, 0, wx.TOP |wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
         sizer.Add(self.text_y, 0, wx.TOP |wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
         
+
         # show the frame
 
         self.Show()
         
+        
+    def FigureUpdate(self,newfigure):
+        newfigure.set_dpi(150)
+        self.figurecavas = FigureCanvas(self, -1, newfigure)
+        self.Refresh()
+    
     def ChangeCursor(self, event):
         """ change the cursor within the canvas"""
         self.figurecavas.SetCursor(wx.StockCursor(wx.CURSOR_BULLSEYE))

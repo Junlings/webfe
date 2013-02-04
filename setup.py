@@ -13,6 +13,7 @@ import zlib
 import shutil
 import matplotlib
 #import OpenGL
+import threading
 from ctypes import util
 try:
     from OpenGL.platform import win32
@@ -87,7 +88,7 @@ class Target(object):
 
 data_files = []
 
-includes = ["wx.lib.pubsub.*", "wx.lib.pubsub.core.*", "wx.lib.pubsub.pubsub1.*", "wx.lib.pubsub.pubsub2.*", "wx.lib.pubsub.utils.*" ,"ctypes", "logging"]
+includes = ["wx.lib.pubsub.*", "wx.lib.pubsub.core.*", "wx.lib.pubsub.pubsub1.*", "wx.lib.pubsub.pubsub2.*", "wx.lib.pubsub.utils.*" ,"ctypes", "logging","threading"]
 excludes = ['_gtkagg', '_tkagg', 'bsddb', 'curses', 'email', 'pywin.debugger',
             'pywin.debugger.dbgcon', 'pywin.dialogs', 'tcl',
             'Tkconstants', 'Tkinter']

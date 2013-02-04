@@ -44,18 +44,21 @@ class commandparser():
         inputstrlist = inputstr.split(',')
         
         if inputstrlist[0][0] == '*':
-            fun_handle = self.__class__.__dict__[inputstrlist[0][1:].strip()]
+            commandname = inputstrlist[0][1:].strip()
+            fun_handle = self.__class__.__dict__[commandname]
             fun_handle(self,*inputstrlist[1:])
             
             self.commandhis.append(inputstr)
-            
+            return commandname
+        
         elif inputstrlist[0][0] == '#':  # comments
             self.commandhis.append(inputstr)
-            
+            return 'Comments'
         else:
             print "command error, not start with '*'"
+            return 'Command Syntax Error Occured'
         
-    
+        
     
     # functions callable
 
@@ -209,6 +212,18 @@ class commandparser():
         columnid = int(args[1])
         updatelabel = args[2]
         self.results.edit_tdb_label(tablename,columnid,updatelabel)
+    
+    def plot_edit_pdb_units(self,*args):
+        pdbkey = args[0]
+        self.results.edit_pdb_unit(pdbkey,*args[1:])
+
+    def plot_edit_pdb_labels(self,*args):
+        pdbkey = args[0]
+        self.results.edit_pdb_label(pdbkey,*args[1:])
+        
+    def plot_edit_pdb_settings(self,*args):
+        pdbkey = args[0]
+        self.results.edit_pdb_settings(pdbkey,*args[1:])
         
     def plot_edit_tdb_increment(self,*args):
         ''' get increment for table '''

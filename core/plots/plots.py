@@ -90,6 +90,8 @@ class plotdata():
         self.curvekeylist = []
         self.unit = ['N/A','N/A','N/A','N/A']
         self.label = ['x1','y1','x2','y2']
+        self.type = None
+        self.style = None
         
         for key in inputdict.keys():
             if key in self.__dict__.keys():
@@ -110,7 +112,14 @@ class plotdata():
                 icurve.ind = -1
                 self.add_curve(icurve)
     
-
+    def generate_libdict(self):
+        
+        temp = {'curves':self.curvelib,
+                'unit':self.unit,
+                'label':self.label,
+                'type':self.type,
+                'style':self.style}
+        return temp
                 
     def process(self,results,selcurvelist = None):
         if selcurvelist == None:
@@ -145,7 +154,7 @@ class tpfdb():
                     'mono':mono_style()}  # plot style database
         self.mdb = create_default()  # data column mask lib
         self.fdb = {}  # figure database: figure format
-        self.fsdb = {}  # figure database: figure settings format
+        #self.fsdb = {}  # figure database: figure settings format
         self.tdb = {}  # result table database
         self.UI = create_units()
         self.source = {}
@@ -157,12 +166,21 @@ class tpfdb():
         resdict['Source'] = self.source   # for data source control, imports
         resdict['Table'] = self.tdb       # result table database
         resdict['Mask'] = self.mdb        # mask database
-        resdict['Plot'] = self.pdb        # plotata database
+        
         resdict['Style'] = self.sdb       # plot style database
-        resdict['Figure'] = self.fsdb     # plot figure database
+        resdict['Figure'] = self.fdb     # plot figure database
+        resdict['Plot'] = {}
+        
+        for key in self.pdb:
+            resdict['Plot'][key] = self.pdb[key].generate_libdict()       # plotata database
         
         return resdict
     
+    def get_tdbkeys(self):
+        return list(self.tdb.keys())
+    
+    def get_tdblabelkeys(self,tablekey):
+        return self.tdb[tablekey]['labellist']
     
     def sparse_keystr(self,inputstr):
         masklist = []
@@ -275,8 +293,10 @@ class tpfdb():
                          'xtablekey' : xtablename,
                          'xcolumnid' : xcolumnid,
                          'xmasklist' : xmasklist,
+                         'xcolumnname': self.get_table_column_label_by_id(xtablename,xcolumnid),
                          'ytablekey' : ytablename,
                          'ycolumnid' : ycolumnid,
+                         'ycolumnname': self.get_table_column_label_by_id(ytablename,ycolumnid),
                          'ymasklist' : ymasklist,
                          'legend'    : self.get_table_column_label_by_id(ytablename,ycolumnid),
                          'xunit'     : xunit,
@@ -395,7 +415,7 @@ class tpfdb():
             
             if targetunit != None:
                 try:
-                    [uscale,ushift] = self.UI.convert(sourceunit,targetunit)
+                    [uscale,ushift] = self.UI.convert(str(sourceunit),str(targetunit))
                 except:
                     raise ValueError,('unit conversion for table:',tablekey,' Column:',columnid,' Column name:', self.get_table_column_label_by_id(tablekey,columnid),
                                       'failed','Source unit:',sourceunit,'Target unit',targetunit)
@@ -804,30 +824,58 @@ class tpfdb():
         self.tdb[tablename]['labellist'][columnid] = updatelabel
             
     def edit_pdb_unit(self,pkey,x1unit,y1unit,x2unit='N/A',y2unit='N/A'):
+        ''' edit the plot data unit list '''
         self.pdb[pkey].unit = [x1unit,y1unit,x2unit,y2unit]
+
+    def edit_pdb_label(self,pkey,x1,y1,x2='x2',y2='y2'):
+        ''' edit the plot data label list '''
+        self.pdb[pkey].label = [x1,y1,x2,y2]
+
+
+    def edit_pdb_settings(self,pkey,typekey,stylekey):
+        ''' edit the plot data label list '''
+        self.pdb[pkey].type = typekey
+        self.pdb[pkey].style = stylekey
+        
         
     # ===================following are drawing functions
     
     def add_figure(self,fskey,pkey,skey,ftype):
         ''' create figure configuration '''
-        self.fsdb[fskey] = {'fskey':fskey,'pkey':pkey,'skey':skey,'ftype':ftype}
+        #self.fsdb[fskey] = {'fskey':fskey,'pkey':pkey,'skey':skey,'ftype':ftype}
+        
+        # update the plot data settings for figure type and style
+        self.pdb[pkey].type = ftype
+        self.pdb[pkey].style = skey
         
         # process plot data
         self.process(pkey)
         
         # realize the figures
-        self.figurerealize(fskey)
+        self.figurerealize(pkey,fskey=fskey)
     
-    def figurerealize(self,fskey):
-        fssetting = self.fsdb[fskey]
-        ftype = fssetting['ftype']
+    def figurerealize(self,pkey,fskey=None):  # figurename and plotdata name
+        # process and retrive plot data and apply masks
+        self.pdb[pkey].process(self)
         
+        # obtain the plot settings
+        fssetting = self.pdb[pkey]
+        
+        # realize the figures
+        ftype = fssetting.type
+        
+        # setup figure keys
+        if fskey == None:
+            fname = pkey
+        else:
+            fname = fskey
         
         if ftype == 'line-one axis':
-            fig = self.line(fskey,pkey=fssetting['pkey'],skey=fssetting['skey'],mode='single',legend=True)
+            fig = self.line(fname,pkey=pkey,skey=fssetting.style,mode='single',legend=True)
         else:
-            print 'figure type ',tkey,' do not defined'
-            
+            print 'figure type ',ftype,' do not defined'
+        
+
         return fig.figure
     
     def line(self,fkey,pkey=None,skey='default',mode='single',legend=True):

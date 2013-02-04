@@ -188,8 +188,8 @@ class Example(wx.Panel):
         pub.sendMessage("COMMAND", '*plot_figure_add,%s,%s,%s,%s' % (fname,pdataname,'publish','line-one axis'))
         
         # =============== show figure
-        pub.sendMessage("GUIREFRESH", 'show_figure:%s' % fname)
-        pub.sendMessage("GUIREFRESH", 'results')
+        #pub.sendMessage("GUIREFRESH", 'show_figure:%s' % fname)
+        #pub.sendMessage("GUIREFRESH", 'results')
         self.Parent.Destroy()
 if __name__ == '__main__':
   
