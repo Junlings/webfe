@@ -583,6 +583,10 @@ class post_t16:
                 self.p.moveto(incr)
                 print 'Start extract results from increment: ',incr
                 
+                if self.p.time > 1000000:
+                    print 'Unreasonable increment time detected, increment %s neglected' % (incr)
+                    continue
+                
                 # extract
                 for key,item in reqdict.items():   
                     if key in resdict.keys():

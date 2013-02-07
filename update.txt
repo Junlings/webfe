@@ -1,0 +1,25 @@
+============= version 0.6.4 ========
+1 post/import_marc_t16: avoid unreasonable increment with huge time detected (larger than 1e6)
+2 Start Add section plot function, based on fiber, patch, and layer. (in progress)
+
+============= version 0.6.3 ========
+1 Update the plotdata setting pages, now the label and unit can be controled as well as the plot style
+2 some updates on the msc.marc export module to take care th hex8 elements.
+
+??1 May cause error when load some of the previously saved results as the plotdata class got rewritten
+??2 Data mask, legend control, and data pair management not implemented
+============= version 0.6.2 ========
+1 Update the mainframe model to introduce individual thread to deal with long duration work
+  Solve the freezing problems for loading long mac file
+
+============= version 0.6.1 ========
+1 Add new table operation function to support table row/increment sampling
+2 Add location search based on the table label name for elements and nodes
+3 Add numpy table right click function to support the table row sampling and location extraction.
+
+============= version 0.6 ========
+1 Add command line support, read directly in the mac file
+2 Rewrite the plotdata and curve class
+3 Adjustment of the corresponding plot module
+4 Minor changed on the pile dent procedure
+

@@ -94,23 +94,60 @@ def patch_circ(mattag='',numSubdivCirc=1,numSubdivRad=1,
 
 
 def layer_circ(mattag='',numBar=1,areaBar=1,yCenter=0,zCenter=0,radius=0,startAng=0,endAng=360):
-    fiberlist = []
-    dfi = (endAng-startAng)/(numBar-1)
+    ''' This is the function to create the intergration point on the circle
+        mattag: material tag for the circle layer
+        numBar: number of divident of the circle
+        areaBar: area of each bar
+        yCenter: Center y of the circle
+        zCenter: Center z of the circle
+        radius  : radius of the circle
+        startAng: start angle of the arc
+        endAng:   end angle of the arc
+        
+        return : fiberlist
+    '''
     
-    for ifi in range(0,numBar):
+    fiberlist = []
+    dfi = (endAng-startAng)/(numBar-1)  # get divident of the angle
+    
+    for ifi in range(0,numBar):     # loop over the segments
 
-        angi = float(startAng +  ifi * dfi)
+        angi = float(startAng +  ifi * dfi)  # get angel
         #angj = float(startAng + (ifi+1) * dfi)        
-        ra = radius
+        ra = radius              
         anga = angi
         
-        y = yCenter + ra * cos(anga/180.0*3.1415926)
+        y = yCenter + ra * cos(anga/180.0*3.1415926)  # get coordinates
         z = zCenter + ra * sin(anga/180.0*3.1415926)
         A = areaBar
+        
+        # create fibers
         tempfiber = fiber(paralib={'locy':y,'locz':z,'area':A,'mattag':mattag})
+        
         fiberlist.append(tempfiber)
                     
     return fiberlist
+
+def layer_line(mattag='',numLine=1,widthLine=1,yStart=0,zStart=0,yEnd=0,zEnd=0):
+    ''' create integration point along the line '''
+    
+    fiberlist = []
+    length = ((yEnd - yStart) ** 2 + (zEnd - zStart) ** 2) ** 0.5
+    
+    for i in range(0,numLine):     # loop over the segments
+        
+        ycoord = yStart + (yEnd - yStart) / numLine * (i+0.5)
+        zcoord = zStart + (zEnd - zStart) / numLine * (i+0.5)
+        A = widthLine * length / numLine
+        
+        # create fibers
+        tempfiber = fiber(paralib={'locy':ycoord,'locz':zcoord,'area':A,'mattag':mattag})
+        
+        fiberlist.append(tempfiber)
+                    
+    return fiberlist
+
+
 
 class section():
     __metaclass__ = metacls.metacls_item
@@ -263,13 +300,19 @@ class fibersection(section):
             if self.layerlib[key]['type'] == 'circ':
                 tempfibers = layer_circ(**self.layerlib[key]['prop'])
             
+            elif self.layerlib[key]['type'] == 'line':
+                tempfibers = layer_line(**self.layerlib[key]['prop'])
+            
             else:
                 raise TypeError,('patch type:',self.layerlib[key]['type'],' do not defined')
             
-            n = max(list(self.fiberlib.keys())) + 1
+            if len(list(self.fiberlib.keys())) == 0:
+                n = 1
+            else:
+                n = max(list(self.fiberlib.keys())) + 1
             
             for fiber in tempfibers:
-                self.fiber[n] = fiber
+                self.fiber[key+'_'+str(n)] = fiber
                 n += 1
         # update from fiber lib
         self.fiber.update(self.fiberlib)

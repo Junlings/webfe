@@ -27,6 +27,9 @@ class ex_Marc():
         self.post = post()
         self.nodaltie = node_ties()
     
+    def  write_individual_file(self,model):
+        pass
+        
     def ex_variable_single(self,*args):
         return '\n'
     
@@ -431,11 +434,14 @@ class elems_op():
         if conn_class == 'hex8':
             inputstr += '*set_element_class hex8\n'
         
-        elif conn_class == 'quad4':
+        elif conn_class == 'quad4' or conn_class == 'interface_linear':
             inputstr += "*set_element_class quad4\n"
         
         elif conn_class == 'line2':
             inputstr += "*set_element_class line2\n"
+        
+        else:
+            raise TypeError,('Element class:',conn_class,'do not defined')
         return inputstr
         
     def subdivide(self,nx,ny,nz):
@@ -448,8 +454,8 @@ class elems_op():
         inputstr += "all_selected\n"
         return inputstr
     
-    def elem_type_set(self,type,setname):
-        inputstr = '*element_type %s\n' % type
+    def elem_type_set(self,elemtype,setname):
+        inputstr = '*element_type %s\n' % elemtype
         inputstr += '%s\n' % setname
         return inputstr
     

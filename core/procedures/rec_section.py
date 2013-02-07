@@ -1,3 +1,4 @@
+""" This module is use to create dowel action model """
 from __future__ import division
 
 import numpy as np
@@ -15,8 +16,17 @@ from math import atan,floor
 from core.utility.fem.create_prism_by_stretch import sktretch_2dmesh
 
 def rec_planeconfig(model1,name,b,h,d,bh,hh,LL,dL):
-    """ Create nodes and elements on surface """
+    """ Create nodes and elements on surface
+        b: width
+        h: height
+        d: location of rebar measure from top
+        bh: width of the hole
+        hh: height of the hole
+        LL: Total length
+        dL: increment of length
     
+    """
+    # create surface meshing
     nsegL = int(LL/dL)
     nod1 = (-b/2.0,h,0)
     nod2 = (-b/2.0,h-d+hh/2.0,0)
@@ -32,19 +42,20 @@ def rec_planeconfig(model1,name,b,h,d,bh,hh,LL,dL):
     nod12 = (0,0,0)
     
     
-    # create plane 2d connectivity
+    # create plane 2d connectivity based on stretch
     model1 = create_2D_patch_xy(model1,nod1,nod4,nod8,nod5,0.25,0.25)
     model1 = create_2D_patch_xy(model1,nod5,nod6,nod10,nod9,0.25,0.25)
     model1 = create_2D_patch_xy(model1,nod7,nod8,nod12,nod11,0.25,0.25)
     
+    
     # strecth 2d to 3d
-    model1,nodekeylist,new_id,n_nodelist = sktretch_2dmesh(model1,nsegL,dL)
+    model1,nodekeylist,new_id,n_nodelist = sktretch_2dmesh(model1,nsegL,dL,setname='sec')
     
-    
+
     # add reinforcement
-    model1 = create_single_line_nodecoord(model1,[0,h-d,0],[0,h-d,LL],nsegL)
+    model1 = create_single_line_nodecoord(model1,[0,h-d,0],[0,h-d,LL],nsegL,elemsetname='rebar')
     
-    
+   
     # create interface elements
     topnodeid = model1.pick_node_coord_3d([0,h-d+hh/2.0,0])
     botnodeid = model1.pick_node_coord_3d([0,h-d-hh/2.0,0])
@@ -71,9 +82,17 @@ def rec_planeconfig(model1,name,b,h,d,bh,hh,LL,dL):
                                      new_id+1+nodekeylist.index(botnodeid)+n_nodelist*(i),
                                      centernodeid+i+2,centernodeid+i+1])
 
-    model1.element(tempquadnodelist)
-    
+    model1.element(tempquadnodelist,setname='interface')
 
+    # add property to the elements
+    model1.property('uhpc','hex8',paralib={'element_id':117,'setnamelist':['element_sec']})
+    model1.property('rebar','line2',paralib={'element_id':98,'setnamelist':['rebar']})
+    model1.property('interface','interface_linear',paralib={'element_id':186,'setnamelist':['interface']})
+    
+    model1.link_prop_conn('uhpc')
+    model1.link_prop_conn('rebar')
+    model1.link_prop_conn('interface')
+    
     return model1
     
 def create_2D_patch_xy(model1,N1,N2,N3,N4,lsize,bsize):

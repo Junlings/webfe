@@ -28,7 +28,7 @@ def ex_conn_prop(obj,EXF,connlist,paralist):
     for seq in connlist.seqlist:
         conn = connlist.itemlib[seq]
         try:
-            proptype = paralist[conn.property]
+            proptype = paralist[conn.property]  # get the associated property with the elements
         except:
             proptype = None
         EXF.write(obj.ex_conn_prop_single(conn,proptype))

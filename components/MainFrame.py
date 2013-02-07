@@ -148,21 +148,22 @@ class MainFrame(xrcMainFrame):
         if len(pathlist) == 0:
             p1 = FEM_3D_window(self.ModelNoteBookPanel,model=self.model)
             self.ModelNoteBook.AddPage(p1, "model")
-        
-        if pathlist[0] == 'setlist':           
-            if len(pathlist) == 1:  # setlist
-                self.OnFemSet(event)
-            elif len(pathlist) == 2:  # setlist
-                self.OnFemSetItem(event,pathlist[1])
-                
-        elif pathlist[0] == 'nodelist':
-            self.OnFemGrid(event)
-
-        elif pathlist[0] == 'connlist':
-            self.OnFemConn(event)            
+        else:
             
-        if pathlist[0] == 'Figure':
-            self.OnAddFigurePage(pathlist[1])        
+            if pathlist[0] == 'setlist':           
+                if len(pathlist) == 1:  # All setlist summary
+                    self.OnFemSet(event)
+                elif len(pathlist) == 2:  # setlist details
+                    self.OnFemSetItem(event,pathlist[1])
+                    
+            elif pathlist[0] == 'nodelist':
+                self.OnFemGrid(event)
+    
+            elif pathlist[0] == 'connlist':
+                self.OnFemConn(event)            
+                
+            if pathlist[0] == 'Figure':
+                self.OnAddFigurePage(pathlist[1])        
 
     def OnSave(self,event):
         ''' save model by pickle module '''
@@ -304,14 +305,29 @@ class MainFrame(xrcMainFrame):
         self.ModelNoteBook.AddPage(f1, "Set List:")
     
     def OnFemSetItem(self,event,itemkey):
-        f1 = DictGridPanel(self.ModelNoteBook)
-        f1.grid.SetRowLabelSize(100)
-
-        f1.update(self.model.select_coordinates_setname(itemkey))
-        f1.grid.tableBase.colLabels = ["x","y","z"]
         
-        self.ModelNoteBook.AddPage(f1, "Set:%s" % itemkey)
+        # get set
+        targetset = self.model.setlist[itemkey]
         
+        # if targetset.
+        if len(targetset.nodelist) > 0:
+            f1 = DictGridPanel(self.ModelNoteBook)
+            f1.grid.SetRowLabelSize(100)
+    
+            f1.update(self.model.select_coordinates_setname(itemkey))
+            f1.grid.tableBase.colLabels = ["x","y","z"]
+            
+            self.ModelNoteBook.AddPage(f1, "Node Set:%s" % itemkey)
+        
+        if len(targetset.elemlist) > 0:
+            f1 = DictGridPanel(self.ModelNoteBook)
+            f1.grid.SetRowLabelSize(100)
+    
+            f1.update(self.model.select_connectivity_setname(itemkey))
+            f1.grid.tableBase.colLabels = ["Node 1","Node 2","Node 3","Node 4","Node 5","Node 6","Node 7","Node 8"]
+            
+            self.ModelNoteBook.AddPage(f1, "Element Set:%s" % itemkey)            
+            
 
     def OnExpMarcProc(self,event):
         ''' save model by pickle module '''

@@ -151,6 +151,44 @@ class model():
         ''' get material property based on the name and property '''
         return self.get(self.get_material(matname),prop)
     
+    
+    def get_element_prop(self,elemseq):
+        ''' get property of given element '''
+        setnamelist = self.get_element_setnamelist(elemseq)
+        for key,prop in self.proplist.items():
+            
+            find = set(setnamelist).intersection(set(prop.setnamelist))
+            if len(find) > 0 :
+                return key
+            
+    def get_element_typeid(self,elemseq):
+        propkey = self.get_element_prop(elemseq)
+        if propkey != None:
+            return self.proplist[propkey].element_id
+        else:
+            return None
+        
+    
+    def get_element_setnamelist(self,elemseq):
+        ''' get setname list for those contain element seq'''
+        setnamelist = []
+        for key,setname in self.setlist.items():
+            if elemseq in setname.elemlist:
+                setnamelist.append(key)
+        return setnamelist
+    
+    def get_model_element_type(self):
+        ''' get all types of element from model'''
+        typelist = []
+        for key,elem in self.connlist.itemlib.items():
+            typeid = self.get_element_typeid(key)
+            if typeid not in typelist:
+                typelist.append(typeid)
+                
+        return typelist
+                
+        
+        
     # ======================= Start model construction function ==========
     def node(self,nlist,setname='default'):
         ''' create list of coordinate instance and add to nodelist
@@ -433,7 +471,7 @@ class model():
     
     def link_prop_conn(self,propkey,elemlist=None,setnamelist=None):
         ''' link properties to element list'''
-        if elemlist == 'ALL':
+        if elemlist == 'ALL': # all elements
             for key in self.connlist.itemlib.keys():
                 self.connlist.itemlib[key].property = propkey
             return 1
@@ -448,7 +486,12 @@ class model():
                 elemlist.extend(self.setlist[setname].elemlist)
             # record setnamelist to [roperty]
             self.proplist[propkey].setnamelist.extend(setnamelist)
-        
+
+        else:  # use the predefined setname withnproperty
+            for setname in self.proplist[propkey].setnamelist:
+                elemlist.extend(self.setlist[setname].elemlist)
+            
+            
         for item in elemlist:
             self.connlist.itemlib[item].property = propkey
         
@@ -456,7 +499,6 @@ class model():
         self.elemset('prop_'+propkey,{'elemlist':elemlist})
         self.proplist[propkey].setnamelist = ['prop_'+propkey]
 
-        
     def link_mat_prop(self,matkey,propkey):
         self.proplist[propkey].mattag = matkey
         
@@ -539,13 +581,23 @@ class model():
             return []
 
     def select_elements_setname(self,setname):
+        ''' select sub element dictionary based on the setname '''
         if setname in self.setlist.keys():
             elemlist = self.setlist[setname].elemlist
             return elemlist
         else:
             return []
+        
+    def select_connectivity_setname(self,setname):
+        elemlist = self.select_elements_setname(setname)
+        outputdict = {}
+        if elemlist != None:
+            for elem in elemlist:
+                outputdict.update({elem:self.connlist.itemlib[elem]})
+        return outputdict        
     
     def select_coordinates_setname(self,setname):
+        ''' select sub node dictionary based on the setname '''
         nodelist = self.select_nodes_setname(setname)
         outputdict = {}
         if nodelist != None:
@@ -553,12 +605,7 @@ class model():
                 outputdict.update({node:self.nodelist.itemlib[node]})
         return outputdict
     
-    def select_connectivity_setname(self,setname):
-        elemlist = self.select_elements_setname(setname)
-        outputdict = {}
-        for elem in elemlist:
-            outputdict.update(self.connlist[elem])
-        return outputdict        
+      
     
     def select_elements_nodeset(self,setname):
         if setname in self.setlist.keys():

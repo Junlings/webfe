@@ -90,7 +90,7 @@ class PlotDataSetPanel(wx.Panel):
         self.SetNoteBook.AddPage(f1, "Data Pair")
         
         # add legend and point picker
-        gs = wx.FlexGridSizer(5, 5, 5, 5)
+        gs = wx.FlexGridSizer(50, 5, 5, 5)
         self.labeldict = {}
         
         cont = []
@@ -143,7 +143,7 @@ class PlotDataSetPanel(wx.Panel):
         self.SetNoteBook.AddPage(f1, "Legend")
         
         # add legend and point picker
-        gs = wx.FlexGridSizer(5, 5, 5, 5)
+        gs = wx.FlexGridSizer(50, 5, 5, 5)
         self.legenddict = {}
         
         cont = []

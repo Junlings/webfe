@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+""" This module help export the model node and element to marc dat format and the rest in procedure file
+    to help accelerate the import process in MSC.Marc
+"""
 import core.meta.meta_export as metacls
 import numpy as np
 from lib_marc import ex_Marc
 
+# define derived class based on export marc class
 class ex_Marc_dat(ex_Marc):
     #__metaclass__ = metacls.metacls_export   # meat class
     
@@ -75,7 +79,11 @@ class ex_Marc_dat(ex_Marc):
         else:
             raise TypeError, "ItemSet type do not identified"
 
+    
 
+            
+        
+    
     def  write_individual_file(self,model):
         str1 =  """title               job1
 extended
@@ -90,13 +98,21 @@ $...................
 """
         
         # export header
-        output = str1 + (str3 % '75') + str2
+        output = str1
+        typelist = model.get_model_element_type()
+        typelist.sort()
+        for typeid in typelist:
+            if typeid == 98:   #some thing not working with element id 98, use truss element 9 and change it back using the procedure file
+                typeid = 9
+            output += str3 % str(typeid)
+            
+        output += str2
         
         # export connectivity
         output += 'connectivity\n'
         output += '0,0,1,\n'
         for key,elem in model.connlist.itemlib.items():
-            etype = '75'
+            etype = str(model.get_element_typeid(key))
             nodestr = ''
             for i in elem.nodelist:
                 nodestr += ','

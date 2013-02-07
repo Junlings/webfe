@@ -1,8 +1,16 @@
 """ This is the module to stretch the existing 2d mesh to 3D mesh"""
 import numpy as np
 
-def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,stretchdir = 'z'):
+def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,stretchdir = 'z',setname='3d_stretch'):
+    ''' This function can stretch 2D mesh into 3D mesh for selected connectivity group in certain direction
+        model1: input model instance
+        incrN: total increment
+        incrD: increment distance in the given direction
+        ElemSetNameList: List of the selected element list, default as None for all elements exist in the model
+        deleteorigin: if or not to delete the source 2D mesh, default as delete (True)
+        stretchdir: Mesh generation direction, default as 'z'
     
+    '''
     # get process elem list
     elemkeylist = []
     if ElemSetNameList == None:
@@ -29,7 +37,7 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
         
     else:
         raise TypeError,('stretch direction ',stretchdir, ' not supported')
-    new_id = model1.node(new_nodelist)
+    new_id = model1.node(new_nodelist,setname='node_'+setname)
     
     
     
@@ -52,11 +60,13 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
                 loopnodelist2.extend(loopnodelist)
                 new_elemlist.append(np.array(loopnodelist2))
             
-    model1.element(new_elemlist)
+    model1.element(new_elemlist,setname='element_'+setname)
     
+    # delete the original 2D mesh source if required
     if deleteorigin == True:
     
         model1.delete_elements(elemkeylist)
     
+    # return model and generated nodeketlys, new_id and total numbe of node generated
     return model1,nodekeylist,new_id,n_nodelist
     
