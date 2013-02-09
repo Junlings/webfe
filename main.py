@@ -70,6 +70,9 @@ class WorkerThread(threading.Thread):
         while True:
             if self._want_abort:  # when shut down the program
                 break
+            if not self._notify_window:
+                break
+            
             command = self.command.get()
 
             try:
@@ -123,7 +126,7 @@ class MyApp(wx.App):
         self.worker = None
         self.OnStart(None)
         
-        self.mainframe = MainFrame(None,self.com.model)
+        self.mainframe = MainFrame(None,self.com.model,self)
         self.resframe = ResultFrame(self.mainframe,self.com.results)
         self.mainframe.Show()
         #self.resframe.Show()
@@ -157,7 +160,10 @@ class MyApp(wx.App):
             #wx.BeginBusyCursor()  # indicator command running
             self.worker.receive(command.data)
             #wx.EndBusyCursor()
- 
+    
+    def OnExit(self):
+        self.Exit()
+    
     def OnStart(self, event):
         """Start Computation."""
         # Trigger the worker thread unless it's already busy

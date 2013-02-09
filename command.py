@@ -220,11 +220,23 @@ class commandparser():
     def plot_edit_pdb_labels(self,*args):
         pdbkey = args[0]
         self.results.edit_pdb_label(pdbkey,*args[1:])
-        
+
+    def plot_edit_pdb_legends(self,*args):
+        pdbkey = args[0]
+        self.results.edit_pdb_legend(pdbkey,*args[1:])
+
+
+
     def plot_edit_pdb_settings(self,*args):
         pdbkey = args[0]
         self.results.edit_pdb_settings(pdbkey,*args[1:])
+    
+    def plot_append_pdb_mask(self,*args):
+        pdbkey = args[0]
+        self.results.append_plotdata_mask(pdbkey,*args[1:])        
         
+        
+    
     def plot_edit_tdb_increment(self,*args):
         ''' get increment for table '''
         

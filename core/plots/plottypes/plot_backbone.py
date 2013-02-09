@@ -280,10 +280,12 @@ class plotbackbone():
     
     
 
-    def addPlot(self,axeskey,plotdata,legend=True):
+    def addPlot(self,axeskey,plotdata,showlegend=True):
         ax = self.axeslib[axeskey]
         linehandle = []
         labellist = []
+        legendhandle = []
+        legendlabel = []
 
         for icurvekey in plotdata.curvekeylist:
             icurve = plotdata.curvelib[icurvekey]
@@ -293,14 +295,18 @@ class plotbackbone():
                 style_in_use = self.presetting.linelib['default']
                 
             handle = ax.plot(icurve.xdata,icurve.ydata,**style_in_use) 
-            linehandle.append(handle) 
+            linehandle.append(handle[0]) 
         
-
             labellist.append(icurve.legend)
+            
+            if icurve.legend != 'None':
+                legendhandle.append(handle[0])
+                legendlabel.append(icurve.legend)
 
         
-        if legend == True:
-            ax.legend(labellist,**self.legendlib['default'])
+        if showlegend and len(legendhandle) > 0:
+            ax.legend(legendhandle,legendlabel,**self.legendlib['default'])
+            #ax.legend(labellist,**self.legendlib['default'])
         # adjust limits if nesessary
         self.linkLimitsall()
         

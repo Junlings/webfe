@@ -14,12 +14,13 @@ from components.post.postframe import PostDiag
 from components.post.plainframe import plainpost
 from wx.lib.pubsub import setuparg1
 from wx.lib.pubsub import pub
+import time
 
 class PlotDataSetPanel(wx.Panel):
     def __init__(self,parent,plotkey):
         wx.Panel.__init__(self,parent)
         #self.panel = wx.Panel(self)
-        
+        self.parent = parent
         self.results = parent.results
         self.plotdata = self.results.pdb[plotkey]
         self.plotkey = plotkey
@@ -37,15 +38,24 @@ class PlotDataSetPanel(wx.Panel):
         self.add_datapairpage()
         self.add_previewpage()
         self.add_settingpage()
+
+        
+        #self.SetNoteBook.Split(5,wx.RIGHT)
+        
         self.SetSizer(box)
-        self.Layout()
+        self.Layout()        
+        # add resize event
+        #wx.EVT_SIZE(self.SetNoteBook, self.OnSize) 
         
     
     def add_previewpage(self):
         mfigure = self.results.figurerealize(self.plotkey)  # realize figure with all updates
         self.CanvasPanel = CanvasPanel(self.SetNoteBook,mfigure)     # create figure canvas
-        self.SetNoteBook.AddPage(self.CanvasPanel, "Preview Figure:"+self.plotkey, select=True)       # add figure canvas to notebook             
-    
+        self.previewpagename = "Preview Figure:"+self.plotkey
+        self.previewpage = self.SetNoteBook.AddPage(self.CanvasPanel,self.previewpagename , select=True)       # add figure canvas to notebook             
+        # try refresh 
+        self.SetNoteBook.Update()
+        
     def add_maskpage(self):
         vbox = wx.BoxSizer(wx.VERTICAL)
         f1 = wx.Panel(self.SetNoteBook)
@@ -154,24 +164,39 @@ class PlotDataSetPanel(wx.Panel):
         cont.append((wx.StaticText(f1, label='Marker Size?'), 0, wx.ALIGN_CENTER))
         
         for key in self.plotdata.curvelib.keys():
+            icurve = self.plotdata.curvelib[key]
             #cont.append(wx.StaticText(f1, label='curve'+str(key),style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL))
             cont.append((wx.StaticText(f1, label='    curve'+str(key)+'   '), 0, wx.ALIGN_CENTER))
             self.legenddict[key] = {'legendkey':wx.CheckBox(f1), #, label='Show Legend?') #,style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
-                                    'legendstyleid' : wx.Choice(f1),
+                                    'legendstyleid' : wx.TextCtrl(f1,size=(150,20)),
                                     'legendtext' : wx.TextCtrl(f1,size=(150,20)),
-                                    'legendmarkersize' : wx.Choice(f1)}
+                                    'legendmarkersize' : wx.TextCtrl(f1,size=(150,20))}
+            
+            self.legenddict[key]['legendtext'].SetValue(icurve.legend)
+            showlegend  = icurve.legend == 'None'
+            self.legenddict[key]['legendkey'].SetValue(not showlegend)
+            self.legenddict[key]['legendstyleid'].SetValue('Style Based')
+            self.legenddict[key]['legendmarkersize'].SetValue('Style Based')
+            
+            #self.Bind(wx.EVT_CHECKBOX, self.OnCheckLegend,self.legenddict[key]['legendkey']) # working
             
             cont.append((self.legenddict[key]['legendkey'], 0, wx.ALIGN_CENTER))
             cont.append((self.legenddict[key]['legendtext'], 0, wx.ALIGN_CENTER))
             cont.append((self.legenddict[key]['legendstyleid'], 0, wx.ALIGN_CENTER))
             cont.append((self.legenddict[key]['legendmarkersize'], 0, wx.ALIGN_CENTER))
             
-            
+        # bind the button function
+        self.update_legend = wx.Button(f1,label='Update')
+        self.update_legend.Bind(wx.EVT_LEFT_DOWN,self.OnUpdateLegends)
+
+        cont.append((self.update_legend, 0, 0))# wx.EXPAND))
+        
         gs.AddMany(cont)
         vbox.Add(gs, proportion=0,border=50)
         f1.SetSizer(vbox)
         
     
+        
     
     def add_unitpage(self):
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -261,6 +286,13 @@ class PlotDataSetPanel(wx.Panel):
         self.x2.SetValue(self.plotdata.label[2])
         self.y2.SetValue(self.plotdata.label[3])
         
+    
+    def OnUpdateFigure(self,event):
+        self.CanvasPanel.FigureUpdate(self.results.figurerealize(self.plotkey))
+        
+        #self.SetNoteBook.ChangeSelection(5)
+        #self.OnPageChanged(self, event)
+        #pass  # need to up
         
     def OnPageChanged(self, evt):
         pageename = self.SetNoteBook.GetPageText(self.SetNoteBook.GetSelection())
@@ -280,6 +312,15 @@ class PlotDataSetPanel(wx.Panel):
         y2 = self.unit_y2.GetValue()
         
         pub.sendMessage("COMMAND", '*plot_edit_pdb_units,%s,%s,%s,%s,%s' % (self.plotkey,x1,y1,x2,y2))
+        #self.OnUpdateFigure(event)
+
+    def OnUpdateLegends(self,event):
+        for key,item in self.legenddict.items():
+            if item['legendkey'].GetValue():
+                pub.sendMessage("COMMAND", '*plot_edit_pdb_legends,%s,%s,%s' % (self.plotkey,key,item['legendtext'].GetValue()))
+            else:
+                pub.sendMessage("COMMAND", '*plot_edit_pdb_legends,%s,%s,%s' % (self.plotkey,key,None))
+
         
     def OnUpdateLabels(self,event):
         x1 = self.x1.GetValue()
@@ -288,9 +329,10 @@ class PlotDataSetPanel(wx.Panel):
         y2 = self.y2.GetValue()
         
         pub.sendMessage("COMMAND", '*plot_edit_pdb_labels,%s,%s,%s,%s,%s' % (self.plotkey,x1,y1,x2,y2))
-        
+        #self.OnUpdateFigure(event)
     def OnUpdateSettings(self,event):
         stylekey = self.settigdict['style'].GetStringSelection()
         typekey = self.settigdict['type'].GetStringSelection()
         
         pub.sendMessage("COMMAND", '*plot_edit_pdb_settings,%s,%s,%s' % (self.plotkey,typekey,stylekey))
+        #self.OnUpdateFigure(event)

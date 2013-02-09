@@ -44,10 +44,11 @@ def add_method_cls(self,cls):
         
 class MainFrame(xrcMainFrame):
 
-    def __init__(self,parent,model):
+    def __init__(self,parent,model,app):
         #self.feamodel = None
         xrcMainFrame.__init__(self,parent)
         self.model = model
+        self.app = app
         # update tree ctrl
         add_method_cls(self.ModelTree,MyDictTree) 
 
@@ -135,9 +136,14 @@ class MainFrame(xrcMainFrame):
 
 
     
-
+        # Bind close event to terminate the command parser process
+        self.Bind(wx.EVT_CLOSE, self._when_closed)
         
-
+    
+    def _when_closed(self,event):
+        self.Destroy()
+        self.app.OnExit()
+    
     def OnForceRefresh(self,event,model):
         self.model = model
         self.OnModelChange(event)
@@ -475,8 +481,8 @@ class MainFrame(xrcMainFrame):
             self.ModelTree.create_nodes_dict(self.ModelTree.root,modeldict)
             self.ModelTree.GetParent().Refresh()
             self.ModelTree.GetParent().SetFocus()        
-        
-        
+    
+    
 if __name__ == '__main__':
     app = MyApp(False)
     app.MainLoop()

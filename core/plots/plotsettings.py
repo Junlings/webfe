@@ -119,6 +119,16 @@ class default_css_style():
         'weight' : 'normal',
     }
     
+    legendfont = {
+        #'cursive' : ['Apple Chancery', 'Textile', 'Zapf Chancery', 'Sand', 'cursive'],
+        'family' : 'century',
+        'size' : 6,
+        'stretch' : 'normal',
+        'style' : 'normal',
+        'variant' : 'normal',
+        'weight' : 'normal',
+    }
+    
     latexfont = {
         'cursive' : ['Apple Chancery', 'Textile', 'Zapf Chancery', 'Sand', 'cursive'],
         'family' : 'sans-serif',
@@ -207,7 +217,7 @@ class default_css_style():
         'borderpad':0.4,
         'columnspacing':2, 
         'fancybox': False,
-        'prop':{'size': 6},
+        'prop':legendfont,
         #'fontsize': 'small',
         'frameon': True,
         'handleheight': 0.7,

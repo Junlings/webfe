@@ -42,7 +42,9 @@ class icurve():
         
         self.xymasklist = []
         self.legend = ''
-        
+        #self.showlegend = True
+        #self.legendstyle = None
+
         
         for key in inputdict.keys():
             if key in self.__dict__.keys():
@@ -125,10 +127,13 @@ class plotdata():
         if selcurvelist == None:
             selcurvelist = self.curvekeylist
             
-        #print self.curvelib
+        
         for curvekey in self.curvekeylist:
+            # retrive column data
             if curvekey in selcurvelist:
                 self.curvelib[curvekey].process(self.unit,results)
+        
+        
         
         
     def edit_unit(self,unit_x1,unit_y1,unit_x2,unit_y2):
@@ -307,7 +312,24 @@ class tpfdb():
         p1.unit = [p1.curvelib[p1.curvekeylist[0]].xunit,
                    p1.curvelib[p1.curvekeylist[0]].yunit,'N/A','N/A']
         self.pdb[plotkey] = p1
-
+    
+    
+    def append_plotdata_mask(self,plotkey,masktype,maskkey,icurvekey=-1):
+        ''' add mask to individual curve '''
+        if icurvekey == -1:  # apply mask to all sub icurves
+            maskcurvelist = self.pdb[plotkey].curvekeylist
+        
+        for key in self.pdb[plotkey].curvekeylist:
+            if key in maskcurvelist:
+                if masktype == 'xy':
+                    self.pdb[plotkey].curvelib[key].xymasklist.append(maskkey)
+                elif masktype == 'x':
+                    self.pdb[plotkey].curvelib[key].xmasklist.append(maskkey)
+                elif masktype == 'y':
+                    self.pdb[plotkey].curvelib[key].ymasklist.append(maskkey)
+                else:
+                    raise TypeError,('mask type:',masktype,' do not defined, options are "x","y", or "xy"')
+        
 
     def add_plotdata(self,plotkey,pairidlist,xymasklist=[]): # default mode 'xyy'):
         ''' add plot data by refering table name and column labels
@@ -831,6 +853,21 @@ class tpfdb():
         ''' edit the plot data label list '''
         self.pdb[pkey].label = [x1,y1,x2,y2]
 
+    def edit_pdb_legend(self,pkey,icurvekey,legendlabel):
+        ''' edit the plot data label list '''
+        try:
+            icurvekey = int(icurvekey)
+        except:
+            raise TypeError,('The key for icurve instance shall be int or shall be able to convert to int,got',type(icurvekey),icurvekey)
+        
+        
+        self.pdb[pkey].curvelib[icurvekey].legend = legendlabel
+        
+        #if legendlabel =='None':
+        #    self.pdb[pkey].curvelib[icurvekey].showlegend = False
+        #else:
+        #    self.pdb[pkey].curvelib[icurvekey].showlegend = True
+        #    self.pdb[pkey].curvelib[icurvekey].legend = legendlabel
 
     def edit_pdb_settings(self,pkey,typekey,stylekey):
         ''' edit the plot data label list '''

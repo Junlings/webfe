@@ -33,6 +33,8 @@ class MyNavigationToolbar(NavigationToolbar2WxAgg):
         self.canvas = canvas
         
     def _on_custom(self, evt):
+        
+        #self.canvas.Parent.FigureUpdate()
 
         self.canvas.draw()
         if evt != None:
@@ -75,15 +77,48 @@ class CanvasPanel(wx.Panel):
         sizer.Add(self.text_x, 0, wx.TOP |wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
         sizer.Add(self.text_y, 0, wx.TOP |wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
         
-
+        
+        self.sizerinuse = sizer
+        # bind resize event
+        wx.EVT_SIZE(self, self.OnSize)
+        
         # show the frame
 
         self.Show()
+    
+    def ResizeCanvas(self):
+        
+        pass
+        '''
+        size = self.Parent.GetClientSize()
+        
+        self.figurecavas.resize(size[0],size[1])
+        
+        self.figurecavas.draw()
+        
+        print self.figurecavas.Size
+        print self.Size
+        print self.Parent.Size
+        '''
+        
+    def OnSize(self, event):
+
+        event.Skip()
+        #wx.CallAfter(self.ResizeCanvas)
         
         
-    def FigureUpdate(self,newfigure):
-        newfigure.set_dpi(150)
-        self.figurecavas = FigureCanvas(self, -1, newfigure)
+    def FigureUpdate(self,newfigure=None):
+        
+        if newfigure != None:
+            newfigure.set_dpi(150)
+            #self.figurecavas.figure.clear()
+            self.figurecavas.figure = newfigure #FigureCanvas(self, -1, newfigure)
+            
+        self.figurecavas.draw()
+        
+        self.figurecavas.Update()
+        
+        self.Update()
         self.Refresh()
     
     def ChangeCursor(self, event):

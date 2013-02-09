@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """ This module define the data mask and operations to support decoration of plot column data """
 
-#import numpy as np
+import numpy as np
 
 SINGLE_OPERATION_OPTIONS = (
     ('Shift','Shift'),                                     # shift certain amount
@@ -153,10 +153,25 @@ class dmask():
                 newcoldatax = coldatax[:id]
                 newcoldatay = coldatay[:id]               
                     
-
+        elif oper['oper'] == 'Sort':
+            if 'mode' not in oper.keys():
+                oper['mode'] = 'y'
             
-        else:
-            raise KeyError,('Operation',oper['oper'], ' do not defined\n')
+            #datapair = np.vstack([[coldatax.T],[coldatay.T]])
+            # sort based on y column
+            if oper['mode'] == 'y':  
+                ind = np.lexsort((coldatax, coldatay))     
+                newcoldatax = coldatax[ind]
+                newcoldatay = coldatay[ind]        
+            # sort based on x column
+            
+            elif oper['mode'] == 'x':  
+                ind = np.lexsort((coldatay, coldatax))     
+                newcoldatax = coldatax[ind]
+                newcoldatay = coldatay[ind]         
+                
+            else:
+                raise KeyError,('Operation',oper['oper'], ' do not defined\n')
             
         return newcoldatax,newcoldatay
         
@@ -167,6 +182,8 @@ def create_default():
     ''' create commonly used default data masks'''
     frequent_masklib = {}
     frequent_masklib['col_flipsign'] = dmask('col_flipsign',{'oper':'FlipSign','scalar':None})
+    frequent_masklib['pair_sortx'] = dmask('pair_sort',{'oper':'Sort','scalar':None,'mode':'x'})
+    frequent_masklib['pair_sorty'] = dmask('pair_sort',{'oper':'Sort','scalar':None,'mode':'y'})
     return frequent_masklib
 
 

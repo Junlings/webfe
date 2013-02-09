@@ -1,6 +1,10 @@
 ============= version 0.6.4 ========
 1 post/import_marc_t16: avoid unreasonable increment with huge time detected (larger than 1e6)
 2 Start Add section plot function, based on fiber, patch, and layer. (in progress)
+3 New data mask implemented, which provide the ability of data sort for locaiton plots
+4 trigger program termination with close of mainframe
+5 Correct the preview panel of the dataplot data
+6 Add legend modification function
 
 ============= version 0.6.3 ========
 1 Update the plotdata setting pages, now the label and unit can be controled as well as the plot style
