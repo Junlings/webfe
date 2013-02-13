@@ -100,6 +100,7 @@ $...................
         # export header
         output = str1
         typelist = model.get_model_element_type()
+
         typelist.sort()
         for typeid in typelist:
             if typeid == 98:   #some thing not working with element id 98, use truss element 9 and change it back using the procedure file
@@ -112,14 +113,22 @@ $...................
         output += 'connectivity\n'
         output += '0,0,1,\n'
         for key,elem in model.connlist.itemlib.items():
-            etype = str(model.get_element_typeid(key))
+            #etype = str(model.get_element_typeid(key))
+            etype = 'None'
             nodestr = ''
             for i in elem.nodelist:
                 nodestr += ','
                 nodestr += str(self.node_seq[i])
                 
+                if etype == 'None':
+                    if len(elem.nodelist) == 4:
+                        etype = '75'
+                    elif len(elem.nodelist) == 2:
+                        etype = '9'
+                    elif len(elem.nodelist) == 8:
+                        etype = '7'
+                
             output += '%s,%s%s\n' % (key,etype,nodestr)
-            etype
         
         
         # export grid

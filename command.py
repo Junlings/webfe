@@ -266,6 +266,10 @@ class commandparser():
         
         self.results.savefig(figurekey,fileformat,name=plotname)
     
+    def plot_pdata_save(self,*args):
+        pdatakey = args[0]
+        self.results.savepdata(pdatakey)
+        
     def macro_start(self):
         self.macro_start = len(self.commandhis)
         

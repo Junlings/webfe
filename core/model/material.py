@@ -205,5 +205,18 @@ class interface_marc_builtin(material):
             self.q = paralib['q']
 
 
+class lowtension_marc_builtin(uniaxial):
+    """ low tension material model defined in marc """
+    def __init__(self,paralib={'E':8000.0,'mu':0.3,'mass':0.0,'ft':0.1,'Es':50,'epsilon':0.003,'shear':0.1}):
+        
+        material.__init__(self,paralib['E'],
+                               paralib['mu'],
+                               paralib['mass'])
+        #self.mattype = paralib['mattype']
+        self.ft = paralib['ft']
+        self.Es = paralib['Es']
+        self.epsilon = paralib['epsilon']
+        self.shear = paralib['shear']
+            
 if __name__ == '__main__':
    pass

@@ -209,7 +209,13 @@ class importfile_marc_dat():
     def add_elements(self,model1):
         ''' add nodes to the model '''
         conns = self.get_connectivity()
-        model1.element(conns[2:],daterange=[2,9])
+        inputs = []
+        seqlist = []
+        for elem in conns[2:]:
+            seqlist.append(elem[0])
+            inputs.append(elem[2:])
+
+        model1.element(inputs,seqlist=seqlist)
         if self.logfile != None:
             print 'Imported %s elements\n' % len(conns[2:])
         return model1

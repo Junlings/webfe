@@ -210,7 +210,27 @@ class shape_section(section):
         self.mattag = None
         self.para = {}
         self.unfold(paralib)
+
+class SolidCircular3D(section):
+    paralib = {'diameter':1,
+               'mesh_c':2,
+               'mesh_r':3}
+    
+    def __init__(self,paralib=paralib):
         
+        self.shape = 'Circular'
+        self.diameter = 1.0
+        self.mesh_r = 3
+        self.mesh_c = 2
+        self.mattag = None
+        paralib.update(paralib['para'])
+        self.para = {}
+        self.unfold(paralib)
+        #self.diameter = paralib['diameter']
+        #self.mesh_c = paralib['mesh_c']
+        #self.mesh_r = paralib['mesh_r']
+        
+
         
 class layer_section(section):
     """
@@ -250,6 +270,12 @@ class shell_section(section):
         self.unfold(paralib)    
         self.mattag = None
 
+class interface2d(section):
+    def __init__(self,paralib={}):
+        self.thickness = 1.0
+        self.unfold(paralib)    
+        self.mattag = None
+    
 
 class fibersection(section):
     ''' section that can include predefined patch or layer

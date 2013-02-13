@@ -4,7 +4,7 @@ import numpy as np
 def create_3d_patch(model,orgin,size,N,setname='default'):
     """ mesh the region between the four nodes and merge into the database """
     
-   
+    N = map(int,N)
     # create the coordinates and connectivity based on one
     bxyz,bcube = block3d(orgin,size,N)
     

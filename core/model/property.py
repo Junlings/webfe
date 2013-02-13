@@ -72,6 +72,7 @@ class quad4(property):
                   'intType': 'Gauss',
                   'nIP' : [],
                   'wIP' : [],
+                    'setnamelist':[],
                   'element_id':-1,  # this is the element interface number, different for different platform 
                   }
     

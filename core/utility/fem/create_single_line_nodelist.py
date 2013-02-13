@@ -25,7 +25,7 @@ def create_single_line_nodelist(model,coord_start_seq,coord_end_seq,N,
     # get the current node and element seq
     nn = model.nodelist.get_seqmax()
     ne = model.connlist.get_seqmax()
-    
+    N = int(N)
     # get the start and end nodes
     coord_start = model.nodelist.itemlib[coord_start_seq]
     coord_end = model.nodelist.itemlib[coord_end_seq]

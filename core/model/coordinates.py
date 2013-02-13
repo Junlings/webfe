@@ -298,6 +298,19 @@ class coordlist():
             out.append([seq,self.itemlib[seq].xyz])
         return out
         #self.coordtable = out
+    
+    
+    def get_sortedcoordtable(self):
+        ''' get the sorted coordtable'''
+        nodetable = []
+        for nodeid,node1 in self.itemlib.items():
+
+            nodetable.append([nodeid,node1.xyz[0],node1.xyz[1],node1.xyz[2]])
+        
+        # convert to numpy array and sort by x,y,z coordinates
+        sortednodetable = np.array(nodetable)
+        sortednodetable = sortednodetable[np.lexsort((sortednodetable[:,3],sortednodetable[:,2],sortednodetable[:,1]))]        
+        self.sortednodetable = sortednodetable
         
     def addbylist(self,itemlist,update=False):
         for item in itemlist:
@@ -414,6 +427,63 @@ class coordlist():
         newlist.ndim = self.ndim
         newlist.itemlib = {}
         return newlist
+
+
+    def pick_node_coordlist(self,rxyzlist,err=0.00001,nodelist=None,resort=False):
+        """ pick nodes based on the input coordinates list
+            a qucik way then loop over all nodes one by one
+            rxyzlist: [[x1,y1,z1],[x2,y2,z2],...[xn,yn,zn]]
+            assume: only one nodes in model a
+        """
+        
+        if nodelist == None:
+            if resort:
+                self.get_sortedcoordtable()
+                nodetable = self.sortednodetable
+            else:
+                nodetable = self.sortednodetable
+        
+        else:
+            nodetable = []
+            for nodeid in nodelist:
+                node1 = self.itemlib[nodeid] # base node
+            
+                nodetable.append([nodeid,node1.xyz[0],node1.xyz[1],node1.xyz[2]])
+        
+            # convert to numpy array and sort by x,y,z coordinates
+            nodetable = np.array(nodetable)
+            nodetable = nodetable[np.lexsort((nodetable[:,3],nodetable[:,2],nodetable[:,1]))]
+            
+        
+        # Get index of the negative rows
+        res = []
+        # check distance
+        for j in range(0,len(rxyzlist)):
+            ind = self.pick_node_coord(rxyzlist[j],nodetable)
+            res.append(ind)
+                
+
+        return res
+
+    def pick_node_coord(self,coord,nodetable,err=0.001):
+        """
+        get nearest node in nodetable
+        nodetable shall be sorted
+        """
+        indx = range(np.searchsorted(nodetable[:,1],coord[0] - err),np.searchsorted(nodetable[:,1],coord[0] + err,side='right'))
+        indy = range(np.searchsorted(nodetable[indx,2],coord[1] - err),np.searchsorted(nodetable[indx,2],coord[1] + err,side='right'))
+        for i in range(0,len(indy)): indy[i] += indx[0]
+        
+        indz = range(np.searchsorted(nodetable[indy,3],coord[2] - err),np.searchsorted(nodetable[indy,3],coord[2] + err,side='right'))
+        for i in range(0,len(indz)): indz[i] += indy[0]
+        
+        
+        
+        if len(indz) == 1:
+            return int(nodetable[indz,0])
+        else:
+            raise Error
+        return 
     
     def select_node_coordlist(self,rxyzlist,err=0.00001,nodelist=None):
         """ select nodes based on the input coordinates list
@@ -478,7 +548,58 @@ class coordlist():
             nodei = self.itemlib[seq] 
             nodei.update_deform(disp[seq])
 
-    def check_overlap(self,include=None,exclude=None):
+
+    def check_overlap(self,include=None,exclude=None,err=0.0001):
+        '''
+        Check overlap and generate list of overlaped sequence
+        include: the nodes to be included in the searching, defualt,None
+                 for all nodes within the list
+        exclude: node should be excluded from the overlapping checking.
+                 default, None, no nodes should be excluded from the list
+        '''
+        nodelist = set(self.seqlist) # get sequence list
+        
+        # apply include set
+        if include != None: nodelist.intersection_update(set(include))
+        # apply exclude set
+        if exclude != None: nodelist.difference_update(set(exclude))
+        
+        overlap_seq = {}   #overlap sequence
+        
+        nodetable = []
+        for nodeid in nodelist:
+            node1 = self.itemlib[nodeid] # base node
+        
+            nodetable.append([nodeid,node1.xyz[0],node1.xyz[1],node1.xyz[2]])
+        
+        nodetable = np.array(nodetable)
+        
+        # sort based on x,y,z coordinates
+        nodetable = nodetable[np.lexsort((nodetable[:,1],nodetable[:,2],nodetable[:,3]))]
+        
+        tempnodelist = []
+
+        for i in range(1,nodetable.shape[0]):
+            rowi = nodetable[i,:]
+            rowj = nodetable[i-1,:]
+            
+            if abs(rowi[1] - rowj[1]) <  err and abs(rowi[2] - rowj[2]) <  err and abs(rowi[3] - rowj[3]) <  err:
+                tempnodelist.append(rowi[0])
+                tempnodelist.append(rowj[0])
+            else:
+                if len(tempnodelist) > 0:
+                    
+                    #
+                    tempnodelist = list(set(tempnodelist))
+                    tempnodelist.sort
+                    
+                    overlap_seq[int(tempnodelist[0])] = map(int,tempnodelist[1:])
+                    tempnodelist = []
+
+        return  overlap_seq
+
+
+    def check_overlap_old(self,include=None,exclude=None):
         '''
         Check overlap and generate list of overlaped sequence
         include: the nodes to be included in the searching, defualt,None
@@ -497,6 +618,7 @@ class coordlist():
         
         while len(nodelist)>0:
             seq1 = nodelist.pop()
+            print seq1
             node1 = self.itemlib[seq1] # base node
             temp = []
             for seq2 in nodelist:

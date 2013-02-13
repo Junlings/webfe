@@ -54,8 +54,14 @@ class itemset():
         '''
         for seq in updatelist.keys():      # loop over master seq
             for item in updatelist[seq]:   # loop over slave seq
+                self.nodelist = list(self.nodelist)
                 if item in self.nodelist:
                     ij= self.nodelist.index(item) # locate the position
                                                         # of slave seq in list
                     self.nodelist[ij] = seq   # replace slave with master
+    
+    def deleteelembylist(self,deleteelemlist):
+        for elem in deleteelemlist:
+            if elem in self.elemlist:
+                self.elemlist.pop(self.elemlist.index(elem))
         

@@ -143,6 +143,7 @@ def create_units():
     units.derive('N',1.0,'kg:1,G:1',sys='SI')
     units.derive('kN',1000.0,'N:1',sys='SI')
     units.derive('kip',4.448,'kN:1',sys='US')
+    units.derive('kips',4.448,'kN:1',sys='US')
     units.derive('Kips',4.448,'kN:1',sys='US')
     units.derive('lbf',0.001,'kip:1',sys='US')
     units.derive('Pa',1,'N:1,m:-2',sys='SI')

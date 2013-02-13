@@ -200,13 +200,13 @@ class tpfdb():
                 masklist = temp[1:]
                 
             try:
-                columnname = self.get_table_column_label_by_id(tablename,columnname)
+                #columnname = self.get_table_column_label_by_id(tablename,columnname)
                 columnid = self.get_table_column_id_by_label(tablename,columnname)
             
             except:
                 #columnid = self.get_table_column_id_by_label(tablename,columnname)
                 try:
-                    columnid = self.get_table_column_id_by_label(tablename,columnname)
+                    columnid = int(columnname)
                 except:
                     raise Error,("table column do not found for input str",inputstr)
             
@@ -533,15 +533,25 @@ class tpfdb():
         for label in labellist:
             ltype,lcontent,options = self.parses_label(label)
             #print ltype,lcontent,options
-            if options[0] in map(str,range(0,20)):
-                nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[int(options[0])]
-                node = model1.nodelist.itemlib[nodeseq]
-                res.append(node.xyz)
-            else:
-                nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[0]  # use first integration points, may need modification in the future
-                node = model1.nodelist.itemlib[nodeseq]
-                res.append(node.xyz)
+            if ltype == 'Elem':
+                if options[0] in map(str,range(0,20)): # for certain node
+                    nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[int(options[0])]
+                    node = model1.nodelist.itemlib[nodeseq]
+                    res.append(node.xyz)
+                else:        # 
+                    nodeseq = model1.connlist.itemlib[int(lcontent)].nodelist[0]  # use first integration points, may need modification in the future
+                    node = model1.nodelist.itemlib[nodeseq]
+                    res.append(node.xyz)
+                    
+            elif ltype == 'Node':
+                node = model1.nodelist.itemlib[int(lcontent)]
+                res.append(node.xyz)                
                 
+                
+                
+                
+            else:
+                raise TypeError,('Item request:',ltype,'not defined')
                 
         self.add(tablekey,np.array(res),labellist=['Coord X','Coord Y','Coord Z'],unitlist = ['in.','in.','in.'])
         #return res
@@ -957,7 +967,7 @@ class tpfdb():
         
         
 
-
+        self.figurerealize(fkey)
         self.fdb[fkey].figure.savefig(name,format=format,dpi=dpi)
     
     
@@ -966,9 +976,16 @@ class tpfdb():
         for pkey in self.pdb.keys():
             self.savepdata(pkey,path=path,delimiter=delimiter)
     
-    def savepdata(self,pkey,path=None,delimiter='\t'):
+    def savepdata(self,pkey,name=None,delimiter='\t'):
         ''' save single plot data'''
-        pdata = self.pdb[pkey]['pdatadict']
+        if name == None:
+            name = pkey+'.csv'
+            #resfolder = os.path.join(*path)
+            #if not os.path.isdir(resfolder):
+             #   os.mkdir(resfolder)
+            #name = os.path.join(resfolder,name)
+            
+        pdata = self.pdb[pkey]
         
         if delimiter == '\t':
             extension = '.txt'
@@ -979,24 +996,19 @@ class tpfdb():
         
         name = pkey + extension
         
-        if path != None:
-            resfolder = os.path.join(*path)
-            if not os.path.isdir(resfolder):
-                os.mkdir(resfolder)
-            filename = os.path.join(resfolder,name)
-        
-        basename = filename.split('.')[0]
-        for keys in pdata.keys():
-            newfilename = basename + '_' + str(keys) + '.txt'
+
+        for keys in pdata.curvelib.keys():
+            
+            newfilename = name + '_' + str(keys) + '.txt'
             f1 = open(newfilename,'w')
-            labels = delimiter.join(self.pdb[pkey]['plabel']) + '\n'
+            labels = delimiter.join([pdata.curvelib[keys].xcolumnname,pdata.curvelib[keys].ycolumnname]) + '\n'
             f1.write(labels)
     
-            units = delimiter.join(self.pdb[pkey]['punits']) + '\n'
+            units = delimiter.join([pdata.curvelib[keys].xunit,pdata.curvelib[keys].yunit]) + '\n'
             f1.write(units)
 
-        
-            np.savetxt(f1,pdata[keys],delimiter=delimiter)
+            dataxy = np.vstack([pdata.curvelib[keys].xdata,pdata.curvelib[keys].ydata]).T
+            np.savetxt(f1,dataxy,delimiter=delimiter)
         f1.close()
     
     

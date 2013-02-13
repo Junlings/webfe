@@ -8,7 +8,8 @@ import core.meta.meta_class as metacls
 import coordinates as coord
 import numpy as np
 #from FEA.model.facility.intergration import *
-       
+import time
+
 class conn():
     """
     Single conntivity item
@@ -57,12 +58,18 @@ class conn():
                  updatelist --  a dictionary with target node seq as key and
                                 replaceable node seq as values
         '''
+        
+        for i in range(0,len(self.nodelist)):
+            if self.nodelist[i] in updatelist.keys():
+                self.nodelist[i] = updatelist[self.nodelist[i]]
+        
+        '''
         for seq in updatelist.keys():      # loop over master seq
             for item in updatelist[seq]:   # loop over slave seq
                 ij = np.where(self.nodelist == item) # locate the position
                                                         # of slave seq in list
                 self.nodelist[ij] = seq   # replace slave with master
-    
+        '''
     def update_property(self,propseq):
         ''' update the property sequence'''
         self.property = propseq
@@ -113,10 +120,21 @@ class connlist():
             self.update()
     
     def update(self):
+        #t0 = time.time()
         self.get_seqlist()
-        self.get_elemtable()
-        self.get_nodeseq()
+        #t1 = time.time() - t0
+        #print 'time to get Seq list for elements %s ' % str(t1)
+        
+        #t0 = time.time()
+        #self.get_elemtable()
+        #t1 = time.time() - t0
+        #print 'time to get element table %s ' % str(t1)
 
+        #t0 = time.time()        
+        #self.get_nodeseq()
+        #t1 = time.time() - t0
+        #print 'time to get element nodeseq %s ' % str(t1)
+        
     def get_seqlist(self):
         ''' get sequence in list '''
         self.seqlist = np.array(list(self.itemlib.keys()))
@@ -124,6 +142,7 @@ class connlist():
         
     def get_seqmax(self):
         ''' get the max seq in the list'''
+        self.get_seqlist()
         if len(self.seqlist) != 0:
             return max(self.seqlist)
         else:
@@ -382,10 +401,21 @@ class connlist():
         for seq in self.seqlist:
             self.itemlib[seq].nodelist += seqshift_node
         
-    def update_nodeseq(self,updatelist):
+    def update_nodeseq(self,updatedict):
+        # get reverse dict
+        replacedict = {}
+        replacelist = []
+        for key,items in updatedict.items():
+            for item in items:
+                replacedict[item] = key
+                replacelist.append(item)
+
         for seq in self.seqlist:
             elemi = self.itemlib[seq]
-            elemi.update_nodeseq(updatelist)
+            
+            ifneed = set(elemi.nodelist) & set(replacelist)
+            if len(ifneed):
+                elemi.update_nodeseq(dict((k, replacedict[k]) for k in list(ifneed)))
         
 
     def deletebylist(self,itemseqlist,update=False):

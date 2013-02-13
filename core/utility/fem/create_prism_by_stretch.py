@@ -50,8 +50,19 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
             loopnodelist = []
             loopnodelist2 = []
             for nodekey in tempnodelist:
-                loopnodelist.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr))
-                loopnodelist2.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr-1))
+                if len(tempnodelist) == 4:  #from quad to hex
+                
+                    loopnodelist.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr))
+                    loopnodelist2.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr-1))
+                    
+                elif len(tempnodelist) == 2:  #from line to quad
+                    loopnodelist.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr))
+                    loopnodelist2.append(new_id + 1 + nodekeylist.index(nodekey)+ n_nodelist*(incr-1))
+                    
+                    loopnodelist = loopnodelist[::-1]
+                    #loopnodelist2 = loopnodelist2[::-1]
+                else:
+                    raise Error, ('3D sketch do not defined for nodelist number',len(tempnodelist))
             if incr == 0:
                 tempnodelist.extend(loopnodelist)       
                 new_elemlist.append(np.array(tempnodelist))

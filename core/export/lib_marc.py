@@ -127,8 +127,12 @@ class ex_Marc():
         
         elif mat.__class__.__name__ == 'uniaxial_elastic_plastic':    
             exp = self.material.plasticity(key,mat.E,mat.mu,mat.sigma_y,tablename=mat.tabletag)
+            
+        elif mat.__class__.__name__ == 'lowtension_marc_builtin':
+            exp = self.material.low_tension(key,mat.E,mat.mu,mat.ft,mat.Es,mat.epsilon,mat.shear)
+            
         else:
-            raise TypeError, "Material type do not identified"
+            raise TypeError, ("Material type:",mat.__class__.__name__," do not identified")
         
         return exp
     def ex_prop_single(self,key,prop):
@@ -227,7 +231,11 @@ class ex_Marc():
         elif sec.__class__.__name__ == 'shape_section':
             if sec.shape == 'general_truss':
                 exp = self.geometry.truss3d(key,sec.para['area'])
-            
+        elif sec.__class__.__name__ == 'interface2d':
+                exp = self.geometry.interface2d(key,1)  # use unit thickness for interface
+        
+        elif sec.__class__.__name__ == 'SolidCircular3D':
+            exp = self.geometry.SolidCircular3D(key,'circle',sec.diameter,sec.mesh_r,sec.mesh_c)
         #    exp = self.geometry.truss3d()
         return exp
     
@@ -815,9 +823,25 @@ class node_ties():
            inputstr += "*rbe2_tied_dof 4\n"
            inputstr += "*rbe2_tied_dof 5\n"
            inputstr += "*rbe2_tied_dof 6\n"
+
+        elif tietype=='DX':
+           inputstr += "*rbe2_tied_dof 1\n"
+
+        elif tietype=='DY':
+           inputstr += "*rbe2_tied_dof 2\n"
+
+        elif tietype=='DZ':
+           inputstr += "*rbe2_tied_dof 3\n"
            
         elif tietype=='RX':
            inputstr += "*rbe2_tied_dof 4\n"
+
+        elif tietype=='RY':
+           inputstr += "*rbe2_tied_dof 5\n"
+
+        elif tietype=='RZ':
+           inputstr += "*rbe2_tied_dof 6\n"
+
            
         inputstr += "*rbe2_ret_node %s\n" % int(retnode)
         
@@ -1023,8 +1047,7 @@ class material():
         '''
         Create the low tension concrete material
         '''
-        self.create_elastic(name,E,u)
-        inputstr = ''
+        inputstr = self.create_elastic(name,E,u)
         inputstr += "*material_type damage:cracking\n"
         inputstr += "*material_value cracking:stress\n"
         inputstr += "%g \n %g \n %g \n %g \n #\n" % (ft,Es,epsilon,shear)
@@ -1252,7 +1275,36 @@ class geometry():
         inputstr += "*geometry_param area\n"
         inputstr += "%f\n" % A
         return inputstr     
+    
+    
+    def SolidCircular3D(self,name,shape,diameter,mesh_r=3,mesh_c=2,withshear=True):
+        ''' marc solid circular 3d seciton with diameter and mesh size in the radius an circumstance direction '''
+        
+        inputstr = ''
+        inputstr += "*new_geometry\n"
+        inputstr += "*geometry_name %s\n" % name
+        inputstr += "*geometry_type mech_three_beam_ela\n"
+        inputstr += "*geometry_option section_props:calculated\n"
+        if withshear:
+            inputstr += "*geometry_option struc_tshear:on\n"
+        else:
+            inputstr += "*geometry_option struc_tshear:off\n"
+        inputstr += "*geometry_option solid_sect:circular\n"        
+        inputstr += "*geometry_param diameter\n"
+        inputstr += "%f\n" % diameter
+        inputstr += "*geometry_param elliptical_int_r\n"
+        inputstr += "%i\n" % mesh_r
+        inputstr += "*geometry_param elliptical_int_phi\n"
+        inputstr += "%i\n" % mesh_c
+        if withshear:
+            inputstr += "*geometry_option struc_tshear:on\n"
+        else:
+            inputstr += "*geometry_option struc_tshear:off\n"
+        inputstr += "%i\n" % mesh_c
+        return inputstr     
             
+        
+    
     def axisym_solid(self,name):
         '''
         Geometery of axisy symmetric solid
@@ -1262,7 +1314,17 @@ class geometry():
         inputstr += "*geometry_name %s\n" % name
         inputstr += "*geometry_type mech_axisym_solid\n"
         return inputstr
-        
+    
+    def interface2d(self,name,t):
+        ''' create 2D interface geometry with only inputs as thickness '''
+        inputstr = ''
+        inputstr += "*new_geometry\n"
+        inputstr += "*geometry_name %s\n" % name        
+        inputstr += "*geometry_type mech_planar_interface\n"
+        inputstr += "*geometry_type norm_to_plane_thick\n"        
+        inputstr += "%f\n" % t
+        return inputstr
+    
 class bond_load():
     '''
     class for create boundary conditions including the loads

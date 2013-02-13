@@ -385,13 +385,13 @@ class stylelib():
         
         # then dump the 
         self.add('linelib',1,color='k',marker='*',linestyle='-',markersize=4,linewidth=0.5)
-        self.add('linelib',2,color='k',marker='x',linestyle='--',markersize=4,linewidth=0.5)
-        self.add('linelib',3,color='k',marker='+',linestyle='-.',markersize=4,linewidth=0.5)
+        self.add('linelib',2,color='k',marker='x',linestyle=':',markersize=4,linewidth=0.5)
+        self.add('linelib',3,color='k',marker='+',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',4,color='k',marker='.',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',5,color='k',marker=',',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',6,color='k',marker='d',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',7,color='k',marker='|',linestyle=':',markersize=4,linewidth=0.5)
-        self.add('linelib',8,color='k',marker='-',linestyle=':',markersize=4,linewidth=0.5)
+        self.add('linelib',8,color='k',marker='o',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',9,color='k',marker='v',linestyle=':',markersize=4,linewidth=0.5)
         self.add('linelib',10,color='k',marker='^',linestyle=':',markersize=4,linewidth=1)
         self.add('linelib',11,color='k',marker='<',linestyle=':',markersize=4,linewidth=1)

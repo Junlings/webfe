@@ -5,7 +5,7 @@ and provide API for model operations
 """
 # import global settings
 from core.settings import *
-import datetime
+import datetime,time
 # import register class
 import core.meta.meta_class as metacls
 
@@ -181,7 +181,16 @@ class model():
         ''' get all types of element from model'''
         typelist = []
         for key,elem in self.connlist.itemlib.items():
-            typeid = self.get_element_typeid(key)
+            #typeid = self.get_element_typeid(key)
+            typeid = None
+            if typeid == None:
+                if len(elem.nodelist) == 4:
+                    typeid = '75'
+                elif len(elem.nodelist) == 2:
+                    typeid = '9'
+                elif len(elem.nodelist) == 8:
+                    typeid = '7'
+                        
             if typeid not in typelist:
                 typelist.append(typeid)
                 
@@ -258,7 +267,7 @@ class model():
         
         return tempnode
     
-    def element(self,elist,setname='default',daterange=None):
+    def element(self,elist,setname='default',daterange=None,seqlist=None):
         ''' create list of Conn instance and add to connlist
             list --  connectivity information of the elements [[n11,n12,..1n],
                                                                [n21,n22,..2n]]
@@ -269,8 +278,11 @@ class model():
         ne = self.connlist.get_seqmax()
         tempelem = []
         tempelemseqlist = []
+        ne_seq = -1
+        #t0 = time.time()
         for item in elist:
             ne += 1
+            ne_seq += 1
             # try convert to desired numpy array
 
             try:
@@ -281,15 +293,26 @@ class model():
             except:
                 raise ValueError,('input element connectivity',item,
                                   'can not convert to numpy int array')
-
-            tempelem.append(conn(item,seq=ne))
+            if seqlist == None:
+                tempelem.append(conn(item,seq=ne))
+            else:
+                tempelem.append(conn(item,seq=seqlist[ne_seq]))
             tempelemseqlist.append(ne)
-        # add to connnlist
+        #t1 = time.time() - t0
+        #print 'time to create elements %s ' % str(t1)
+        
+        # t0 = time.time()
         self.connlist.addbylist(tempelem)
+        #t1 = time.time() - t0
+        #print 'time to add elements %s ' % str(t1)
+        
+        #t0 = time.time()
         if setname not in self.setlist.keys():
             self.elemset(setname,{'elemlist':tempelemseqlist})
         else:
             self.setlist[setname].addelem(tempelemseqlist)
+        #t1 = time.time() - t0
+        #print 'time to add elements to set%s ' % str(t1)
         
         return tempelemseqlist
     
@@ -313,8 +336,12 @@ class model():
 
 
     def delete_elements(self,seqlist):
+        # remove elements
         self.connlist.deletebylist(seqlist)
         
+        # remove elements from sets
+        for key,setitem in self.setlist.items():
+            setitem.deleteelembylist(seqlist)
         
     def material(self,matname,matclass,paralib={}):
         ''' add material instance to the matlist.
@@ -511,18 +538,33 @@ class model():
     # ==============start the check functions
     
     def sweep(self,includenodelist=None,excludenodelist=None):
+
+        #t0 = time.time()
         overlapnodedict = self.nodelist.check_overlap(include=includenodelist,exclude=excludenodelist)
+        #t1 = time.time() - t0
+        #print 'time to check overlap %s ' % str(t1)
+
+        
+
+
     
         # update the connectivity
+        #t0 = time.time()
         self.connlist.update_nodeseq(overlapnodedict)
+        ##t1 = time.time() - t0
+        #print 'time to update nodeseq %s ' % str(t1)
         
+        #t0 = time.time()
         # update the setcontent
         for key in self.setlist.keys():
-            
             self.setlist[key].update_nodeseq(overlapnodedict)
+        #t1 = time.time() - t0
+        #print 'time to update set %s ' % str(t1)
         
+        #t0 = time.time()        
         self.nodelist.del_nodes(overlapnodedict)
-    
+        #t1 = time.time() - t0
+        #print 'time to delete nodes %s ' % str(t1)    
     
     
     def check_node_overlap(self):
@@ -554,7 +596,9 @@ class model():
     def pick_node_coord_3d(self,coord,err=0.0001):
         seq = list(self.nodelist.select_node_coord(rx=[coord[0]-err,coord[0]+err],ry=[coord[1]-err,coord[1]+err],rz=[coord[2]-err,coord[2]+err]))
         if len(seq) > 1:
-            raise ValueError,"More than one node picked" 
+            raise ValueError,"More than one node picked"
+        elif len(seq) == 0:
+            raise ValueError,("No node picked from coordinate",coord)
         else:
             return seq[0]
         
