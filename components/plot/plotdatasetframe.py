@@ -247,9 +247,11 @@ class PlotDataSetPanel(wx.Panel):
         vbox = wx.BoxSizer(wx.VERTICAL)
         f1 = wx.Panel(self.SetNoteBook)
         self.SetNoteBook.AddPage(f1, "Labels")        
-        gs = wx.GridSizer(5, 2, 5, 5)
+        gs = wx.GridSizer(6, 4, 5, 5)
         
-
+        self.scaleminlabel = wx.StaticText(f1, label='Min',size=(50,20),style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
+        self.scalemaxlabel = wx.StaticText(f1, label='Max',size=(50,20),style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
+      
         
         self.x1_label = wx.StaticText(f1, label='Label for X1 axis',style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
         self.y1_label = wx.StaticText(f1, label='Label for Y1 axis',style=wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
@@ -259,19 +261,48 @@ class PlotDataSetPanel(wx.Panel):
         self.y1 = wx.TextCtrl(f1,size=(150,20))
         self.x2 = wx.TextCtrl(f1,size=(150,20))
         self.y2 = wx.TextCtrl(f1,size=(150,20))
+
+        self.x1_max = wx.TextCtrl(f1,size=(50,20))
+        self.y1_max = wx.TextCtrl(f1,size=(50,20))
+        self.x2_max = wx.TextCtrl(f1,size=(50,20))
+        self.y2_max = wx.TextCtrl(f1,size=(50,20))
         
+        self.x1_min = wx.TextCtrl(f1,size=(50,20))
+        self.y1_min = wx.TextCtrl(f1,size=(50,20))
+        self.x2_min = wx.TextCtrl(f1,size=(50,20))
+        self.y2_min = wx.TextCtrl(f1,size=(50,20))
         self.update_label = wx.Button(f1,label='Update')
         self.update_label .Bind(wx.EVT_LEFT_DOWN,self.OnUpdateLabels)
         
         cont = []
+        cont.append(((0,0), 0, 0))# wx.EXPAND))
+        cont.append(((0,0), 0, 0))# wx.EXPAND))
+        cont.append((self.scaleminlabel, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        cont.append((self.scalemaxlabel, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        
         cont.append((self.x1_label, 0, wx.ALIGN_CENTER))#wx.EXPAND))
         cont.append((self.x1, 0, 0))# wx.EXPAND))
+        cont.append((self.x1_min, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        cont.append((self.x1_max, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        
         cont.append((self.y1_label, 0, wx.ALIGN_CENTER))# wx.EXPAND))
         cont.append((self.y1, 0, 0))# wx.EXPAND))
+        cont.append((self.y1_min, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        cont.append((self.y1_max, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        
         cont.append((self.x2_label, 0, wx.ALIGN_CENTER))# wx.EXPAND))
         cont.append((self.x2, 0, 0))# wx.EXPAND))
+        cont.append((self.x2_min, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        cont.append((self.x2_max, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        
+        
         cont.append((self.y2_label, 0, wx.ALIGN_CENTER))# wx.EXPAND))
         cont.append((self.y2, 0, 0))# wx.EXPAND))
+        cont.append((self.y2_min, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        cont.append((self.y2_max, 0, wx.ALIGN_CENTER))# wx.EXPAND))
+        
+        cont.append(((0,0), 0, 0))# wx.EXPAND))
+        cont.append(((0,0), 0, 0))# wx.EXPAND))
         cont.append(((0,0), 0, 0))# wx.EXPAND))
         cont.append((self.update_label, 0, 0))# wx.EXPAND))
         
@@ -285,8 +316,17 @@ class PlotDataSetPanel(wx.Panel):
         self.y1.SetValue(self.plotdata.label[1])
         self.x2.SetValue(self.plotdata.label[2])
         self.y2.SetValue(self.plotdata.label[3])
+
+        self.x1_min.SetValue(self.plotdata.minlimits[0])
+        self.y1_min.SetValue(self.plotdata.minlimits[1])
+        self.x2_min.SetValue(self.plotdata.minlimits[2])
+        self.y2_min.SetValue(self.plotdata.minlimits[3])        
+
+        self.x1_max.SetValue(self.plotdata.maxlimits[0])
+        self.y1_max.SetValue(self.plotdata.maxlimits[1])
+        self.x2_max.SetValue(self.plotdata.maxlimits[2])
+        self.y2_max.SetValue(self.plotdata.maxlimits[3])
         
-    
     def OnUpdateFigure(self,event):
         self.CanvasPanel.FigureUpdate(self.results.figurerealize(self.plotkey))
         
@@ -329,6 +369,36 @@ class PlotDataSetPanel(wx.Panel):
         y2 = self.y2.GetValue()
         
         pub.sendMessage("COMMAND", '*plot_edit_pdb_labels,%s,%s,%s,%s,%s' % (self.plotkey,x1,y1,x2,y2))
+        
+        # check if need to do limits updates
+        x1_max = self.x1_max.GetValue()
+        y1_max = self.y1_max.GetValue()
+        x2_max = self.x2_max.GetValue()
+        y2_max = self.y2_max.GetValue()        
+        x1_min = self.x1_min.GetValue()
+        y1_min = self.y1_min.GetValue()
+        x2_min = self.x2_min.GetValue()
+        y2_min = self.y2_min.GetValue()           
+        
+        if not str(x1_max) == str(self.plotdata.maxlimits[0]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'x1_max',x1_max))
+        if not str(y1_max) == str(self.plotdata.maxlimits[1]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'y1_max',y1_max))
+        if not str(x2_max) == str(self.plotdata.maxlimits[2]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'x2_max',x2_max))
+        if not str(y2_max) == str(self.plotdata.maxlimits[3]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'y2_max',y2_max))
+        if not str(x1_min) == str(self.plotdata.minlimits[0]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'x1_min',x1_min))
+        if not str(y1_min) == str(self.plotdata.minlimits[1]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'y1_min',y1_min))
+        if not str(x2_min) == str(self.plotdata.minlimits[2]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'x2_min',x2_min))
+        if not str(y2_min) == str(self.plotdata.minlimits[3]):
+            pub.sendMessage("COMMAND", '*plot_edit_pdb_limits,%s,%s,%s' % (self.plotkey,'y2_min',y2_min))
+        
+
+        
         #self.OnUpdateFigure(event)
     def OnUpdateSettings(self,event):
         stylekey = self.settigdict['style'].GetStringSelection()

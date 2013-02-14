@@ -95,6 +95,10 @@ class plotdata():
         self.type = None
         self.style = None
         
+        # add axis control variable
+        self.minlimits = ['auto','auto','auto','auto']
+        self.maxlimits = ['auto','auto','auto','auto'] 
+        # update parameters based on the input dictionary
         for key in inputdict.keys():
             if key in self.__dict__.keys():
                 self.__dict__[key] = inputdict[key]    
@@ -918,6 +922,26 @@ class tpfdb():
         ''' edit the plot data unit list '''
         self.pdb[pkey].unit = [x1unit,y1unit,x2unit,y2unit]
 
+    def edit_pdb_limits(self,pkey,label,value):
+        ''' edit the plot data unit list '''
+        if label == 'x1_max':
+            self.pdb[pkey].maxlimits[0] = value
+        elif label == 'y1_max':
+            self.pdb[pkey].maxlimits[1] = value
+        elif label == 'x2_max':
+            self.pdb[pkey].maxlimits[2] = value
+        elif label == 'y2_max':
+            self.pdb[pkey].maxlimits[3] = value
+        elif label == 'x1_min':
+            self.pdb[pkey].minlimits[0] = value
+        elif label == 'y1_min':
+            self.pdb[pkey].minlimits[0] = value
+        elif label == 'x2_min':
+            self.pdb[pkey].minlimits[0] = value
+        elif label == 'y2_min':
+            self.pdb[pkey].minlimits[0] = value
+        else:
+            raise KeyError,('Plot data ',pkey,'limit label ',label,' wrong, shall be (x1_max,x2_min,y1_max,y2_max.etc)')
     def edit_pdb_label(self,pkey,x1,y1,x2='x2',y2='y2'):
         ''' edit the plot data label list '''
         self.pdb[pkey].label = [x1,y1,x2,y2]

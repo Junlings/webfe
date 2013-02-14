@@ -2,7 +2,7 @@
 import sys
 import os
 import datetime
-sys.path.append('../webfe/')
+sys.path.append('../../webfe/')
 import numpy as np
 from core.model.registry import model
 from core.export.export import exporter
@@ -17,9 +17,10 @@ from command import commandparser
 from core.utility.fem.create_arcplane import create_cylinderSurface
 
 from numpy import exp,sin,cos,arctan,abs,sqrt
+import matplotlib.pyplot as plt
 
 def dent_function_numeric(x,y):
-    ''' the defination of the curve fittinh dent function '''
+    ''' the defination of the curve fitting dent function '''
     _C3 = 1
     _C4 = 1
     gamma = 0.5
@@ -35,6 +36,36 @@ def dent_function_numeric(x,y):
         denty = 1
     return dentx * denty
 
+
+def plot_dentmap(zcrit):
+    zcrit = 430
+    nz = 100
+    nr = 100
+    dentz = []
+    locz = []
+    locr = []
+    dentr = []
+    # variation from length direction
+    for iz in range(0,nz):
+        z = iz * 2*float(zcrit)/(float(nz))
+        locz.append(z)
+        dentz.append(dent_function_numeric(z/zcrit,0))
+    
+    # variation in the hoop direction
+    for ir in range(0,nr):
+        r = ir * float(3.1415926*2.0/nr)
+        locr.append(r)
+        dentr.append(dent_function_numeric(0,r/3.1415926))
+    
+    
+        
+    
+    plt.plot(locz,dentz)
+    plt.show()
+    
+    plt.plot(locr,dentr)
+    plt.show()
+    
 def dent_function_node(model1,nodeid,deepdent):
     ''' add dent to the node '''
     
@@ -157,5 +188,5 @@ def test_procedure_pole():
 
 if __name__ == '__main__':
     
-    test_procedure_pole()
-    
+    #test_procedure_pole()
+    plot_dentmap(200)

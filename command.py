@@ -221,6 +221,12 @@ class commandparser():
         pdbkey = args[0]
         self.results.edit_pdb_label(pdbkey,*args[1:])
 
+
+    def plot_edit_pdb_limits(self,*args):
+        pdbkey = args[0]
+        self.results.edit_pdb_limits(pdbkey,*args[1:])
+        
+        
     def plot_edit_pdb_legends(self,*args):
         pdbkey = args[0]
         self.results.edit_pdb_legend(pdbkey,*args[1:])

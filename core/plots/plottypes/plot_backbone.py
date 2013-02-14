@@ -308,8 +308,23 @@ class plotbackbone():
             ax.legend(legendhandle,legendlabel,**self.legendlib['default'])
             #ax.legend(labellist,**self.legendlib['default'])
         # adjust limits if nesessary
-        self.linkLimitsall()
         
+        
+        self.setplotdatalimits(ax,plotdata)   
+        
+        self.linkLimitsall()
+    
+    
+    def setplotdatalimits(self,ax,plotdata):
+        if plotdata.maxlimits[0] != 'auto':
+            ax.set_xlim(xmax=float(plotdata.maxlimits[0]))
+        if plotdata.maxlimits[1] != 'auto':
+            ax.set_ylim(ymax=float(plotdata.maxlimits[1]))
+        if plotdata.minlimits[0] != 'auto':
+            ax.set_xlim(xmin=float(plotdata.minlimits[0]))
+        if plotdata.minlimits[1] != 'auto':
+            ax.set_ylim(ymin=float(plotdata.minlimits[1]))
+    
     def addPlotOld(self,axeskey,plotdata,datalabel=None,legend=True):
         ax = self.axeslib[axeskey]
         linehandle = []
