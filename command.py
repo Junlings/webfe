@@ -240,16 +240,20 @@ class commandparser():
     def plot_edit_tdb_increment(self,*args):
         ''' get increment for table '''
         
-        try:
-            newtablekey = str(args[0])
-            tablekey = str(args[1])
-            incr_start = int(args[2])
-            incr_end = int(args[3])
-            incr_step = int(args[4])
-        except:
-            raise ValueError,("input parameter not in format of ('str','int')",'got',map(type,*args))
+        #try:
+        newtablekey = str(args[0])
+        tablekey = str(args[1])
+        incr_start = args[2]
+        incr_end = args[3]
+        incr_step = args[4]
+        if len(args) == 6:
+            seqtable = args[5]
+        else:
+            seqtable = None
+        #except:
+        #    raise ValueError,("input parameter not in format of ('str','int')",'got',map(type,*args))
         
-        self.results.tmask_incrment_setresults(newtablekey,tablekey,incr_start,incr_end,incr_step)
+        self.results.tmask_incrment_setresults(newtablekey,tablekey,incr_start,incr_end,incr_step,seqtablekey=seqtable)
         
     def plot_edit_tdb_coordlist(self,*args):
         origntablekey = args[0]
@@ -269,6 +273,12 @@ class commandparser():
     def plot_pdata_save(self,*args):
         pdatakey = args[0]
         self.results.savepdata(pdatakey)
+    
+    
+    def plot_procedure_dist(self,*args):
+
+        
+        self.results.plot_procedure_dist(*args)
         
     def macro_start(self):
         self.macro_start = len(self.commandhis)
@@ -292,8 +302,10 @@ class commandparser():
         for line in f1.readlines():
             # assign folder path if needed
             if '%' in line:
-                line = line % self.currentsettings
-            
+                try:  # try fill with gloabl settings 
+                    line = line % self.currentsettings
+                except: # if not found then leave to local variables
+                    pass
             self.parser(line)
 
         

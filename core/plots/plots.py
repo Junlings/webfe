@@ -191,14 +191,15 @@ class tpfdb():
         masklist = []
         
         if ':' in inputstr:
-            tablename,columnname = inputstr.split(':')  
+            tablename,columnname = inputstr.split(':')[0:2]
             
             # sparser out the mask list
             if '|' in columnname:
                 temp = columnname.split('|')
                 columnname = temp[0]
                 masklist = temp[1:]
-                
+            
+            #columnid = self.get_table_column_id_by_label(tablename,columnname)
             try:
                 #columnname = self.get_table_column_label_by_id(tablename,columnname)
                 columnid = self.get_table_column_id_by_label(tablename,columnname)
@@ -277,7 +278,17 @@ class tpfdb():
                     return self.tdb[tablekey]['unitlist'][columnid]
         else:
             raise KeyError,('Table:', tablekey,' do not exist')
-        
+    
+    def get_table_column_size_by_label(self,tablekey,columnlabel):
+        ''' input columnid to get column name '''
+        if tablekey in self.tdb.keys():
+            columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+            
+            pdata,punit = self.retrive(tablekey,columnid)
+            return len(pdata)
+    
+
+    
     def add_plotdata_command(self,plotkey,pairidlist): # default mode 'xyy'):
         ''' add plot data by refering table name and column labels
             mode can be specified to simplify 
@@ -402,30 +413,78 @@ class tpfdb():
     
     
     
-    def row_to_column(self,tablekey,rowid_start,rowid_end,rowid_step):
-        ''' get the row vector from table with targeted unit '''
+    def row_to_column(self,tablekey,rowid_start,rowid_end,rowid_step,seqtablekey=None):
+        ''' get the row vector from table with targeted unit
+            if the seqtablekey is not blank, the the rowid start,end,and step will be quantity searching
+        '''
 
         if tablekey in self.tdb.keys():  # defined in table
+            if seqtablekey == None:
+                rowid_start,rowid_end,rowid_step =map(int,[rowid_start,rowid_end,rowid_step])
+                
+                if rowid_start == -1:
+                    rowid_start = 0
+                
+                if rowid_end == -1:
+                    rowid_end = self.tdb[tablekey]['data'].shape[0]
+                
+                req_rows = range(rowid_start,rowid_end,rowid_step)
             
-            if rowid_start == -1:
-                rowid_start = 0
-            
-            if rowid_end == -1:
-                rowid_end = self.tdb[tablekey]['data'].shape[0]
-            
-            req_rows = range(rowid_start,rowid_end,rowid_step)
+            else:
+                rowid_start,rowid_end,rowid_step =map(float,[rowid_start,rowid_end,rowid_step])
+                req_rows = self.raw_retrive_colrow_range(seqtablekey,rowid_start,rowid_end,rowid_step)
             
             row_data = self.tdb[tablekey]['data'][req_rows,:].T   # transpose
             row_label = map(str,req_rows)
             
-            row_unit = ['N/A'] * len(req_rows) 
+            row_unit = ['N/A'] * len(req_rows)
             
+  
             return row_label,row_unit,row_data
         else:
             raise TypeError,('Table name:',tablekey, 'not existed, row-to-column operation aborted')
         
+    def raw_retrive(self,inputstr):
+        tablekey,columnid,masklist = self.sparse_keystr(inputstr)
+        sourcedata,sourceunit = self.retrive(tablekey,columnid)
+        
+        return tablekey,columnid,masklist,sourcedata,sourceunit
     
+    def raw_retrive_colrow(self,inputstr):
+        ''' strict input of $table:columnlabel:rowid:unitlabel'''
+        
+        tablekey,columnlabel,rowid,targetunit = inputstr[1:].split(':')
+        columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+        sourcedata,sourceunit = self.retrive(tablekey,columnid,targetunit=targetunit)
+
+        
+        return sourcedata[int(rowid)],sourceunit
     
+    def raw_retrive_colrow_range(self,inputstr,start,end,step):
+        ''' strict input of $table:columnlabel'''
+        tablekey,columnlabel,targetunit = inputstr.split(':')
+        columnid = self.get_table_column_id_by_label(tablekey,columnlabel)
+        sourcedata,sourceunit = self.retrive(tablekey,columnid,targetunit=targetunit)
+        ind_i = []
+        
+        n_step = int(abs(end-start)/step)
+        for i in range(0,n_step):
+            value = start + i*step
+            if value > np.max(sourcedata):
+                ind_i.append(sourcedata.shape[0])
+                ind_i.append(ind)
+                break
+
+            ind = np.min(np.nonzero(sourcedata > value)[0])
+            ind_i.append(ind)
+        
+        ind_i = list(set(ind_i))
+        ind_i.sort()
+        return ind_i
+        
+        
+        
+        
     def retrive(self,tablekey,columnid,targetunit=None):
         ''' strict parameter inputs'''
  
@@ -514,11 +573,11 @@ class tpfdb():
         return 
     
     
-    def tmask_incrment_setresults(self,targettablekey,tablekey,incr_start,incr_end,incr_step):
+    def tmask_incrment_setresults(self,targettablekey,tablekey,incr_start,incr_end,incr_step,seqtablekey=None):
         ''' collect certain increment results from the whole table '''
         if tablekey in self.tdb.keys():
             
-            slabel,sunit,sdata = self.row_to_column(tablekey,incr_start,incr_end,incr_step)
+            slabel,sunit,sdata = self.row_to_column(tablekey,incr_start,incr_end,incr_step,seqtablekey=seqtablekey)
         
             #targettablekey = tablekey + '_'.join([str(incr_start),str(incr_end),str(incr_step)])
             self.add(targettablekey,sdata,sunit,slabel)
@@ -871,6 +930,12 @@ class tpfdb():
             raise TypeError,('The key for icurve instance shall be int or shall be able to convert to int,got',type(icurvekey),icurvekey)
         
         
+        # convert the quantity request sign of $
+        
+        if '$' in legendlabel:
+            data,unit = self.raw_retrive_colrow(legendlabel)
+            legendlabel = '%6.3f %s' % (data,unit)
+        
         self.pdb[pkey].curvelib[icurvekey].legend = legendlabel
         
         #if legendlabel =='None':
@@ -1051,7 +1116,47 @@ class tpfdb():
     def load(self,filename):
         results = loadbyfile(filename)
         return results
+   
+    
+    #==================prodceures
+    
+    
+    def plot_procedure_dist(self,*args):
+        plotkey = args[0]
+        Xinput = args[1]
+        Yinput = args[2]
+        Linput = args[3]
+        #incrstart = int(args[4])
+        #incrend = int(args[5])
+        #incrstep = int(args[6])
 
+        savefig = args[4]
+        savepdata = args[5]
+        
+        fstyle = 'test'
+        ftype = 'line-one axis'
+        
+        #if incrend == -1:
+        #    tablekey,columnlabel = Linput.split(':')[0:2]
+        #    incrend = self.get_table_column_size_by_label(tablekey,columnlabel)
+        
+        curvecount = 1
+        for label in self.tdb[Yinput]['labellist']:#incrstart,incrend+1,incrstep):
+            Yinputfull = Yinput+':'+label  # increment name
+            self.add_plotdata_command(plotkey,[Xinput,Yinputfull]) #plotkey,tablekey,pairidlist,mode='xy')
+            
+            
+            Linputfull = '$'+Linput % {'incr':str(label)}
+            
+            self.edit_pdb_legend(plotkey,curvecount,Linputfull)    # update the plot legend
+            curvecount += 1    
+            
+        self.append_plotdata_mask(plotkey,'xy','pair_sortx')   
+        self.add_figure(plotkey,plotkey,fstyle,ftype)
+        if len(savefig) >0: self.savefig(plotkey,savefig,name=plotkey+'.'+savefig)
+        if savepdata == '1':self.savepdata(plotkey+'.csv')
+
+        
 if __name__ == '__main__':
     t1 = timeit.timeit()
     import numpy as np
