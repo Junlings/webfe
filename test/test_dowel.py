@@ -164,6 +164,7 @@ def test_baseline():
     test_procedure_dowelaction('dowel_base',dia,dow_width,dow_height,dow_rebarcenter,dow_holewidth,dow_holedepth,dow_length,dow_length_incr,dow_sep_incr,dow_sep_h)
     
 def test_group2():
+    ''' different length '''
     dow_width = 1.5
     dow_height = 4.25
     dow_rebarcenter = dow_height-1.188
@@ -177,6 +178,7 @@ def test_group2():
     test_procedure_dowelaction('dowel_g2',dia,dow_width,dow_height,dow_rebarcenter,dow_holewidth,dow_holedepth,dow_length,dow_length_incr,dow_sep_incr,dow_sep_h)
     
 def test_group3():
+    ''' different height, less bottom cover '''
     dow_width = 1.5
     dow_height = 4.0
     dow_rebarcenter = dow_height-0.938
@@ -204,6 +206,7 @@ def test_group4():
     test_procedure_dowelaction('dowel_g4',dia,dow_width,dow_height,dow_rebarcenter,dow_holewidth,dow_holedepth,dow_length,dow_length_incr,dow_sep_incr,dow_sep_h)
    
 def test_group5():
+    ''' different rebar number '''
     dow_width = 1.75
     dow_height = 4.5
     dow_rebarcenter = dow_height-1.25
@@ -305,15 +308,15 @@ def test_procedure_dowelaction(name,dia,dow_width,dow_height,dow_rebarcenter,dow
 
 def post_dowel():
     c1 = commandparser()    
-    c1.parser('*macro_load,M:\\github\\webfe\\test\\dowel_base\\posyprocess.mac')
+    c1.parser('*macro_load,M:\\marcworking\\dowel\\dowel_base\\full\\posyprocess.mac')
 
 if __name__ == '__main__':
-    '''
-    test_baseline()
-    test_group2()
-    test_group3()
-    test_group4()
-    test_group5()
-    '''
+    #
+    #test_baseline()
+    #test_group2()
+    #test_group3()
+    #test_group4()
+    #test_group5()
+    
     #test_procedure_dowelaction()
     post_dowel()

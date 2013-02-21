@@ -5,6 +5,7 @@
     figure management
 """
 import os.path
+import csv
 
 # create default unit system predefined
 from unitsystem import create_units
@@ -13,7 +14,7 @@ from unitsystem import create_units
 from plottypes.line import double_axis_line, single_axis_line
 
 # Import predefined plot styles
-from plotsettings import publish_style, testresult_style,default_style,mono_style
+from plotsettings import publish_style, testresult_style,default_style,mono_style, noline_style
 
 # Import data mask for data manipulation
 from dmask import dmask, create_default
@@ -85,6 +86,17 @@ class icurve():
         # apply xymask
         self.xyapply(results)
         
+    def copy(self,ind):
+        ''' return a new instance with same settings'''
+        j1 = icurve(ind)
+        
+        for key,item in self.__dict__.items():
+            if not hasattr(item, '__call__'):
+                j1.__dict__[key] = item
+                
+        return j1
+        
+    
     
 class plotdata():
     def __init__(self,inputdict={}):
@@ -145,6 +157,26 @@ class plotdata():
 
     def edit_label(self,label_x1,label_y1,label_x2,label_y2):
         self.label = [label_x1,label_y1,label_x2,label_y2]
+    
+    
+    def merge(self,p0):
+        ''' update the curve with other curve instance
+            unit and label will be the last updated one
+        '''
+        
+        # update curvelib
+        for key,item in p0.curvelib.items():
+            if key in self.curvelib.keys():
+                newkey = 1 + max(map(int,self.curvelib.keys()))
+            else:
+                newkey = key
+            self.curvelib[newkey] = item.copy(newkey)
+            self.curvekeylist.append(newkey)
+        
+        self.unit = p0.unit
+        self.label = p0.label
+        # update 
+                
         
 class tpfdb():
     ''' result plot database
@@ -160,7 +192,8 @@ class tpfdb():
         self.sdb = {'default':default_style(),
                     'test':testresult_style(),
                     'publish':publish_style(),
-                    'mono':mono_style()}  # plot style database
+                    'mono':mono_style(),
+                    'MarkerOnly':noline_style()}  # plot style database}  # plot style database
         self.mdb = create_default()  # data column mask lib
         self.fdb = {}  # figure database: figure format
         #self.fsdb = {}  # figure database: figure settings format
@@ -203,7 +236,14 @@ class tpfdb():
                 columnname = temp[0]
                 masklist = temp[1:]
             
-            #columnid = self.get_table_column_id_by_label(tablename,columnname)
+            # check if input column id
+            
+            try:
+                columnid = int(columnname)
+            except:
+                pass
+            
+            # if columne is str
             try:
                 #columnname = self.get_table_column_label_by_id(tablename,columnname)
                 columnid = self.get_table_column_id_by_label(tablename,columnname)
@@ -213,7 +253,7 @@ class tpfdb():
                 try:
                     columnid = int(columnname)
                 except:
-                    raise Error,("table column do not found for input str",inputstr)
+                    raise KeyError,("table column do not found for input str",inputstr)
             
             return tablename,columnid,masklist
         else:
@@ -291,8 +331,24 @@ class tpfdb():
             pdata,punit = self.retrive(tablekey,columnid)
             return len(pdata)
     
-
-    
+    def add_plotdata_merge(self,newplotkey,*args):
+        ''' create new plot data by merge several plotdata into one '''
+        plotleylist = args
+        if newplotkey not in self.pdb.keys():  # new plot data
+            p1 = plotdata()
+        else:
+            raise KeyError, ('Plotdata ',newplotkey,' already exist')
+            
+        for plotkey in plotleylist:
+            if plotkey not in self.pdb.keys():  # new plot data
+                raise KeyError, ('Plotdata ',plotkey,' do not exist')
+            else:
+                p0 = self.pdb[plotkey]
+                p1.merge(p0)
+                
+        self.pdb[newplotkey] = p1
+        
+        
     def add_plotdata_command(self,plotkey,pairidlist): # default mode 'xyy'):
         ''' add plot data by refering table name and column labels
             mode can be specified to simplify 
@@ -387,8 +443,36 @@ class tpfdb():
         ''' add single table to the tdb'''
         #if array2D.dtype != np.float32:
         #    array2D.dtype = np.float32
-        self.tdb[key] = {'data':array2D,'unitlist':unitlist,'labellist':labellist}
         
+            
+        self.tdb[key] = {'data':array2D,'unitlist':unitlist,'labellist':labellist}
+    
+
+    def add_table_column(self,key,columndata):
+        
+        self.add(key,columndata)
+        self.tdb[key]['unitlist'] = ['N/A']
+        self.tdb[key]['labellist'] = ['col0']
+
+    
+    def checktablekey(self,tablekey,forcecreate=False):
+        if tablekey not in self.tdb.keys():
+            if forcecreate == True:
+                self.tdb[tablekey] = {'data':None,'labellist':None,'unitlist':None}
+            else:
+                raise KeyError,('Table key',tablekey,'not existed')    
+        else:
+            return self.tdb[tablekey]
+    
+    def deletetablecol(self,tablekey,colid):
+        '''delete the row for certain table '''
+        colid = int(colid)
+        self.checktablekey(tablekey)
+        self.tdb[tablekey]['data'] = np.delete(self.tdb[tablekey]['data'], colid,0)  # already tranposed
+        
+        # delete row column do not to delete
+        #self.tdb[tablekey]['labellist'].pop(colid)
+        #self.tdb[tablekey]['unitlist'].pop(colid)
  
     def add_dmask(self,key,paralib):
         ''' add mask to mask list '''
@@ -438,7 +522,8 @@ class tpfdb():
                 rowid_start,rowid_end,rowid_step =map(float,[rowid_start,rowid_end,rowid_step])
                 req_rows = self.raw_retrive_colrow_range(seqtablekey,rowid_start,rowid_end,rowid_step)
             
-            row_data = self.tdb[tablekey]['data'][req_rows,:].T   # transpose
+            row_data = self.tdb[tablekey]['data'][req_rows,:].T
+            #row_data.T   # transpose
             row_label = map(str,req_rows)
             
             row_unit = ['N/A'] * len(req_rows)
@@ -475,7 +560,7 @@ class tpfdb():
         for i in range(0,n_step):
             value = start + i*step
             if value > np.max(sourcedata):
-                ind_i.append(sourcedata.shape[0])
+                ind = np.min(np.nonzero(sourcedata > np.max(sourcedata)*0.95)[0])
                 ind_i.append(ind)
                 break
 
@@ -576,6 +661,9 @@ class tpfdb():
         
         return 
     
+    def tmask_table_invert(self,tablekey):
+        ''' invert the whole table'''
+        self.tdb[tablekey]['data'] = self.tdb[tablekey]['data'] * -1
     
     def tmask_incrment_setresults(self,targettablekey,tablekey,incr_start,incr_end,incr_step,seqtablekey=None):
         ''' collect certain increment results from the whole table '''
@@ -1065,7 +1153,7 @@ class tpfdb():
         for pkey in self.pdb.keys():
             self.savepdata(pkey,path=path,delimiter=delimiter)
     
-    def savepdata(self,pkey,name=None,delimiter='\t'):
+    def savepdata_old(self,pkey,name=None,delimiter='\t'):
         ''' save single plot data'''
         if name == None:
             name = pkey+'.csv'
@@ -1100,7 +1188,53 @@ class tpfdb():
             np.savetxt(f1,dataxy,delimiter=delimiter)
         f1.close()
     
+    def savepdata(self,pkey,name=None,delimiter=','):
+        ''' save single plot data'''
+   
+        pdata = self.pdb[pkey]
+        
+        if delimiter == '\t':
+            extension = '.txt'
+        elif delimiter == ',':
+            extension = '.csv'
+        else:
+            extension = '.out'
+        if name ==None:
+            name = pkey + extension
+        f1 = open(name,'w')
+        
+        
+        csv.register_dialect('pipes', lineterminator='\n')
+        spamwriter = csv.writer(f1, delimiter=delimiter,dialect='pipes')
     
+
+        # first detect the max row number
+        maxrow = 0
+        temp = []
+        for keys in pdata.curvelib.keys():
+            curve0 = pdata.curvelib[keys]
+            temp.extend([curve0.xcolumnname,curve0.ycolumnname])
+            if len(curve0.xdata) > maxrow:
+                maxrow = len(curve0.xdata)
+                
+        
+        spamwriter.writerow(temp)   
+
+        for i in range(0,maxrow):
+            temp = []
+            for keys in pdata.curvelib.keys():
+                curve0 = pdata.curvelib[keys]
+                if len(curve0.xdata) > i:
+                    temp.extend([str(curve0.xdata[i]),
+                                 str(curve0.ydata[i])])
+                else:
+                    temp.extend(['',''])
+            spamwriter.writerow(temp)
+
+        f1.close()
+
+    
+        
     def savetable(self,tkey,path=None,delimiter='\t'):
         ''' save single table'''
         if delimiter == '\t':
@@ -1145,7 +1279,7 @@ class tpfdb():
     #==================prodceures
     
     
-    def plot_procedure_dist(self,*args):
+    def plot_procedure_dist(self,resfolder,*args):
         plotkey = args[0]
         Xinput = args[1]
         Yinput = args[2]
@@ -1177,8 +1311,8 @@ class tpfdb():
             
         self.append_plotdata_mask(plotkey,'xy','pair_sortx')   
         self.add_figure(plotkey,plotkey,fstyle,ftype)
-        if len(savefig) >0: self.savefig(plotkey,savefig,name=plotkey+'.'+savefig)
-        if savepdata == '1':self.savepdata(plotkey+'.csv')
+        if len(savefig) >0 and savefig != '0': self.savefig(plotkey,savefig,name=os.path.join(resfolder,plotkey+'.'+savefig))
+        if savepdata == '1':self.savepdata(os.path.join(resfolder,plotkey+'.csv'))
 
         
 if __name__ == '__main__':

@@ -294,6 +294,10 @@ class plotbackbone():
             except KeyError:
                 style_in_use = self.presetting.linelib['default']
                 
+            #handle = ax.plot(icurve.xdata,icurve.ydata,**style_in_use)
+            style_in_use.update({'picker':10})
+            
+
             handle = ax.plot(icurve.xdata,icurve.ydata,**style_in_use) 
             linehandle.append(handle[0]) 
         

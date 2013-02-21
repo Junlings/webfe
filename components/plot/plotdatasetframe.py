@@ -38,6 +38,7 @@ class PlotDataSetPanel(wx.Panel):
         self.add_datapairpage()
         self.add_previewpage()
         self.add_settingpage()
+        self.add_exportpage()
 
         
         #self.SetNoteBook.Split(5,wx.RIGHT)
@@ -47,7 +48,29 @@ class PlotDataSetPanel(wx.Panel):
         # add resize event
         #wx.EVT_SIZE(self.SetNoteBook, self.OnSize) 
         
-    
+    def add_exportpage(self):
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        f1 = wx.Panel(self.SetNoteBook)
+        self.SetNoteBook.AddPage(f1, "Export")            
+
+        # add legend and point picker
+        gs = wx.FlexGridSizer(5, 2, 5, 5)
+        self.settigdict = {}
+
+        cont = []
+
+        
+        self.UpdateSettings = wx.Button(f1,label='Export')
+        self.UpdateSettings.Bind(wx.EVT_LEFT_DOWN,self.OnExport)        
+
+        
+
+        vbox.Add(gs, proportion=0,border=50)
+        vbox.Add(self.UpdateSettings, proportion=0,border=50)
+        f1.SetSizer(vbox)
+                 
+        
+        
     def add_previewpage(self):
         mfigure = self.results.figurerealize(self.plotkey)  # realize figure with all updates
         self.CanvasPanel = CanvasPanel(self.SetNoteBook,mfigure)     # create figure canvas
@@ -406,3 +429,20 @@ class PlotDataSetPanel(wx.Panel):
         
         pub.sendMessage("COMMAND", '*plot_edit_pdb_settings,%s,%s,%s' % (self.plotkey,typekey,stylekey))
         #self.OnUpdateFigure(event)
+        
+        
+    def OnExport(self,event):
+        ''' save model by pickle module '''
+        wildcard = "Model Data File (*.csv)|*.csv|" \
+         "All files (*.*)|*.*"
+        
+        dlg = wx.FileDialog(
+            self, message="Choose a file",
+            defaultFile="",
+            wildcard=wildcard,
+            style=wx.FD_SAVE | wx.CHANGE_DIR
+            )
+        
+        if dlg.ShowModal() == wx.ID_OK:
+            paths = dlg.GetPaths()
+        pub.sendMessage("COMMAND", '*plot_pdata_save,%s,%s' % (self.plotkey,paths[0]))        

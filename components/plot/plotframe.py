@@ -61,9 +61,16 @@ class CanvasPanel(wx.Panel):
         
         self.figurecavas = FigureCanvas(self, -1, figure)
         sizer.Add(self.figurecavas, 0,wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_CENTER_HORIZONTAL)
-
+        
+        self.figurecavas.mpl_connect('pick_event', self.OnPick)
+        self.figurecavas.mpl_connect('button_press_event', self.OnButtonPress)
         self.figurecavas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
         self.figurecavas.Bind(wx.EVT_ENTER_WINDOW, self.ChangeCursor)
+        self.figurecavas.mpl_connect('key_press_event', self.OnKeyPressed)
+        
+        # add interactive curve pick function
+        
+        
         
         # setup the tool bar
         self.toolbar = MyNavigationToolbar(self.figurecavas, True)
@@ -85,7 +92,15 @@ class CanvasPanel(wx.Panel):
         # show the frame
 
         self.Show()
-    
+
+    def OnPick(self,event):
+        print 'picked'
+    def OnButtonPress(self,event):
+        ''' button press event'''
+        pass
+    def OnKeyPressed(self,event):
+        #print 'keypressed'
+        pass
     def ResizeCanvas(self):
         
         pass

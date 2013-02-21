@@ -13,6 +13,7 @@ from core.export.export import exporter
 from core.post.import_marc_t16 import post_t16
 from core.post.import_plain import import_plain
 from core.plots.plots import tpfdb
+import numpy as np
 
 class commandparser():
     """ This is the wrap class, wrap all model operations and
@@ -193,11 +194,32 @@ class commandparser():
         #    self.post_t16.postset_dict(self.results.source['marc_t16']['request'])
         #except:
         #    print 'process t16 request failed'
+    
+    def plot_table_new(self,*args):
+        tablekey = args[0]
+        data = np.array(map(float,args[1:]))
+        data = np.resize(data,(len(data),1))
+        #data = np.resize(data,(,1))
+        self.results.add_table_column(tablekey,data)
+    
+    def plot_table_deletecol(self,*args):
+        tablekey = args[0]
+        rowid = int(args[1])
+        self.results.deletetablecol(tablekey,rowid)
+    
+    def plot_table_invert(self,*args):
+        tablekey = args[0]
+        self.results.tmask_table_invert(tablekey)
         
     def plot_pdata_add(self,*args):
         key = args[0]
         parlist = args[1:]
         self.results.add_plotdata_command(key,parlist) #plotkey,tablekey,pairidlist,mode='xy')
+    
+    def plot_pdata_merge(self,*args):
+        key = args[0]
+        parlist = args[1:]
+        self.results.add_plotdata_merge(key,*parlist) #plotkey,tablekey,pairidlist,mode='xy')
     
     def plot_edit_tdb_table_unit(self,*args):
         ''' modify the column unit label for sepcify table and col'''
@@ -270,21 +292,35 @@ class commandparser():
         self.results.add_figure(*self.strfiy(args))
         
     def plot_figure_save(self,*args):
-        figurekey = args[0]
-        fileformat = args[1]
-        plotname = args[2]
+        if len(args) == 4:
+            folderkey = args[0]
+            figurekey = args[1]
+            fileformat = args[2]
+            plotname = args[3]
+        elif len(args) == 3:
+            folderkey = 'currentfolder'
+            figurekey = args[0]
+            fileformat = args[1]
+            plotname = args[2]
+            
+            
         
-        self.results.savefig(figurekey,fileformat,name=plotname)
+        self.results.savefig(figurekey,fileformat,name=os.path.join(self.currentsettings[folderkey],plotname))
     
     def plot_pdata_save(self,*args):
         pdatakey = args[0]
-        self.results.savepdata(pdatakey)
+        if len(args) > 1:
+            path = args[1]
+        else:
+            path=None
+        self.results.savepdata(pdatakey,name=path)
     
     
     def plot_procedure_dist(self,*args):
-
         
-        self.results.plot_procedure_dist(*args)
+        folderkey = args[0]
+        
+        self.results.plot_procedure_dist(self.currentsettings[folderkey],*args[1:])
         
     def macro_start(self):
         self.macro_start = len(self.commandhis)
@@ -304,6 +340,7 @@ class commandparser():
         
         currentfolder,absfilename = os.path.split(filename)
         self.currentsettings['currentfolder'] = currentfolder
+        self.currentsettings['incr'] = '%(incr)s'
         
         for line in f1.readlines():
             # assign folder path if needed
@@ -312,8 +349,18 @@ class commandparser():
                     line = line % self.currentsettings
                 except: # if not found then leave to local variables
                     pass
-            self.parser(line)
 
+            self.parser(line)
+    
+    
+    def add_current_settings(self,name,value):
+        self.currentsettings[name] = value 
+        
+    def createfolder(self,foldername,folderpath):
+        directory = os.path.join(self.currentsettings['currentfolder'],folderpath)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        self.currentsettings[foldername] = directory
         
     def strfiy(self,slist):
         tlist = []

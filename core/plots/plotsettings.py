@@ -364,10 +364,29 @@ class stylelib():
         self.get(target).update(kargs)
 
     def load_linelib_mono(self):
+    
         self.empty('linelib')
         self.add('linelib',1,color='k',marker='o',linestyle='-',markersize=0,linewidth=1)
+    
+    def load_linelib_color_noline(self,markersize):
+        ''' this is the style to load color line sequence '''
+        self.empty('linelib')
+        self.add('linelib',1,color='k',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',2,color='r',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',3,color='b',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',4,color='g',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',5,color='y',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',6,color='c',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',7,color='m',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',8,color='0.75',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',9,color='0.5',marker='.',linestyle=':',markersize=markersize,linewidth=1)    
+        
+        self.add('linelib','Grey-DashLine-Nomarker',color='0.1',marker='.',linestyle=':',markersize=0,linewidth=1)
+        #self.add('linelib','Dash-No,color='0.5',marker='.',linestyle=':',markersize=markersize,linewidth=1)
+        self.add('linelib',9,color='0.5',marker='.',linestyle=':',markersize=markersize,linewidth=1) 
         
     def load_linelib_color(self):
+        ''' this is the style to load color line sequence '''
         self.empty('linelib')
         self.add('linelib',1,color='k',marker='*',linestyle='-',markersize=0,linewidth=0.5)
         self.add('linelib',2,color='r',marker='x',linestyle='-',markersize=0,linewidth=0.5)
@@ -653,6 +672,53 @@ def testresult_style():
     
     return pub
 
+def noline_style():
+    """
+    overrid by the subclass
+    To create and return customized figure instance
+    Now two mode of draft and publish are supported
+    """
+    pub = stylelib()
+    
+    # deterrmine figure size
+    fig_width_pt = 246.0  # Get this from LaTeX using \showthe\columnwidth
+    inches_per_pt = 1.0/72.27               # Convert pt to inch
+    golden_mean = (sqrt(5)-1.0)/2.0         # Aesthetic ratio
+    fig_width = fig_width_pt*inches_per_pt  # width in inches
+    fig_height = fig_width*golden_mean      # height in inches
+    pub.setFigure(figsize=[fig_width,fig_height])
+    
+    # set backend
+    pub.setBackend(type='ps')
+    
+    # setfontlib
+    pub.add('fontlib','label',family='century',size=8) 
+    pub.add('fontlib','ticklabel',family='century',size=6) 
+    pub.add('fontlib','textbox',family='century',size=6)
+    
+    # setsubplot
+    #pub.set('subplot',left=0.18,right=0.9,bottom=0.18,top=0.95)
+    pub.set('subplot',left=0.1,right=0.5,bottom=0.2,top=1)
+
+    
+    # line for grid
+    pub.add('guidelinelib','grid',color='k',linestyle=':',linewidth=0.5)
+    
+    # line for plots sequence
+    pub.load_linelib_color_noline(5)
+    
+    # add axes libs
+    pub.load_four_tick()  
+    
+    
+    # load default locator
+    pub.load_default_locator()
+    
+    pub.load_boxlib()
+    pub.add('mathtextlib','inuse',)
+    
+    return pub    
+    
 def default_style():
     """
     overrid by the subclass

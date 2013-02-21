@@ -86,7 +86,7 @@ dL: increment of length
                                      new_id+1+nodekeylist.index(botnodeid)+n_nodelist*(i),
                                      centernodeid+i+2,centernodeid+i+1])
 
-    #model1.element(tempquadnodelist_top,setname='interface_top')
+    model1.element(tempquadnodelist_top,setname='interface_top')
     model1.element(tempquadnodelist_bot,setname='interface_bot')
     '''
     # add property to the elements

@@ -1,3 +1,7 @@
+============= version 0.6.6 ========
+1 Add the ability to export plotdata in csv format
+2 Add funciton to merge existing plotdata to one data
+3 New stress and strain handling function to process experiment data
 ============= version 0.6.5 ========
 1 Update the increment based extraction, now can be based on values of other table,(load based)
 2 new plot procedure created, to accelerate the settings of increment distribution plots

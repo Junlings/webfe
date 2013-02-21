@@ -493,6 +493,7 @@ class table():
         inputstr += '%s\n'% name
         inputstr += '*set_md_table_type 1\n'
         inputstr += '%s\n'% type
+        inputstr += '*set_md_table_extrap 1 off\n'  # turn extrpolation off
         #return inputstr
 
         if points != None:
