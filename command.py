@@ -9,6 +9,7 @@ from core.export.export import exporter
 from core.settings import settings
 from core.utility.fem.create_arcplane import create_cylinderSurface
 from core.procedures.p_poledent import process_pole_dat,PoleModeling, pole_extend, pole_bending_modeling
+from core.procedures.test_poledent import procedure_pole_imposedent
 from core.export.export import exporter
 from core.post.import_marc_t16 import post_t16
 from core.post.import_plain import import_plain
@@ -123,6 +124,11 @@ class commandparser():
         leftsupportx,rightsupportx,supporty,leftplatecenterx,rightplatecenterx,plateheighty,lengthx,heighty,stiffness = map(float,args)
         self.model = pole_bending_modeling(self.model,leftsupportx,rightsupportx,supporty,leftplatecenterx,rightplatecenterx,heighty,lengthx,plateheighty,stiffness)
     
+    
+    def procedure_pole_imposedent(self,*args):
+        
+        self.model = procedure_pole_imposedent(*args)
+   
     def export_model(self,*args):
         fullpath = args[1]
         libtype = args[0]

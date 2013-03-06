@@ -1000,6 +1000,11 @@ class tpfdb():
     
     """
     def edit_tdb_unitlabel(self,tablename,col_id_start,col_id_end,unitlabel):
+        if col_id_start == -1:
+            col_id_start = 0
+        if col_id_end == -1:
+            col_id_end = len(self.tdb[tablename]['unitlist'])-1
+        
         for ind in range(col_id_start,col_id_end+1):
             self.tdb[tablename]['unitlist'][ind] = unitlabel
 

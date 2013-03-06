@@ -55,18 +55,17 @@ class PlotDataSetPanel(wx.Panel):
 
         # add legend and point picker
         gs = wx.FlexGridSizer(5, 2, 5, 5)
-        self.settigdict = {}
 
         cont = []
 
         
-        self.UpdateSettings = wx.Button(f1,label='Export')
-        self.UpdateSettings.Bind(wx.EVT_LEFT_DOWN,self.OnExport)        
+        self.Export = wx.Button(f1,label='Export')
+        self.Export.Bind(wx.EVT_LEFT_DOWN,self.OnExport)        
 
         
 
         vbox.Add(gs, proportion=0,border=50)
-        vbox.Add(self.UpdateSettings, proportion=0,border=50)
+        vbox.Add(self.Export, proportion=0,border=50)
         f1.SetSizer(vbox)
                  
         

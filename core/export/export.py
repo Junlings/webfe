@@ -41,7 +41,8 @@ class exporter():
             if not os.path.isdir(prjfolder):
                 os.mkdir(prjfolder)            
         
-        #exportfolder = prjfolder
+        if exportfolder == None or len(exportfolder)==0:
+            exportfolder = prjfolder
         '''
         exportfolder = os.path.join(prjfolder,'export')
         if not os.path.isdir(exportfolder):

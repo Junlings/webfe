@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="cp1252"?>
+<resource>
+  <object class="wxDialog" name="PoleDiag">
+    <title>Pole Pre-Process </title>
+    <style>wxDEFAULT_DIALOG_STYLE|wxCAPTION|wxSYSTEM_MENU</style>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxVERTICAL</orient>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Dent Material Option</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Deepest dent</label>
+                    </object>
+                    <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+                  </object>
+                  <rows>6</rows>
+                  <vgap>5</vgap>
+                  <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="DEEP_DENT">
+                      <value>50</value>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Critical Length</label>
+                    </object>
+                    <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="CRIT_LENGTH">
+                      <value>50</value>
+                      <style></style>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Need Fill?</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxCheckBox" name="NEEDFILL">
+                      <label></label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Need Wrap</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxCheckBox" name="NEEDWRAP">
+                      <label></label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Wrap left coord</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="WRAPLEFT"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Wrap right  coord</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="WRAPRIGHT"/>
+                  </object>
+                </object>
+                <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_VERTICAL</flag>
+              </object>
+            </object>
+            <option>1</option>
+            <flag>wxALL|wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticBoxSizer">
+              <label>Dimensions</label>
+              <orient>wxVERTICAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>7</rows>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Coord X_rightend (+)</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="RIGHTEND_XCOORD"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Raidus_rightend</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="RIGHTEND_RAD"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Coord X_leftend    (-)</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LEFTEND_XCOORD"/>
+                  </object>
+                  <vgap>5</vgap>
+                  <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Raidus_leftend</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LEFTEND_RAD"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Segments of Length</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LENGTH_INCR"/>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxStaticText">
+                      <label>Segments of Circumstance</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxTextCtrl" name="LENGTH_RAd"/>
+                  </object>
+                </object>
+                <flag>wxEXPAND</flag>
+              </object>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxStaticBoxSizer">
+                  <label>Loading Plate</label>
+                  <orient>wxVERTICAL</orient>
+                  <object class="sizeritem">
+                    <object class="wxGridSizer">
+                      <cols>2</cols>
+                      <rows>6</rows>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>left load  X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_leftplatecenterx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>right load X</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_rightplatecenterx"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Load range Y</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_plateheighty"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Plate length (x)</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_lengthx"/>
+                      </object>
+                      <vgap>5</vgap>
+                      <hgap>5</hgap>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>Plate height y</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_heighty"/>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxStaticText">
+                          <label>spring stiffness</label>
+                        </object>
+                      </object>
+                      <object class="sizeritem">
+                        <object class="wxTextCtrl" name="PARA_stiffness"/>
+                      </object>
+                    </object>
+                    <flag>wxEXPAND</flag>
+                  </object>
+                </object>
+                <option>1</option>
+              </object>
+            </object>
+            <flag>wxEXPAND</flag>
+          </object>
+          <object class="spacer">
+            <size>20,20</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxBoxSizer">
+              <orient>wxHORIZONTAL</orient>
+              <object class="sizeritem">
+                <object class="wxGridSizer">
+                  <cols>2</cols>
+                  <rows>1</rows>
+                  <hgap>5</hgap>
+                  <object class="sizeritem">
+                    <object class="wxButton">
+                      <label>Help</label>
+                    </object>
+                  </object>
+                  <object class="sizeritem">
+                    <object class="wxButton" name="PoleProcess">
+                      <label>Process</label>
+                    </object>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <flag>wxALIGN_RIGHT</flag>
+          </object>
+        </object>
+        <option>1</option>
+        <flag>wxALL|wxEXPAND</flag>
+        <border>10</border>
+      </object>
+    </object>
+  </object>
+</resource>

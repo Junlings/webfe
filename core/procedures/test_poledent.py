@@ -1,0 +1,391 @@
+""" This is the procedure to add dent to the regular meshed pole model"""
+import sys
+import os
+import datetime
+#sys.path.append('../../webfe/')
+import numpy as np
+from core.model.registry import model
+from core.export.export import exporter
+from core.settings import settings
+from core.procedures.t_section import tsec_planeconfig
+from core.procedures.rec_section import rec_planeconfig
+from core.imports.marc.import_marc_dat import importfile_marc_dat
+from core.post.import_marc_t16 import post_t16
+from core.plots.plots import tpfdb
+
+#from command import commandparser
+from core.utility.fem.create_arcplane import create_cylinderSurface
+
+from numpy import exp,sin,cos,arctan,abs,sqrt
+import matplotlib.pyplot as plt
+
+def dent_function_numeric(x,y):
+    ''' the defination of the curve fitting dent function
+        Obtain by curve fitting the model scan files
+    '''
+    _C3 = 1
+    _C4 = 1
+    gamma = 0.5
+    _C5 = 1
+    _C6 = 1
+    gamma2 = 3.1415926
+    Pi = 3.1415926
+    
+    #dent = (_C3*exp(-gamma*x) * sin(gamma*x) + _C4*exp(-gamma*x)*cos(gamma*x)) * (_C5*exp(-gamma2*(y/Pi)**1)*sin(-gamma2*(y/Pi)**1)+_C6*exp(-gamma2*(y/Pi)**1)*cos(-gamma2*(y/Pi)**1))
+    denty = .5250000000*cos(6.283185200*y)+.2250000001+.5624999860*cos(3.141592600*y)+.1875000141*cos(9.424777800*y)
+    dentx = exp(-3*x)*cos(x)
+    if denty > 1:
+        denty = 1
+    return dentx * denty
+
+
+def plot_dentmap(zcrit):
+    ''' facilitate to show the dent map based on the input parameters '''
+    zcrit = 430
+    nz = 100
+    nr = 100
+    dentz = []
+    locz = []
+    locr = []
+    dentr = []
+    # variation from length direction
+    for iz in range(0,nz):
+        z = iz * 2*float(zcrit)/(float(nz))
+        locz.append(z)
+        dentz.append(dent_function_numeric(z/zcrit,0))
+    
+    # variation in the hoop direction
+    for ir in range(0,nr):
+        r = ir * float(3.1415926*2.0/nr)
+        locr.append(r)
+        dentr.append(dent_function_numeric(0,r/3.1415926))
+    
+    
+        
+    
+    plt.plot(locz,dentz)
+    plt.show()
+    
+    plt.plot(locr,dentr)
+    plt.show()
+    
+def dent_function_node(model1,nodeid,deepdent,zcrit):
+    ''' add dent to the node '''
+    
+    xyz = model1.nodelist.itemlib[nodeid].xyz
+    
+    if abs(xyz[0]) < 0.001 and  abs(xyz[1]) < 0.001:
+        ''' this is the control nodes at two ends, no need for deformation'''
+        return xyz[0],xyz[1],xyz[2],0
+    
+    z = abs(xyz[2])
+    
+    if xyz[0] != 0:
+        fi0 = arctan((xyz[1]/xyz[0]))
+    else:
+        fi0 = 3.1415926/2
+        
+    if (xyz[0] > 0) and (xyz[1] > 0):
+        fi = 3.1415926/2 - abs(fi0)
+    elif xyz[0] < 0 and xyz[1] < 0:
+        fi = 3.1415926/2 + abs(fi0)
+    elif xyz[0] > 0 and xyz[1] < 0:
+        fi = 3.1415926/2 + abs(fi0)
+    elif xyz[0] < 0 and xyz[1] > 0:
+        fi = 3.1415926/2 - abs(fi0)
+    else:
+        fi = fi0
+    
+    rr = sqrt(xyz[0]*xyz[0] +xyz[1]*xyz[1])
+    
+    #zcrit = 200
+    
+    dent = dent_function_numeric(z/zcrit,fi/3.1415926)
+    
+    
+    
+    if rr != 0:
+        dentvalue = (dent * deepdent)  #
+        x = (rr-dentvalue) * xyz[0]/rr 
+        y = (rr-dentvalue) * xyz[1]/rr 
+        
+        dx = xyz[0] - x
+        dy = xyz[1] - y
+        if z == 0: #and abs(fi) < 0.01:
+            pass
+            #print z,fi0,fi,dent,x,y,deepdent,rr
+    else:
+        x = 0
+        y = 0
+        z = 0
+        fi = 0
+        
+    return x,y,z,fi
+
+
+def add_dent_asdeform(model1,deepdent=1,zcrit=200):
+    ''' apply function to all model nodes'''
+    
+    dentnode = []
+    for key in model1.nodelist.itemlib.keys():
+        '''loop over all nodes'''
+        x,y,z,fi = dent_function_node(model1,key,deepdent,zcrit)
+        xyz = model1.nodelist.itemlib[key].xyz
+        
+        if xyz[2] > 0:
+            model1.nodelist.itemlib[key].xyz = np.array([x,y,z])
+        else:
+            model1.nodelist.itemlib[key].xyz = np.array([x,y,-z])  # due to function
+        
+        
+        if (x-xyz[0])*(x-xyz[0]) + (y-xyz[1])*(y-xyz[1]) > 0.05:
+            dentnode.append(key)
+    
+    # add node with dent to nodelist    
+    model1.nodeset('dentnodes',{'nodelist':dentnode})
+    
+    return model1
+
+def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
+    ''' apply function to all model nodes with filled 3D solid elements'''
+    
+    dentnode = []
+    node_res = []
+    node_alter_dict = {}
+    ii = 1
+    for key in model1.nodelist.itemlib.keys():
+        '''loop over all nodes'''
+        x,y,z,fi = dent_function_node(model1,key,deepdent,zcrit)
+        xyz = model1.nodelist.itemlib[key].xyz
+        
+
+        if xyz[2] > 0:
+            denttempnode = model1.nodelist.itemlib[key].xyz
+            model1.nodelist.itemlib[key].xyz = np.array([x,y,z])
+            
+        else:
+            denttempnode = model1.nodelist.itemlib[key].xyz  # due to function
+            model1.nodelist.itemlib[key].xyz = np.array([x,y,-z])  # due to function
+        
+        if (x-xyz[0])*(x-xyz[0]) + (y-xyz[1])*(y-xyz[1]) > 0.0001: # all dentnode
+            
+            
+            
+            if (x*x+y*y)- (xyz[0]*xyz[0]+xyz[1]*xyz[1]) < -0.1 and y>0:  # apply to the fill region
+                dentnode.append(denttempnode)
+                node_res.append([denttempnode[0],denttempnode[1],denttempnode[2],key])
+                
+                
+                node_alter_dict[key] = ii
+                ii += 1
+        
+    nn = model1.node(dentnode,setname='dentnodes')
+    
+    # update the wrap elements
+    if 'wrap' in model1.setlist.keys():
+        elemlist = model1.setlist['wrap'].elemlist
+        
+        for elem in elemlist:
+            temp = []
+            for nodeid in model1.connlist.itemlib[elem].nodelist:
+                if nodeid in node_alter_dict.keys():
+                    temp.append(node_alter_dict[nodeid]+nn)
+                else:
+                    temp.append(nodeid)
+            model1.connlist.itemlib[elem].nodelist = temp
+            
+            
+    
+    for i in range(0,len(node_res)):
+        node_res[i].append(nn+i+1)
+        
+    model1 = create_fill(model1,node_res)
+    # add node with dent to nodelist    
+    
+        
+    return model1
+
+
+def get_fi(xyz):
+
+    if xyz[0] != 0:
+        fi0 = arctan((xyz[1]/xyz[0]))
+    else:
+        fi0 = 3.1415926/2
+        
+    if (xyz[0] > 0) and (xyz[1] > 0):
+        fi = 3.1415926/2 - abs(fi0)
+    elif xyz[0] < 0 and xyz[1] < 0:
+        fi = -3.1415926/2 + abs(fi0)
+    elif xyz[0] > 0 and xyz[1] < 0:
+        fi = 3.1415926/2 - abs(fi0)
+    elif xyz[0] < 0 and xyz[1] > 0:
+        fi = -3.1415926/2 + abs(fi0)
+    else:
+        fi = fi0
+    
+    return fi
+
+
+def create_wrap(model1,left,right):
+    ''' create the wrap element based on regular shape mesh'''
+    # get node within range
+    wrapnodelist = model1.nodelist.select_node_coord(rz=[left,right])
+    # get elements within range
+    wrapelementlist= model1.select_elements_nodelist(wrapnodelist)
+    
+    
+    tempelement = []
+    
+    for elem in wrapelementlist:
+        tempelement.append(model1.connlist.itemlib[elem].nodelist)
+        
+    model1.element(tempelement,setname='wrap')
+
+    return model1
+
+def create_fill(model1,node_res):
+    ''' create fill based on the detected dent and original nodes '''
+    
+    zlist = []
+    rlist = []
+    temp = []
+    # get the list of z and L
+    for i in range(0,len(node_res)):
+        if node_res[i][2] not in zlist:
+            zlist.append(node_res[i][2])
+        fi0 = get_fi(node_res[i])
+        fi0 = round(fi0,2)
+        if fi0 not in rlist:
+            rlist.append(fi0)
+            
+        temp.append([node_res[i][0],node_res[i][1],node_res[i][2],fi0,node_res[i][3],node_res[i][4]])
+        
+    # detect the neibouring nodes
+    temp = np.array(temp)
+    zlist.sort()
+    rlist.sort()
+    
+    ind = []
+    for i in zlist:
+        tempind = []
+        for j in rlist:
+            tempind.append(find_nearest2d(temp,i,2,j,3))
+            
+        ind.append(tempind)
+    
+    ind = np.array(ind)
+    # Add solid elements
+    tempelem = []
+    for i in range(0,len(zlist)-1):
+        for j in range(0,len(rlist)-1):
+            Node1 = temp[ind[i,j],4]
+            Node2 = temp[ind[i,j+1],4]
+            Node3 = temp[ind[i+1,j+1],4]
+            Node4 = temp[ind[i+1,j],4]
+            Node5 = temp[ind[i,j],5]
+            Node6 = temp[ind[i,j+1],5]
+            Node7 = temp[ind[i+1,j+1],5]
+            Node8 = temp[ind[i+1,j],5]
+            
+            try:
+                Nodelist = map(int,[Node5,Node6,Node7,Node8,Node1,Node2,Node3,Node4])
+                tempelem.append(Nodelist)
+            except:
+                pass
+            
+    model1.element(tempelem,setname='Fill Material')
+    return model1
+
+def find_nearest2d(array,value1,ind1,value2,ind2,err=0.01):
+    for i  in range(0,array.shape[0]):
+        
+        if abs(array[i,ind1] - value1) < err and abs(array[i,ind2] - value2) < err:
+            return i
+
+def procedure_pole_imposedent(*args):
+    model1 = model(settings)
+    LEFTEND_XCOORD = float(args[0])
+    RIGHTEND_XCOORD = float(args[1])
+    LEFTEND_RAD= float(args[2])
+    RIGHTEND_RAD = float(args[3])
+    LENGTH_INCR = float(args[4])
+    LENGTH_RAd = float(args[5])
+    DEEP_DENT = int(args[6])
+    CRIT_LENGTH = int(args[7])
+    IFFILLED = args[8]
+    
+    IFWRAP = args[9]
+    WRAPLEFT = float(args[10])
+    WRAPRIGHT = float(args[11])
+    
+    #create cylinder surface  x0,y0,z0,r0,r1,L,nfi,nZ)
+    model1 = create_cylinderSurface(model1,0,0, LEFTEND_XCOORD,LEFTEND_RAD,RIGHTEND_RAD,RIGHTEND_XCOORD-LEFTEND_XCOORD,LENGTH_RAd,LENGTH_INCR)
+    
+    if IFWRAP == 'True':
+        model1 = create_wrap(model1,WRAPLEFT,WRAPRIGHT)
+    
+    # Add artificial dent
+    if IFFILLED == 'False':
+        model1 = add_dent_asdeform(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH)
+    elif IFFILLED == 'True':
+        model1 = add_dent_asdeform_filled(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH,wrap=IFWRAP)
+    else:
+        raise ValueError,("The key for fillment detection do not find")
+    
+    # Add typical node for loading and support
+    #pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
+    #model1.nodeset(name,{'nodelist':pnodelist})
+    
+    
+    return model1
+
+
+def test_procedure_pole():
+    model1 = model(settings)
+
+    x0 = 0 
+    y0 = 0 
+    z0 = -1600
+    R1 = 71
+    R2 = 73
+    L = 2743
+    nfi = 16
+    nL = 270
+    deepdent = 50
+    ifdent = True
+    dent = "add_dent_asdeform"
+    
+    model1 = create_cylinderSurface(model1,x0,y0,z0,R1,R2,L,nfi,nL,deepdent=0,setname='surface',dent=ifdent,folder='default')
+    
+
+    if dent == 'add_dent_asdeform':
+        model1 = add_dent_asdeform(model1,deepdent=deepdent)
+        
+        elemlist = model1.select_elements_nodeset('dentnodes')
+        
+        elemseqlist = []
+
+        for key in elemlist:#.keys():
+            elemseqlist.append(key)#elemlist[key])
+        '''
+        for key in elemlist.keys():
+            elemseqlist.extend(elemlist[key])
+        '''
+        elemseqlist = list(set(elemseqlist))
+        
+        model1.elemset('dentelems',{'elemlist':elemseqlist})
+        print 1
+        
+    
+    
+    model1.modelsavetofile('temp.pydat')
+    
+    
+    print 1
+
+
+if __name__ == '__main__':
+    
+    #test_procedure_pole()
+    plot_dentmap(200)

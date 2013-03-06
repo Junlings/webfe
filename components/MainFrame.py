@@ -6,6 +6,7 @@ from wx.lib.pubsub import pub
 
 from components.MainFrame_xrc import xrcMainFrame
 from procedures.PoleDent.diag_pole import PoleDiag
+from procedures.Poleartificialdent.diag_pole2 import PoleDiag2
 from procedures.patch.diag_patch import PatchDiag
 import datetime
 import sys
@@ -113,6 +114,8 @@ class MainFrame(xrcMainFrame):
         
         # Bind Procedure menu
         self.Bind(wx.EVT_MENU, self.OnPoleDiag, self.MenuItem_Pole)
+        self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_EXIT, 'Dent Pole', 'Dent Pole')
+        self.Bind(wx.EVT_MENU, self.OnPoleDentDiag, self.MenuItem_PoleDent)
        
         # bind macro menu
         self.Bind(wx.EVT_MENU, self.OnMacroRecord, self.MenuItem_MacroRecord)
@@ -278,7 +281,11 @@ class MainFrame(xrcMainFrame):
         print "start pole data processing"
         self.polediag = PoleDiag(self)
         self.polediag.Show()
-
+    
+    def OnPoleDentDiag(self,event):
+        print "start pole data processing"
+        self.polediag2 = PoleDiag2(self)
+        self.polediag2.Show()        
 
     def OnFemGrid(self,event):
         f1 = DictGridPanel(self.ModelNoteBook)
