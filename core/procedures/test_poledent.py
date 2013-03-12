@@ -34,8 +34,13 @@ def dent_function_numeric(x,y):
     #dent = (_C3*exp(-gamma*x) * sin(gamma*x) + _C4*exp(-gamma*x)*cos(gamma*x)) * (_C5*exp(-gamma2*(y/Pi)**1)*sin(-gamma2*(y/Pi)**1)+_C6*exp(-gamma2*(y/Pi)**1)*cos(-gamma2*(y/Pi)**1))
     denty = .5250000000*cos(6.283185200*y)+.2250000001+.5624999860*cos(3.141592600*y)+.1875000141*cos(9.424777800*y)
     dentx = exp(-3*x)*cos(x)
-    if denty > 1:
-        denty = 1
+    
+    
+    #if denty > 1:
+    #    denty = 1
+    
+    if y < 0.2:
+        denty = 1.*cos(3.345620398*y)
     return dentx * denty
 
 
@@ -148,7 +153,7 @@ def add_dent_asdeform(model1,deepdent=1,zcrit=200):
 
 def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
     ''' apply function to all model nodes with filled 3D solid elements'''
-    
+    critical_thickness = 1
     dentnode = []
     node_res = []
     node_alter_dict = {}
@@ -167,11 +172,11 @@ def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
             denttempnode = model1.nodelist.itemlib[key].xyz  # due to function
             model1.nodelist.itemlib[key].xyz = np.array([x,y,-z])  # due to function
         
-        if (x-xyz[0])*(x-xyz[0]) + (y-xyz[1])*(y-xyz[1]) > 0.0001: # all dentnode
+        if (x-xyz[0])*(x-xyz[0]) + (y-xyz[1])*(y-xyz[1]) > critical_thickness: # all dentnode
             
             
             
-            if (x*x+y*y)- (xyz[0]*xyz[0]+xyz[1]*xyz[1]) < -0.1 and y>0:  # apply to the fill region
+            if (x*x+y*y)- (xyz[0]*xyz[0]+xyz[1]*xyz[1]) < -1*critical_thickness and y>0:  # apply to the fill region
                 dentnode.append(denttempnode)
                 node_res.append([denttempnode[0],denttempnode[1],denttempnode[2],key])
                 
@@ -316,13 +321,14 @@ def procedure_pole_imposedent(*args):
     IFFILLED = args[8]
     
     IFWRAP = args[9]
-    WRAPLEFT = float(args[10])
-    WRAPRIGHT = float(args[11])
+
     
     #create cylinder surface  x0,y0,z0,r0,r1,L,nfi,nZ)
     model1 = create_cylinderSurface(model1,0,0, LEFTEND_XCOORD,LEFTEND_RAD,RIGHTEND_RAD,RIGHTEND_XCOORD-LEFTEND_XCOORD,LENGTH_RAd,LENGTH_INCR)
     
     if IFWRAP == 'True':
+        WRAPLEFT = float(args[10])
+        WRAPRIGHT = float(args[11])
         model1 = create_wrap(model1,WRAPLEFT,WRAPRIGHT)
     
     # Add artificial dent

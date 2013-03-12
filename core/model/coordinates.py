@@ -437,7 +437,7 @@ class coordlist():
         """
         
         if nodelist == None:
-            if resort:
+            if resort or 'sortednodetable' not in self.__dict__.keys():
                 self.get_sortedcoordtable()
                 nodetable = self.sortednodetable
             else:
