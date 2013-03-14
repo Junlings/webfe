@@ -100,8 +100,13 @@ class connlist():
     
     def addbylist(self,itemlist,update=False):
         seqlist = list
-        for item in itemlist:
-            self.add(item,update=False)
+        for k in itemlist:
+            self.itemlib[k.seq] = k
+        
+        #for item in itemlist:
+        #    self.add(item,update=False)
+            
+            
         self.update()
         
     def add(self,item,update=True):

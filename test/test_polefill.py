@@ -30,8 +30,8 @@ def post_dowel():
 
 def test_procedure_fillwrap():
     c1 = commandparser()    
-    c1.parser('*procedure_pole_imposedent,-1000,1000,70,60,100,48,50,400,True,True,-200,200')
-    
+    c1.parser('*procedure_pole_imposedent,-1543.5,1102.5,70,56,294,44,31,450,True,True,-441,441')
+     
     
 if __name__ == '__main__':
     

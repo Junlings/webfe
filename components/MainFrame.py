@@ -115,8 +115,8 @@ class MainFrame(xrcMainFrame):
         
         # Bind Procedure menu
         self.Bind(wx.EVT_MENU, self.OnPoleDiag, self.MenuItem_Pole)
-        self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_EXIT, 'Dent Pole', 'Dent Pole')  # pole dent procedure
-        self.MenuItem_Hybrid = self.Menu_Proc.Append(wx.ID_EXIT, 'Hybrid Deck', 'Hybrid Deck')
+        self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_ANY, 'Dent Pole', 'Dent Pole')  # pole dent procedure
+        self.MenuItem_Hybrid = self.Menu_Proc.Append(wx.ID_ANY, 'Hybrid Deck', 'Hybrid Deck')
         self.Bind(wx.EVT_MENU, self.OnPoleDentDiag, self.MenuItem_PoleDent)
         self.Bind(wx.EVT_MENU, self.OnHybridDiag, self.MenuItem_Hybrid)
         

@@ -374,8 +374,8 @@ def BuildModel_hybrid_command(*args):
     # create t1
     model1.node(tempnodes)
     
-    Lsize_seg_B = 0.5
-    Lsize_seg_H = 0.25
+    Lsize_seg_B = Mesh_B
+    Lsize_seg_H = Mesh_H
     
     model1 = create_2d_patch(model1,[2,3,5,4],[floor(int(t2/Lsize_seg_H)),floor(int(b3/Lsize_seg_B))*2],setname='bottom_left')
     model1 = create_2d_patch(model1,[4,5,7,6],[floor(int(t2/Lsize_seg_H)),floor(int(b4/Lsize_seg_B))],setname='bottom_middle')
@@ -406,8 +406,8 @@ def BuildModel_hybrid_command(*args):
  
     # stretch the mesh to generate 3D
     
-    L_total = 10.0
-    Lincr = 2.0
+    L_total = L
+    Lincr = Mesh_L
     n_incr = int(L_total/Lincr)
     
     

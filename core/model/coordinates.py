@@ -314,8 +314,14 @@ class coordlist():
         
     def addbylist(self,itemlist,update=False):
         for item in itemlist:
+            self.itemlib[item.seq] = item
+            
+        self.update()
+        '''
+        for item in itemlist:
             self.add(item,update=False)
         self.update()
+        '''
         
     def deletebylist(self,itemseqlist,update=False):
         for item in itemseqlist:

@@ -301,7 +301,7 @@ class model():
         #t1 = time.time() - t0
         #print 'time to create elements %s ' % str(t1)
         
-        # t0 = time.time()
+        #t0 = time.time()
         self.connlist.addbylist(tempelem)
         #t1 = time.time() - t0
         #print 'time to add elements %s ' % str(t1)

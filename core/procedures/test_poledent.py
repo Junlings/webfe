@@ -1,23 +1,24 @@
 """ This is the procedure to add dent to the regular meshed pole model"""
-import sys
-import os
-import datetime
+#import sys
+#import os
+#import datetime
 #sys.path.append('../../webfe/')
 import numpy as np
 from core.model.registry import model
-from core.export.export import exporter
+#from core.export.export import exporter
 from core.settings import settings
-from core.procedures.t_section import tsec_planeconfig
-from core.procedures.rec_section import rec_planeconfig
-from core.imports.marc.import_marc_dat import importfile_marc_dat
-from core.post.import_marc_t16 import post_t16
-from core.plots.plots import tpfdb
+#from core.procedures.t_section import tsec_planeconfig
+#from core.procedures.rec_section import rec_planeconfig
+#from core.imports.marc.import_marc_dat import importfile_marc_dat
+#from core.post.import_marc_t16 import post_t16
+#from core.plots.plots import tpfdb
 
 #from command import commandparser
 from core.utility.fem.create_arcplane import create_cylinderSurface
 
 from numpy import exp,sin,cos,arctan,abs,sqrt
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+import time
 
 def dent_function_numeric(x,y):
     ''' the defination of the curve fitting dent function
@@ -351,20 +352,32 @@ def procedure_pole_imposedent(*args):
     
     IFWRAP = args[9]
 
-    
+    t0 = time.time()
     #create cylinder surface  x0,y0,z0,r0,r1,L,nfi,nZ)
     model1 = create_cylinderSurface(model1,0,0, LEFTEND_XCOORD,LEFTEND_RAD,RIGHTEND_RAD,RIGHTEND_XCOORD-LEFTEND_XCOORD,LENGTH_RAd,LENGTH_INCR)
-    
+    t1 = time.time() - t0
+    print 'time to create cylinder surface %s ' % str(t1)
+        
+        
     if IFWRAP == 'True':
+        t0 = time.time()
         WRAPLEFT = float(args[10])
         WRAPRIGHT = float(args[11])
         model1 = create_wrap(model1,WRAPLEFT,WRAPRIGHT)
-    
+        t1 = time.time() - t0
+        print 'time to create wrap %s ' % str(t1)
+        
     # Add artificial dent
     if IFFILLED == 'False':
+        t0 = time.time()
         model1 = add_dent_asdeform(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH)
+        t1 = time.time() - t0
+        print 'time to enforce dent %s ' % str(t1)        
     elif IFFILLED == 'True':
+        t0 = time.time()
         model1 = add_dent_asdeform_filled(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH,wrap=IFWRAP)
+        t1 = time.time() - t0
+        print 'time to enforce dent and fill %s ' % str(t1) 
     else:
         raise ValueError,("The key for fillment detection do not find")
     
@@ -390,7 +403,7 @@ def procedure_pole_imposedent(*args):
     
     return model1
 
-
+'''
 def test_procedure_pole():
     model1 = model(settings)
 
@@ -418,10 +431,7 @@ def test_procedure_pole():
 
         for key in elemlist:#.keys():
             elemseqlist.append(key)#elemlist[key])
-        '''
-        for key in elemlist.keys():
-            elemseqlist.extend(elemlist[key])
-        '''
+
         elemseqlist = list(set(elemseqlist))
         
         model1.elemset('dentelems',{'elemlist':elemseqlist})
@@ -433,7 +443,7 @@ def test_procedure_pole():
     
     
     print 1
-
+'''
 
 if __name__ == '__main__':
     
