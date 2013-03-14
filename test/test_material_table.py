@@ -18,7 +18,7 @@ from command import commandparser
 if __name__ == '__main__':
     model1 = model(settings)
     
-    model1 = add_mat_by_file(model1,'Aluminum','ss.csv',mode='Ratio|Total Strain',proplimit=29.44,propstrain=0.003511,straincinr=0.001)
+    model1 = add_mat_by_file(model1,'Aluminum','ss.csv',mode='Ratio|Total Strain',proplimit=29.44,propstrain=0.003511,straincinr=0.0005)
     #model1 = add_mat_by_stressstrain(model1,'mat_rebar',MMFX,0.0026)
     name = 'material'
     exp1 = exporter(model1,name+'.proc','ex_Marc_dat')

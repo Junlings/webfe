@@ -403,20 +403,26 @@ class connlist():
         
     def update_nodeseq(self,updatedict):
         # get reverse dict
+        #t0 = time.time()
         replacedict = {}
         replacelist = []
         for key,items in updatedict.items():
             for item in items:
                 replacedict[item] = key
                 replacelist.append(item)
-
-        for seq in self.seqlist:
-            elemi = self.itemlib[seq]
-            
-            ifneed = set(elemi.nodelist) & set(replacelist)
-            if len(ifneed):
-                elemi.update_nodeseq(dict((k, replacedict[k]) for k in list(ifneed)))
+        #t1 = time.time() - t0
+        #print 'time to get reverse Table %s ' % str(t1)
         
+        #t0 = time.time()
+        for seq in self.seqlist:
+            elemi = self.itemlib[seq]  # get concern elements
+            
+            ifneed = set(elemi.nodelist) & set(replacelist)  # get
+            if len(ifneed) > 0:
+                #elemi.update_nodeseq(replacedict)
+                elemi.update_nodeseq(dict((k, replacedict[k]) for k in list(ifneed)))
+        #t1 = time.time() - t0
+        #print 'time to update sequence %s ' % str(t1)        
 
     def deletebylist(self,itemseqlist,update=False):
         for item in itemseqlist:

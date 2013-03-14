@@ -544,20 +544,26 @@ class model():
         #t1 = time.time() - t0
         #print 'time to check overlap %s ' % str(t1)
 
-        
-
-
     
         # update the connectivity
         #t0 = time.time()
         self.connlist.update_nodeseq(overlapnodedict)
-        ##t1 = time.time() - t0
+        #t1 = time.time() - t0
         #print 'time to update nodeseq %s ' % str(t1)
         
+        
+        replacedict = {}
+        replacelist = []
+        for key,items in overlapnodedict.items():
+            for item in items:
+                replacedict[item] = key
+                replacelist.append(item)
+                
+                
         #t0 = time.time()
         # update the setcontent
         for key in self.setlist.keys():
-            self.setlist[key].update_nodeseq(overlapnodedict)
+            self.setlist[key].update_nodeseq(replacedict)
         #t1 = time.time() - t0
         #print 'time to update set %s ' % str(t1)
         

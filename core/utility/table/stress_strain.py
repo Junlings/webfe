@@ -63,7 +63,7 @@ def add_mat_by_file(model1,matname,filename,mode,proplimit=None,propstrain=None,
     # clean up data
     data = np.array(data)
     current_strain = 0
-    cleaned_data = []
+    cleaned_data = [[0,1]]
     max_strain = max(data[:,1])
     while 1:
         current_strain += straincinr

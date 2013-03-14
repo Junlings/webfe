@@ -308,6 +308,35 @@ def find_nearest2d(array,value1,ind1,value2,ind2,err=0.01):
         if abs(array[i,ind1] - value1) < err and abs(array[i,ind2] - value2) < err:
             return i
 
+def add_material(model1):
+    ''' this is the defination of the steel and aluminum material'''
+    '''
+    ss_pole_steel = [[0,0],
+                     [0.0018,53.800],
+                     [0.03,54],
+                     [0.12,64],
+                     [0.121,0],
+                     [0.5,0]]
+    model1 = add_mat_by_stressstrain(model1,'pole_steel',ss_pole_steel,0.0018)
+    model1 = add_mat_by_stressstrain(model1,'pole_steel_dent',ss_pole_steel,0.0018)
+    
+    ss_pole_alum = [[0,0],
+                    [0.004,33],
+                    [0.054,36],
+                    [0.0541,0],
+                    [0.5,0]]
+    model1 = add_mat_by_stressstrain(model1,'pole_alum',ss_pole_alum,0.004)
+    model1 = add_mat_by_stressstrain(model1,'pole_alum_dent',ss_pole_alum,0.004)
+    '''
+    # add filler material property
+    model1.material('mat_alum','uniaxial_elastic_plastic',{'E':0.5464,'mu':0.3,'mass':0.0,'sigma_y':57.8,'tabletag':'Alum'})
+    model1.material('mat_alum_dent','uniaxial_elastic_plastic',{'E':0.5464,'mu':0.3,'mass':0.0,'sigma_y':57.8,'tabletag':'Alum'})
+    model1.material('mat_interface','interface_marc_builtin',{'mattype':'linear','Gc':1,'vc':0.03,'vm':0.1,'s_n':1,'s_n_c':1,'stiff_c':1})
+    model1.material('mat_fill','uniaxial_elastic',{'E':0.5464,'mu':0.3,'mass':0.0})
+    model1.material('mat_wrap','uniaxial_elastic',{'E':1.263,'mu':0.3,'mass':0.0})
+    
+    return model1
+
 def procedure_pole_imposedent(*args):
     model1 = model(settings)
     LEFTEND_XCOORD = float(args[0])
@@ -343,6 +372,21 @@ def procedure_pole_imposedent(*args):
     #pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
     #model1.nodeset(name,{'nodelist':pnodelist})
     
+    # add material
+    model1 = add_material(model1)
+    
+
+    model1.property('prop_alum','quad4',{'type':75,'thinkness':4.59})
+    model1.property('prop_alum_dent','quad4',{'type':75,'thinkness':4.59})
+    model1.property('prop_fill','hex8',{'type':7})
+    model1.property('prop_wrap','quad4',{'type':75})
+    model1.property('interface','quad4',{'type':186})    
+
+    model1.link_mat_prop('mat_alum','prop_alum')
+    model1.link_mat_prop('mat_alum_dent','prop_alum_dent')
+    model1.link_mat_prop('mat_interface','interface')
+    model1.link_mat_prop('mat_fill','prop_fill')
+    model1.link_mat_prop('mat_wrap','prop_wrap')
     
     return model1
 
@@ -393,5 +437,5 @@ def test_procedure_pole():
 
 if __name__ == '__main__':
     
-    #test_procedure_pole()
-    plot_dentmap(200)
+    test_procedure()
+    #plot_dentmap(200)

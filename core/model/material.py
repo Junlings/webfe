@@ -133,6 +133,10 @@ class uniaxial_steel_02(uniaxial):
 class uniaxial_UHPC(uniaxial):
     """ uniaxial UHPC material model with hardneing and softening """
     def __init__(self,paralib={'E':0.0,'mu':0.0,'mass':0.0}):
+        
+        paralib['E'] = 0.0
+        paralib['mu'] = 0.0
+        paralib['mass'] = 0.0
 
         uniaxial.__init__(self,paralib['E'],
                                paralib['mu'],
@@ -159,7 +163,9 @@ class uniaxial_UHPC(uniaxial):
         self.betaC = paralib['betaC']
     
 class uniaxial_UHPC2(uniaxial):
-    """ uniaxial UHPC material model with hardneing and softening """
+    """ uniaxial UHPC material model with hardneing and softening
+    Three branch model
+    """
     def __init__(self,paralib={'E':0.0,'mu':0.0,'mass':0.0}):
 
         uniaxial.__init__(self,paralib['E'],

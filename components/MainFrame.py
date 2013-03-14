@@ -8,6 +8,7 @@ from components.MainFrame_xrc import xrcMainFrame
 from procedures.PoleDent.diag_pole import PoleDiag
 from procedures.Poleartificialdent.diag_pole2 import PoleDiag2
 from procedures.patch.diag_patch import PatchDiag
+from procedures.hybridsystem.hybridsystem import hybridsystem
 import datetime
 import sys
 import os
@@ -114,9 +115,12 @@ class MainFrame(xrcMainFrame):
         
         # Bind Procedure menu
         self.Bind(wx.EVT_MENU, self.OnPoleDiag, self.MenuItem_Pole)
-        self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_EXIT, 'Dent Pole', 'Dent Pole')
+        self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_EXIT, 'Dent Pole', 'Dent Pole')  # pole dent procedure
+        self.MenuItem_Hybrid = self.Menu_Proc.Append(wx.ID_EXIT, 'Hybrid Deck', 'Hybrid Deck')
         self.Bind(wx.EVT_MENU, self.OnPoleDentDiag, self.MenuItem_PoleDent)
-       
+        self.Bind(wx.EVT_MENU, self.OnHybridDiag, self.MenuItem_Hybrid)
+        
+        
         # bind macro menu
         self.Bind(wx.EVT_MENU, self.OnMacroRecord, self.MenuItem_MacroRecord)
         self.Bind(wx.EVT_MENU, self.OnMacroStop, self.MenuItem_MacroStop)
@@ -286,6 +290,13 @@ class MainFrame(xrcMainFrame):
         print "start pole data processing"
         self.polediag2 = PoleDiag2(self)
         self.polediag2.Show()        
+
+    
+    def OnHybridDiag(self,event):
+        print "start construct hybrid system"
+        self.Hybriddiag = hybridsystem(self)
+        self.Hybriddiag.Show()        
+        
 
     def OnFemGrid(self,event):
         f1 = DictGridPanel(self.ModelNoteBook)

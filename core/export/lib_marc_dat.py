@@ -56,7 +56,8 @@ class ex_Marc_dat(ex_Marc):
                     else:
                         n_line += 1                    
                 else:
-                    raise KeyError,('node ',str(node),' in itemset ', setname,' do not exist')
+                    print 'node ',str(node),' in itemset ', setname,' do not exist'
+                    #raise KeyError,('node ',str(node),' in itemset ', setname,' do not exist')
 
                 
             exp += '\n'

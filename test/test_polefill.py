@@ -27,9 +27,16 @@ def post_dowel():
     c1 = commandparser()    
     c1.parser('*macro_load,M:\\marcworking\\dowel\\dowel_base\\full\\posyprocess.mac')
 
+
+def test_procedure_fillwrap():
+    c1 = commandparser()    
+    c1.parser('*procedure_pole_imposedent,-1000,1000,70,60,100,48,50,400,True,True,-200,200')
+    
+    
 if __name__ == '__main__':
     
-    test_poledent()
+    test_procedure_fillwrap()
+    #test_poledent()
 
     #test_procedure_dowelaction()
     #post_dowel()

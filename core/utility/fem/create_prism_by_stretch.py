@@ -1,6 +1,6 @@
 """ This is the module to stretch the existing 2d mesh to 3D mesh"""
 import numpy as np
-
+import time
 def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,stretchdir = 'z',setname='3d_stretch'):
     ''' This function can stretch 2D mesh into 3D mesh for selected connectivity group in certain direction
         model1: input model instance
@@ -11,6 +11,7 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
         stretchdir: Mesh generation direction, default as 'z'
     
     '''
+    #t0 = time.time()
     # get process elem list
     elemkeylist = []
     if ElemSetNameList == None:
@@ -21,8 +22,10 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
             
     # get involved nodes
     nodekeylist = model1.select_nodes_elemlist(elemkeylist)
+    #t1 = time.time() - t0
+    #print 'time to get involved nodes %s ' % str(t1)       
     
-    
+    #t0 = time.time()
     # create nodelist based on increment
     new_nodelist = []
     
@@ -39,8 +42,11 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
         raise TypeError,('stretch direction ',stretchdir, ' not supported')
     new_id = model1.node(new_nodelist,setname='node_'+setname)
     
+    #t1 = time.time() - t0
+    #print 'Create nodes %s ' % str(t1)      
     
     
+    #t0 = time.time()
     # create 3d elements
     new_elemlist = []
     n_nodelist = len(nodekeylist)
@@ -72,11 +78,19 @@ def sktretch_2dmesh(model1,incrN,incrD,ElemSetNameList=None,deleteorigin=True,st
                 new_elemlist.append(np.array(loopnodelist2))
             
     model1.element(new_elemlist,setname='element_'+setname)
+
+    #t1 = time.time() - t0
+    #print 'Create elements %s ' % str(t1)
     
+    #t0 = time.time()
     # delete the original 2D mesh source if required
     if deleteorigin == True:
     
         model1.delete_elements(elemkeylist)
+
+    #t1 = time.time() - t0
+    #print 'Delete old elements %s ' % str(t1)
+    
     
     # return model and generated nodeketlys, new_id and total numbe of node generated
     return model1,nodekeylist,new_id,n_nodelist
