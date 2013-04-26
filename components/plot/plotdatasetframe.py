@@ -15,6 +15,7 @@ from components.post.plainframe import plainpost
 from wx.lib.pubsub import setuparg1
 from wx.lib.pubsub import pub
 import time
+#import os.path 
 
 class PlotDataSetPanel(wx.Panel):
     def __init__(self,parent,plotkey):
@@ -62,10 +63,12 @@ class PlotDataSetPanel(wx.Panel):
         self.Export = wx.Button(f1,label='Export')
         self.Export.Bind(wx.EVT_LEFT_DOWN,self.OnExport)        
 
-        
+        self.Export2 = wx.Button(f1,label='Save Figure')
+        self.Export2.Bind(wx.EVT_LEFT_DOWN,self.OnSaveFigure)           
 
         vbox.Add(gs, proportion=0,border=50)
         vbox.Add(self.Export, proportion=0,border=50)
+        vbox.Add(self.Export2, proportion=0,border=50)
         f1.SetSizer(vbox)
                  
         
@@ -444,4 +447,23 @@ class PlotDataSetPanel(wx.Panel):
         
         if dlg.ShowModal() == wx.ID_OK:
             paths = dlg.GetPaths()
-        pub.sendMessage("COMMAND", '*plot_pdata_save,%s,%s' % (self.plotkey,paths[0]))        
+        pub.sendMessage("COMMAND", '*plot_pdata_save,%s,%s' % (self.plotkey,paths[0]))
+        
+    def OnSaveFigure(self,event):
+        ''' save model by pickle module '''
+        wildcard = "Model Data File (*.png)|*.png|" \
+         "All files (*.*)|*.*"
+        
+        dlg = wx.FileDialog(
+            self, message="Choose a file",
+            defaultFile="",
+            wildcard=wildcard,
+            style=wx.FD_SAVE | wx.CHANGE_DIR
+            )
+        
+        if dlg.ShowModal() == wx.ID_OK:
+            paths = dlg.GetPaths()
+            
+        
+        #
+        pub.sendMessage("COMMAND", '*plot_figure_save,%s,%s' % (paths[0],self.plotkey))      

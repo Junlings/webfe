@@ -311,8 +311,13 @@ class commandparser():
             figurekey = args[0]
             fileformat = args[1]
             plotname = args[2]
-            
-            
+        
+        elif len(args) == 2:
+            figurekey = args[1]
+            fileformat = 'png'
+          
+            self.results.savefig(figurekey,fileformat,name=args[0])
+            return 1
         
         self.results.savefig(figurekey,fileformat,name=os.path.join(self.currentsettings[folderkey],plotname))
     

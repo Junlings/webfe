@@ -248,6 +248,17 @@ class model():
         self.nodelist.addbylist(tempnode)
         return no
     
+    
+    def node_copy(self,nlist,setname='copy nodes'):
+        temp = []
+        for i in nlist:
+            temp.append(self.nodelist.itemlib[i].xyz)   
+           
+        nn = self.node(temp,setname=setname)
+        
+        return nn
+    
+    
     def delete_node(self,seqlist):
         self.nodelist.deletebylist(seqlist)
         
@@ -341,8 +352,17 @@ class model():
         
         # remove elements from sets
         for key,setitem in self.setlist.items():
-            setitem.deleteelembylist(seqlist)
-        
+            #setitem.deleteelembylist(seqlist)
+            setitem.delelemlist(seqlist)
+    
+    def delete_element_byset(self,setname):
+        elemlist = self.setlist[setname].elemlist
+        for elem in elemlist:
+            del self.connlist.itemlib[elem]
+            self.connlist.update()
+        self.setlist[setname].elemlist = []
+    
+    
     def material(self,matname,matclass,paralib={}):
         ''' add material instance to the matlist.
             inputs:

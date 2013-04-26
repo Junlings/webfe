@@ -159,6 +159,9 @@ def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
     node_res = []
     node_alter_dict = {}
     ii = 1
+    
+    t0 = time.time()
+    # apply dent function
     for key in model1.nodelist.itemlib.keys():
         '''loop over all nodes'''
         x,y,z,fi = dent_function_node(model1,key,deepdent,zcrit)
@@ -174,19 +177,23 @@ def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
             model1.nodelist.itemlib[key].xyz = np.array([x,y,-z])  # due to function
         
         if (x-xyz[0])*(x-xyz[0]) + (y-xyz[1])*(y-xyz[1]) > critical_thickness: # all dentnode
-            
-            
-            
+        
             if (x*x+y*y)- (xyz[0]*xyz[0]+xyz[1]*xyz[1]) < -1*critical_thickness and y>0:  # apply to the fill region
                 dentnode.append(denttempnode)
                 node_res.append([denttempnode[0],denttempnode[1],denttempnode[2],key])
                 
                 
-                node_alter_dict[key] = ii
+                node_alter_dict[key] = ii   # this is 
                 ii += 1
-        
-    nn = model1.node(dentnode,setname='dentnodes')
+    t1 = time.time() - t0
+    print '----time to collect node information %s ' % str(t1)
     
+    t0 = time.time()
+    nn = model1.node(dentnode,setname='dentnodes')
+    t1 = time.time() - t0
+    print '----time to create nodes %s ' % str(t1)    
+    
+    t0 = time.time()
     # update the wrap elements
     if 'wrap' in model1.setlist.keys():
         elemlist = model1.setlist['wrap'].elemlist
@@ -199,15 +206,17 @@ def add_dent_asdeform_filled(model1,deepdent=1,zcrit=200,wrap=None):
                 else:
                     temp.append(nodeid)
             model1.connlist.itemlib[elem].nodelist = temp
+    t1 = time.time() - t0
+    print '----time to create wrap %s ' % str(t1)                
             
-            
-    
+    t0 = time.time()
     for i in range(0,len(node_res)):
         node_res[i].append(nn+i+1)
         
     model1 = create_fill(model1,node_res)
     # add node with dent to nodelist    
-    
+    t1 = time.time() - t0
+    print '----time to create fill %s ' % str(t1)         
         
     return model1
 
@@ -249,6 +258,9 @@ def create_wrap(model1,left,right):
     model1.element(tempelement,setname='wrap')
 
     return model1
+
+
+
 
 def create_fill(model1,node_res):
     ''' create fill based on the detected dent and original nodes '''
@@ -338,6 +350,46 @@ def add_material(model1):
     
     return model1
 
+
+def create_interface(model1):
+    ''' create interface between wrap and fill/dent '''
+
+    if 'wrap' in model1.setlist.keys():
+        elemlist = model1.setlist['wrap'].elemlist
+        temp = []    
+        for elem in elemlist:
+            temp.extend(model1.connlist.itemlib[elem].nodelist)
+        
+        tempset = set(temp)
+        
+        templist = list(tempset)
+        templist.sort()
+        nn = model1.node_copy(templist,setname='copy_wrap')
+        
+        elemtemp = []
+        interfacetemp = []
+        for elem in elemlist:
+            nodelisttemp = []
+            newnodelist = list(model1.connlist.itemlib[elem].nodelist)
+            for node in model1.connlist.itemlib[elem].nodelist:
+                nodelisttemp.append(nn + templist.index(node)+1)
+            
+            elemtemp.append(nodelisttemp)
+            newnodelist.extend(nodelisttemp)
+            interfacetemp.append(newnodelist)
+        
+        model1.element(elemtemp,setname='new_wrap')
+        model1.element(interfacetemp,setname='interface')
+        
+        
+        # delete the original wrap elements
+        #elemlist = model1.setlist['wrap'].elemlist
+        #model1.delete_elements(elemlist)
+        return model1
+    
+    
+    
+
 def procedure_pole_imposedent(*args):
     model1 = model(settings)
     LEFTEND_XCOORD = float(args[0])
@@ -353,12 +405,13 @@ def procedure_pole_imposedent(*args):
     IFWRAP = args[9]
 
     t0 = time.time()
+    
     #create cylinder surface  x0,y0,z0,r0,r1,L,nfi,nZ)
     model1 = create_cylinderSurface(model1,0,0, LEFTEND_XCOORD,LEFTEND_RAD,RIGHTEND_RAD,RIGHTEND_XCOORD-LEFTEND_XCOORD,LENGTH_RAd,LENGTH_INCR)
     t1 = time.time() - t0
     print 'time to create cylinder surface %s ' % str(t1)
         
-        
+    # add wrap of possible    
     if IFWRAP == 'True':
         t0 = time.time()
         WRAPLEFT = float(args[10])
@@ -367,12 +420,13 @@ def procedure_pole_imposedent(*args):
         t1 = time.time() - t0
         print 'time to create wrap %s ' % str(t1)
         
-    # Add artificial dent
+    # Add artificial dent and fill if possible
     if IFFILLED == 'False':
         t0 = time.time()
         model1 = add_dent_asdeform(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH)
         t1 = time.time() - t0
-        print 'time to enforce dent %s ' % str(t1)        
+        print 'time to enforce dent %s ' % str(t1)
+        
     elif IFFILLED == 'True':
         t0 = time.time()
         model1 = add_dent_asdeform_filled(model1,deepdent=DEEP_DENT, zcrit=CRIT_LENGTH,wrap=IFWRAP)
@@ -381,14 +435,28 @@ def procedure_pole_imposedent(*args):
     else:
         raise ValueError,("The key for fillment detection do not find")
     
+    
+    # add interface elements between the wrap and fill/steel
+    t0 = time.time()
+    model1 = create_interface(model1)
+    t1 = time.time() - t0
+    print 'time to create interface %s ' % str(t1) 
+
+    t0 = time.time()
+    elemlist = model1.setlist['wrap'].elemlist
+    model1.delete_element_byset('wrap')
+    t1 = time.time() - t0
+    print 'time to delete reference wrap %s ' % str(t1)
+    
+    
     # Add typical node for loading and support
     #pnodelist = model1.nodelist.select_node_coord([xmin,xmax],[ymin,ymax],[zmin,zmax])
     #model1.nodeset(name,{'nodelist':pnodelist})
     
     # add material
     model1 = add_material(model1)
-    
-
+     
+        
     model1.property('prop_alum','quad4',{'type':75,'thinkness':4.59})
     model1.property('prop_alum_dent','quad4',{'type':75,'thinkness':4.59})
     model1.property('prop_fill','hex8',{'type':7})
@@ -403,47 +471,7 @@ def procedure_pole_imposedent(*args):
     
     return model1
 
-'''
-def test_procedure_pole():
-    model1 = model(settings)
 
-    x0 = 0 
-    y0 = 0 
-    z0 = -1600
-    R1 = 71
-    R2 = 73
-    L = 2743
-    nfi = 16
-    nL = 270
-    deepdent = 50
-    ifdent = True
-    dent = "add_dent_asdeform"
-    
-    model1 = create_cylinderSurface(model1,x0,y0,z0,R1,R2,L,nfi,nL,deepdent=0,setname='surface',dent=ifdent,folder='default')
-    
-
-    if dent == 'add_dent_asdeform':
-        model1 = add_dent_asdeform(model1,deepdent=deepdent)
-        
-        elemlist = model1.select_elements_nodeset('dentnodes')
-        
-        elemseqlist = []
-
-        for key in elemlist:#.keys():
-            elemseqlist.append(key)#elemlist[key])
-
-        elemseqlist = list(set(elemseqlist))
-        
-        model1.elemset('dentelems',{'elemlist':elemseqlist})
-        print 1
-        
-    
-    
-    model1.modelsavetofile('temp.pydat')
-    
-    
-    print 1
-'''
 
 if __name__ == '__main__':
     

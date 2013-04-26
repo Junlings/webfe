@@ -30,8 +30,10 @@ def post_dowel():
 
 def test_procedure_fillwrap():
     c1 = commandparser()    
+    #c1.parser('*procedure_pole_imposedent,-1543.5,1102.5,70,56,294,44,31,450,True,True,-441,441')
     c1.parser('*procedure_pole_imposedent,-1543.5,1102.5,70,56,294,44,31,450,True,True,-441,441')
-     
+    c1.parser('*save_project,temp.pydat')
+    c1.parser('*export_marc_dat,default,dd.proc')
     
 if __name__ == '__main__':
     
