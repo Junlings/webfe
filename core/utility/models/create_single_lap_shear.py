@@ -1,5 +1,5 @@
 import numpy as np
-from utility.fem.create_2d_patch import create_2d_patch as add_block
+from core.utility.fem.create_2d_patch import create_2d_patch as add_block
 
 
 def create_pullout(model1,La=0,Ha=0,Za=0,Lb=0,Hb=0,Zb=0,Lsize=0,Hsize=0,offset=0,bond_region=None):
@@ -18,8 +18,10 @@ def create_pullout(model1,La=0,Ha=0,Za=0,Lb=0,Hb=0,Zb=0,Lsize=0,Hsize=0,offset=0
             'Lb':Lb,
             'Hb':Hb,
             'Zb':Zb,
-            'nLb':Lb/Lsize,
-            'nHb':Hb/Hsize,}
+            'nLb':int(Lb/Lsize) ,
+            'nHb':int(Hb/Hsize) ,}
+    
+    
     
     if bond_region == None:
         """ default bond region , all overlap area"""
@@ -27,8 +29,8 @@ def create_pullout(model1,La=0,Ha=0,Za=0,Lb=0,Hb=0,Zb=0,Lsize=0,Hsize=0,offset=0
         para['bond_origin'] = [para['Le'],-para['Hb']/2,para['Za']]
         para['bond_dx'] = Lsize
         para['bond_dy'] = Hsize
-        para['bond_nx'] = (La)/Lsize - offset
-        para['bond_ny'] = (Hb)/Hsize
+        para['bond_nx'] = int((La)/Lsize - offset)
+        para['bond_ny'] = int((Hb)/Hsize)
         para['bond_Za'] = Za
         para['bond_Zb'] = Zb        
         
@@ -61,6 +63,11 @@ def create_single_lap_shear_3d(model1,**args):
     nHb = args['nHb']   # segment number along height B
     nLb = args['nLb']
    
+    if nHb == 0:
+        nHb = 1
+    if nLb == 0:
+        nLb = 1
+   
     bond_origin = args['bond_origin']
     bond_dx = args['bond_dx']
     bond_dy = args['bond_dy']
@@ -85,8 +92,8 @@ def create_single_lap_shear_3d(model1,**args):
     model1 = add_block(model1,[5,6,7,8],[nLb,nHb],setname='PartB',z=Zb)
 
     # delete the unused nodes
-    unused,missing = model1.check_node_unused()
-    model1.delete_node(list(unused))
+    #unused,missing = model1.check_node_unused()
+    #model1.delete_node(list(unused))
     
     
     #temp = create_interface_3d(model1,[Le,-Hb/2,Za],2,2,5,5,Za,Zb)
@@ -192,8 +199,8 @@ def create_single_lap_shear(model1,**args):
                  [0,Ha + He + Hb,0]])
     
     # create mesh blocks
-    model1 = add_block(model1,[1,2,3,4],[La/nL,Ha/nHa],setname='PartA')
-    model1 = add_block(model1,[5,6,7,8],[Lb/nL,Hb/nHb],setname='PartB')
+    model1 = add_block(model1,[1,2,3,4],[int(La/nL),int(Ha/nHa)],setname='PartA')
+    model1 = add_block(model1,[5,6,7,8],[int(Lb/nL),int(Hb/nHb)],setname='PartB')
     
     # delete the unused nodes
     unused,missing = model1.check_node_unused()
@@ -223,7 +230,6 @@ def create_single_lap_shear(model1,**args):
 
 def add_block(model,nodeseq,N,type=4,setname='default',z=0):
     ''' mesh the region between the four nodes and merge into the database '''
-    
     # get corner coordinates based on nodes
     xy = np.array([model.nodelist.itemlib[nodeseq[1-1]].xyz,
                    model.nodelist.itemlib[nodeseq[2-1]].xyz,
@@ -236,6 +242,8 @@ def add_block(model,nodeseq,N,type=4,setname='default',z=0):
     # add node to model starting with current highest node seq
     nn = model.node(bxy)
     nodeline = {}
+    N[0] = int(N[0])
+    N[1] = int(N[1])
     nodeline['1-2'] = range(nn+1,nn + N[0]+1+1)
     nodeline['2-3'] = range(nn+N[0]+1,nn +1+ (N[0]+1)*(N[1]+1),N[0]+1)
     nodeline['3-4'] = range(nn+1+(N[0]+1)*(N[1]),nn +1+ (N[0]+1)*(N[1]+1))
@@ -314,8 +322,8 @@ def block(xy,N,type=None,z=0):
         raise ValueError,'ERROR in function block --> n does not contain valid sizes',min(N)
         return -1
 
-    nodesx = N[0] + 1
-    nodesy = N[1] + 1
+    nodesx = int(N[0] + 1)
+    nodesy = int(N[1] + 1)
     
     if xy[1-1,1-1] == xy[4-1,1-1]:
         xl = np.ones((nodesy)) * xy[1-1,1-1]
@@ -362,7 +370,7 @@ def block(xy,N,type=None,z=0):
     print 1
     '''
     
-    ncells = N[1-1] * N[2-1]  # number of total cells
+    ncells = int(N[1-1] * N[2-1])  # number of total cells
     numtri = 2 * ncells       # number of total trianglers
     tri_count = 1             # count of current item
 

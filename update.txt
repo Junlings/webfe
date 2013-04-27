@@ -1,3 +1,7 @@
+============= version 0.6.7 ========
+1 change the imposed pole dent to interface mode
+2 add interface (single lap shear) procedure
+
 ============= version 0.6.6 ========
 1 Add the ability to export plotdata in csv format
 2 Add funciton to merge existing plotdata to one data

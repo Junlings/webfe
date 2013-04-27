@@ -9,6 +9,8 @@ from procedures.PoleDent.diag_pole import PoleDiag
 from procedures.Poleartificialdent.diag_pole2 import PoleDiag2
 from procedures.patch.diag_patch import PatchDiag
 from procedures.hybridsystem.hybridsystem import hybridsystem
+from procedures.interface.interface import interface
+
 import datetime
 import sys
 import os
@@ -117,9 +119,11 @@ class MainFrame(xrcMainFrame):
         self.Bind(wx.EVT_MENU, self.OnPoleDiag, self.MenuItem_Pole)
         self.MenuItem_PoleDent = self.Menu_Proc.Append(wx.ID_ANY, 'Dent Pole', 'Dent Pole')  # pole dent procedure
         self.MenuItem_Hybrid = self.Menu_Proc.Append(wx.ID_ANY, 'Hybrid Deck', 'Hybrid Deck')
+        self.MenuItem_interface = self.Menu_Proc.Append(wx.ID_ANY, 'Interface', 'interface')
+        
         self.Bind(wx.EVT_MENU, self.OnPoleDentDiag, self.MenuItem_PoleDent)
         self.Bind(wx.EVT_MENU, self.OnHybridDiag, self.MenuItem_Hybrid)
-        
+        self.Bind(wx.EVT_MENU, self.OnInterface, self.MenuItem_interface)
         
         # bind macro menu
         self.Bind(wx.EVT_MENU, self.OnMacroRecord, self.MenuItem_MacroRecord)
@@ -285,6 +289,11 @@ class MainFrame(xrcMainFrame):
         print "start pole data processing"
         self.polediag = PoleDiag(self)
         self.polediag.Show()
+    
+    def OnInterface(self,event):
+        print "start interface processing"
+        self.interfacediag = interface(self)
+        self.interfacediag.Show()        
     
     def OnPoleDentDiag(self,event):
         print "start pole data processing"

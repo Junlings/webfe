@@ -280,6 +280,7 @@ class coordlist():
 
         self.coordtable = out
         self.coordbound = {}
+        
         self.coordbound['xmax'] = np.amax(out[:,0])
         self.coordbound['xmin'] = np.amin(out[:,0])
         self.coordbound['ymax'] = np.amax(out[:,1])

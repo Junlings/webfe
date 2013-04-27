@@ -2,7 +2,7 @@ import numpy as np
 import re
 import time
 import itertools
-from lib.libop import savebyfile, loadbyfile
+from core.lib.libop import savebyfile, loadbyfile
 
 def ninteg(elemtype):
     ninterg = None

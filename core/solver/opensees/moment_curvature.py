@@ -2,7 +2,7 @@ import os.path
 import sys
 sys.path.append('../../export')
 
-from export.export import exporter
+from core.export.export import exporter
 from opensees import run_OpenSees, run_OpenSees_interact
 folder = os.path.dirname(os.path.realpath(__file__))
 import shutil

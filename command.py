@@ -11,6 +11,7 @@ from core.utility.fem.create_arcplane import create_cylinderSurface
 from core.procedures.p_poledent import process_pole_dat,PoleModeling, pole_extend, pole_bending_modeling
 from core.procedures.test_poledent import procedure_pole_imposedent
 from core.procedures.test_hybrid_new import BuildModel_hybrid_command
+from core.procedures.procedure_interface3d import procedure_interface3d
 from core.export.export import exporter
 from core.post.import_marc_t16 import post_t16
 from core.post.import_plain import import_plain
@@ -131,6 +132,9 @@ class commandparser():
 
     def procedure_hybriddeck(self,*args):
         self.model = BuildModel_hybrid_command(*args)
+        
+    def procedure_interface3d(self,*args):
+        self.model = procedure_interface3d(*args)
         
     def export_model(self,*args):
         fullpath = args[1]
