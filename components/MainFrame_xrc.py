@@ -68,7 +68,12 @@ class xrcMainFrame(wx.Frame):
         else:
             self.Menu_Utility = self.GetMenuBar().FindItemById(xrc.XRCID("Menu_Utility")).GetSubMenu()
         self.MenuItem_Patch = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Patch"))
-        self.MenuItem_Material = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Material"))
+        idx = self.GetMenuBar().FindMenu("Material")
+        if idx != wx.NOT_FOUND:
+            self.MenuItem_Material = self.GetMenuBar().GetMenu(idx)
+        else:
+            self.MenuItem_Material = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Material")).GetSubMenu()
+        self.MenuItem_Material_Interface = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Material_Interface"))
         self.MenuItem_Section = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Section"))
         self.MenuItem_Rebar = self.GetMenuBar().FindItemById(xrc.XRCID("MenuItem_Rebar"))
         idx = self.GetMenuBar().FindMenu("Import")
@@ -204,8 +209,11 @@ def __init_resources():
             <label>Create Patch</label>
           </object>
         </object>
-        <object class="wxMenuItem" name="MenuItem_Material">
+        <object class="wxMenu" name="MenuItem_Material">
           <label>Material</label>
+          <object class="wxMenuItem" name="MenuItem_Material_Interface">
+            <label>Interface Material</label>
+          </object>
         </object>
         <object class="wxMenu">
           <label>Section</label>

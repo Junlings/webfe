@@ -677,6 +677,23 @@ class tpfdb():
             raise TypeError,('Table name:',tablekey, 'not existed, increment operation aborted')
     
     
+    def tmask_table_sum(self,tablekeylist,newtablekey):
+        ''' add row of whole columns of tablekeylist to a new table with name 'sum' '''
+        
+        temp = self.tdb[tablekeylist[0]]['data']
+        unit = self.tdb[tablekeylist[0]]['unitlist'][0]
+        # first stack all tables
+        for tablekey in tablekeylist[1:]:
+            temp = np.hstack((temp,self.tdb[tablekey]['data']))
+        
+        # add sum of rows
+        resmatrix = temp.sum(axis=1)
+        resmatrix= np.reshape(resmatrix, (-1, 1))
+        self.add(newtablekey,np.array(resmatrix),unitlist=[unit],labellist=['sum'])
+        
+        
+    
+    
     def tmask_coordlist(self,model1,tablekey,labellist):
         ''' input labellist get location information '''
         res = []

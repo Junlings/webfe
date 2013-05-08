@@ -70,8 +70,11 @@
             <label>Create Patch</label>
           </object>
         </object>
-        <object class="wxMenuItem" name="MenuItem_Material">
+        <object class="wxMenu" name="MenuItem_Material">
           <label>Material</label>
+          <object class="wxMenuItem" name="MenuItem_Material_Interface">
+            <label>Interface Material</label>
+          </object>
         </object>
         <object class="wxMenu">
           <label>Section</label>

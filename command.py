@@ -224,6 +224,14 @@ class commandparser():
         tablekey = args[0]
         self.results.tmask_table_invert(tablekey)
         
+    
+    def plot_table_sum(self,*args):
+        if len(args) > 2:
+            self.results.tmask_table_sum(args[0:-1],args[-1])
+        elif len(args) == 2:
+            self.results.tmask_table_sum([args[0]],args[1])
+        else:
+            raise error,('Parameter less than required',args)
     def plot_pdata_add(self,*args):
         key = args[0]
         parlist = args[1:]

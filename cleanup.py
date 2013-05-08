@@ -4,7 +4,7 @@ def scandirs(path):
     for root, dirs, files in os.walk(path):
         for currentFile in files:
             #print "processing file: " + currentFile
-            exts=('.pyc',)
+            exts=('.pyc','.pyo')
             if any(currentFile.lower().endswith(ext) for ext in exts):
                 rempath = os.path.join(root,currentFile)
                 try:
