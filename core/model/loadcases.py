@@ -44,3 +44,9 @@ class static_arclength(loadcases):
         self.para = {}
         self.unfold(paralib)        
         
+class buckle(loadcases):
+    def __init__(self,paralib={}):
+        self.boundarylist = []
+        self.para = {}
+        self.unfold(paralib)           
+        

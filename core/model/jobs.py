@@ -30,3 +30,17 @@ class static_job(jobs):
         self.para = {}
         self.unfold(paralib)        
         
+
+
+class buckle_job(jobs):
+    def __init__(self,paralib={}):
+        self.loadcaselist = []
+        self.initialcond = []
+        self.reqresultslist = []
+        self.nlevel = 2
+        self.nplevel = 2
+        self.submit = True
+        self.method = 'power'
+        self.para = {}
+        self.unfold(paralib)        
+        

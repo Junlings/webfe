@@ -37,6 +37,17 @@ def add_mat_by_file(model1,matname,filename,mode,proplimit=None,propstrain=None,
     for row in res:
         data.append(map(float,row))
     
+    # convert engineering data to true data
+    newdata = []
+    for iline in range(0,len(data)):
+        true_stress = data[iline][0]*(1+data[iline][1])
+        true_strain = float(np.log(1+data[iline][1]))
+        newdata.append([true_stress,true_strain])
+    data = newdata
+    
+    proplimit = proplimit *(1+propstrain)
+    propstrain = float(np.log(1+propstrain))
+    
     
     xmode,ymode=mode.split('|')
     
@@ -86,6 +97,20 @@ def add_mat_by_file(model1,matname,filename,mode,proplimit=None,propstrain=None,
     return model1
 
 
+def convert_norm_to_true(stressstrainpoints):
+    ''' convert engineer strain stress to true stress and strain for uniaxial test data processing'''
+    truestraintress = np.zeros(stressstrainpoints.shape)
+    
+    for j in range(0,len(stressstrainpoints[1,:])):
+        #a = stressstrainpoints[0,j]
+        #b = stressstrainpoints[1,j]
+        truestraintress[1,j] = stressstrainpoints[1,j]*(1+stressstrainpoints[0,j])
+        truestraintress[0,j] = np.log(1+stressstrainpoints[0,j])
+                                                       
+                                                        
+                                                        
+    return truestraintress
+
 
 def stress_strain(stressstrainpoints,elastic_strain_limit):
     """ 
@@ -101,6 +126,10 @@ def stress_strain(stressstrainpoints,elastic_strain_limit):
     
     """
     stressstrainpoints = np.array(stressstrainpoints).T
+    
+    # convert from engineering strain to true strain 
+    stressstrainpoints = convert_norm_to_true(stressstrainpoints)
+    #print stressstrainpoints
     
     #print stressstrainpoints
     fy = np.interp(elastic_strain_limit,stressstrainpoints[0,:],stressstrainpoints[1,:])
@@ -120,9 +149,11 @@ def stress_strain(stressstrainpoints,elastic_strain_limit):
 
 if __name__ == '__main__':
     
-    ss = [[0,0],[0.01,60],[0.02,61],[0.05,70],[0.051,0]]
-    es = 0.01
+    #ss = [[0,0],[0.01,60],[0.02,61],[0.05,70],[0.051,0]]
+    ss = [[0,0],[0.00095,200e6],[0.025,240e6],[0.05,280e6],[0.1,340e6],[0.15,380e6],[0.2,400e6]]
     
+    es = 0.00095
+
     print stress_strain(ss,es)
 
     print 1

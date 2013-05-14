@@ -342,8 +342,8 @@ def add_material(model1):
     model1 = add_mat_by_stressstrain(model1,'pole_alum_dent',ss_pole_alum,0.004)
     '''
     # add filler material property
-    model1.material('mat_alum','uniaxial_elastic_plastic',{'E':0.5464,'mu':0.3,'mass':0.0,'sigma_y':57.8,'tabletag':'Alum'})
-    model1.material('mat_alum_dent','uniaxial_elastic_plastic',{'E':0.5464,'mu':0.3,'mass':0.0,'sigma_y':57.8,'tabletag':'Alum'})
+    model1.material('mat_alum','uniaxial_elastic',{'E':57.8,'mu':0.3,'mass':0.0})
+    model1.material('mat_alum_dent','uniaxial_elastic_plastic',{'E':57.8,'mu':0.3,'mass':0.0,'sigma_y':0.203,'tabletag':'Alum'})
     model1.material('mat_interface','interface_marc_builtin',{'mattype':'linear','Gc':1,'vc':0.03,'vm':0.1,'s_n':1,'s_n_c':1,'stiff_c':1})
     model1.material('mat_fill','uniaxial_elastic',{'E':0.5464,'mu':0.3,'mass':0.0})
     model1.material('mat_wrap','uniaxial_elastic',{'E':1.263,'mu':0.3,'mass':0.0})
@@ -437,16 +437,17 @@ def procedure_pole_imposedent(*args):
     
     
     # add interface elements between the wrap and fill/steel
-    t0 = time.time()
-    model1 = create_interface(model1)
-    t1 = time.time() - t0
-    print 'time to create interface %s ' % str(t1) 
-
-    t0 = time.time()
-    elemlist = model1.setlist['wrap'].elemlist
-    model1.delete_element_byset('wrap')
-    t1 = time.time() - t0
-    print 'time to delete reference wrap %s ' % str(t1)
+    if IFFILLED == 'True'  and IFWRAP == 'True':
+        t0 = time.time()
+        model1 = create_interface(model1)
+        t1 = time.time() - t0
+        print 'time to create interface %s ' % str(t1) 
+    
+        t0 = time.time()
+        elemlist = model1.setlist['wrap'].elemlist
+        model1.delete_element_byset('wrap')
+        t1 = time.time() - t0
+        print 'time to delete reference wrap %s ' % str(t1)
     
     
     # Add typical node for loading and support

@@ -317,6 +317,9 @@ class ex_Marc():
         
         elif loadcase.__class__.__name__ == 'static_arclength':
             exp = self.loadcase.create_arclength(key,loadcase.para['nstep'])
+
+        elif loadcase.__class__.__name__ == 'buckle':
+            exp = self.loadcase.create_buck(key)
             
         else:
             raise KeyError,('load case type',loadcase.__class__.__name__,' do not defined')
@@ -328,6 +331,9 @@ class ex_Marc():
         exp = ''
         if job.__class__.__name__ == 'static_job':
             exp = self.jobop.create_general(key,lcasename=job.loadcaselist,elastic=0,dim='3D')
+            
+        elif job.__class__.__name__ == 'buckle_job':
+            exp = self.jobop.create_buckle(key,lcasename=job.loadcaselist,dim='3D',nlevel=job.nlevel,nplevel=job.nplevel,method=job.method,initialcond=job.initialcond)
             
         else:
             raise KeyError,('job type',job.__class__.__name__,' do not defined')
@@ -1525,6 +1531,10 @@ class loadcase():
         inputstr += "*loadcase_type struc:static\n"
         inputstr += "*loadcase_option stepping:arclength\n"
         inputstr += "*loadcase_value maxinc\n%i#\n" % (nstep)
+        inputstr += "*loadcase_option arclength_meth:advanced_crisf\n"
+        inputstr += "*loadcase_option arclength_root:singularity\n"
+        # use advanced option
+        
         return inputstr
         
     def create_dynmodel(self,name,lowfreq=0,nmode=10):
@@ -1593,7 +1603,7 @@ class jobop():
         if name != None:
             inputstr += "*job_name\n"
             inputstr += name +'\n'
-            inputstr += '*job_option post:both\n'  # add *.t19 to result file
+            inputstr += '*job_option post:binary\n'  # add *.t19 to result file
             inputstr += '*job_option echo_coordinates:on\n'  # add coordinates to *.t19 to result file
             inputstr += '*job_option echo_connectivity:on\n'  # add connectivity*.t19 to result file
             
@@ -1618,6 +1628,11 @@ class jobop():
         inputstr += "*clear_job_applys\n"
         if elastic == 1:
             inputstr += "*job_option elastic:on\n"
+        
+        # use 'table driven'
+        
+        inputstr += "*job_option input_style:new\n"
+        inputstr += "*job_option strain:large\n"
         return inputstr
     
     def create_dyn(self,name,lcasename):
@@ -1629,6 +1644,40 @@ class jobop():
         inputstr += self.add_loadcase(name,lcasename)
         return inputstr     
 
+    def create_buckle(self,name,lcasename,dim='3d',nlevel=3,method='power',nplevel=0,initialcond=[]):
+        '''
+        create buckle job 
+        input parameters  lcasename: load case name
+                          nlevel: number of buckling load be te extracted
+                          nplevel: number of post buckling load be te extracted
+                          method : 'power' for inverse power sweep and 'lanczos' 
+                          dim: problem dimensions 
+        '''
+       
+        inputstr =  self.create_basic(name,dim=dim)   
+        inputstr += "*job_class structural\n"
+        inputstr += self.add_loadcase(name,lcasename)
+        inputstr += "*clear_job_applys\n"
+
+        # add initial condition
+        if len(initialcond) > 0:
+            inputstr += self.initialcond(name,initialcond)
+            
+            
+        # select buckling method
+        inputstr += "*job_option buckle_method:%s\n" % method
+        
+        # set number of extraction
+        inputstr += "*job_param nbmodes %i\n" % nlevel
+        inputstr += "*job_param npbmodes %i\n" % nplevel
+        # use 'table driven'
+        inputstr += "*job_option input_style:new\n"
+        
+
+        
+        return inputstr        
+        
+    
     
     def add_loadcase(self,name,lcasename):
         '''
@@ -1701,7 +1750,8 @@ class jobop():
         
         # select common solver for matrix
         inputstr += '*job_option solver:mfront_sparse\n'
-        
+        inputstr += '*job_write_input\n'
+        inputstr += 'yes\n'
         if ifsubmit:
             inputstr += "*submit_job 1 *monitor_job\n"
             #inputstr += "*post_open_default\n"

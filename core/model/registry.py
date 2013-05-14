@@ -483,9 +483,10 @@ class model():
         paralib.update({'settype':'element'})
         self.setlist[setname] = itemset(paralib)
     
-    def elemset_sub_setname(self,setname1,setname2):
+    def elemset_sub_setname(self,setname1,setname2,newname=None):
         ''' create element set by substract setname 1 by setname 2 '''
-        newname = setname1 + '-' + setname2
+        if newname == None:
+            newname = setname1 + '-' + setname2
         
         elemlist1 = self.setlist[setname1].elemlist
         elemlist2 = self.setlist[setname2].elemlist
